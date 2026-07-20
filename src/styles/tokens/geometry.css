@@ -1,0 +1,10 @@
+/* Clínica ZK — Geometría de marca.
+   La "diagonal ZK": un corte a ~7° que aparece como firma recurrente (hero de sucursales,
+   separadores, acentos de card). Une el sitio con ángulos intencionales — no bordes blandos.
+   Nace de la necesidad de convivir DOS sedes (Los Ángeles / Pucón) en un solo sitio:
+   la diagonal las separa sin partir la página ni obligar a elegir con un selector. */
+:root {
+  --zk-diagonal-angle: 7deg; /* @kind other */   /* inclinación del corte */
+  --zk-diagonal-offset: 8%; /* @kind spacing */   /* semiancho de la banda diagonal */
+  --zk-diagonal-skew: -12deg; /* @kind other */   /* sesgo de las cuñas/etiquetas */
+}

@@ -1,0 +1,115 @@
+---
+import Icon from '../core/Icon.astro';
+import Button from '../core/Button.astro';
+import SectionHeader from '../core/SectionHeader.astro';
+import { specialties } from '../../data/site';
+---
+
+<section id="especialidades" class="zk-specialties">
+  <div class="zk-container zk-specialties__grid">
+    <div>
+      <SectionHeader align="left" title="Especialidades" />
+      <div class="zk-specialties__list">
+        {specialties.map((s) => (
+          <div class="zk-specialties__item">
+            <span class="zk-specialties__icon">
+              <Icon name={s.icon} size={22} />
+            </span>
+            <div>
+              <div class="zk-specialties__title">{s.title}</div>
+              <div class="zk-specialties__desc">{s.desc}</div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <div id="radiologico" class="zk-radio">
+      <span class="zk-radio__icon">
+        <Icon name="scan-line" size={30} />
+      </span>
+      <h3>Centro radiológico propio</h3>
+      <p>Radiografías y diagnóstico por imagen en la misma clínica: no tienes que ir a otro lugar ni esperar días por tus exámenes.</p>
+      <p class="zk-radio__caption">Disponible en Los Ángeles y Pucón.</p>
+      <div class="zk-radio__cta">
+        <Button variant="outline" href="#contacto">Agenda tu evaluación</Button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .zk-specialties {
+    padding: var(--space-9) 24px;
+  }
+  .zk-specialties__grid {
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: 56px;
+    align-items: start;
+  }
+  .zk-specialties__list {
+    margin-top: 24px;
+  }
+  .zk-specialties__item {
+    display: flex;
+    gap: 18px;
+    align-items: flex-start;
+    padding: 18px 0;
+    border-top: 1px solid var(--border-subtle);
+  }
+  .zk-specialties__icon {
+    color: var(--zk-teal-600);
+    margin-top: 2px;
+    display: inline-flex;
+  }
+  .zk-specialties__title {
+    font-size: 17px;
+    font-weight: var(--fw-semibold);
+    color: var(--text-heading);
+  }
+  .zk-specialties__desc {
+    font-size: 15px;
+    color: var(--text-body);
+    margin-top: 2px;
+    line-height: var(--lh-body);
+  }
+
+  .zk-radio {
+    background: var(--surface-section);
+    padding: 36px 36px 40px;
+    margin-top: 8px;
+    border-top: 3px solid var(--color-primary);
+  }
+  .zk-radio__icon {
+    color: var(--zk-teal-600);
+    display: inline-flex;
+  }
+  .zk-radio h3 {
+    font-size: var(--fs-h3);
+    margin: 14px 0 0;
+    color: var(--text-heading);
+    font-weight: var(--fw-semibold);
+  }
+  .zk-radio p {
+    font-size: 15px;
+    color: var(--text-body);
+    margin-top: 10px;
+    line-height: var(--lh-body);
+  }
+  .zk-radio__caption {
+    font-size: var(--fs-caption);
+    color: var(--text-muted);
+    margin-top: 8px;
+  }
+  .zk-radio__cta {
+    margin-top: 22px;
+  }
+
+  @media (max-width: 900px) {
+    .zk-specialties__grid {
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+  }
+</style>

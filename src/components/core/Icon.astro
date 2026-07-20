@@ -1,0 +1,33 @@
+---
+import moveHorizontal from 'lucide-static/icons/move-horizontal.svg?raw';
+import shieldCheck from 'lucide-static/icons/shield-check.svg?raw';
+import baby from 'lucide-static/icons/baby.svg?raw';
+import sparkles from 'lucide-static/icons/sparkles.svg?raw';
+import anchor from 'lucide-static/icons/anchor.svg?raw';
+import scanLine from 'lucide-static/icons/scan-line.svg?raw';
+import handshake from 'lucide-static/icons/handshake.svg?raw';
+import mail from 'lucide-static/icons/mail.svg?raw';
+import mapPin from 'lucide-static/icons/map-pin.svg?raw';
+
+const ICONS = {
+  'move-horizontal': moveHorizontal,
+  'shield-check': shieldCheck,
+  baby,
+  sparkles,
+  anchor,
+  'scan-line': scanLine,
+  handshake,
+  mail,
+  'map-pin': mapPin,
+} as const;
+
+interface Props {
+  name: keyof typeof ICONS;
+  size?: number;
+}
+
+const { name, size = 22 } = Astro.props;
+const raw = ICONS[name].replace('width="24" height="24"', `width="${size}" height="${size}"`);
+---
+
+<Fragment set:html={raw} />

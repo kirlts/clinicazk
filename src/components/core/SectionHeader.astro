@@ -1,0 +1,48 @@
+---
+interface Props {
+  eyebrow?: string;
+  title: string;
+  subtitle?: string;
+  align?: 'left' | 'center';
+}
+
+const { eyebrow, title, subtitle, align = 'center' } = Astro.props;
+---
+
+<div class="zk-section-header" data-align={align}>
+  {eyebrow && <div class="zk-eyebrow">{eyebrow}</div>}
+  <h2>{title}</h2>
+  {subtitle && <p class="zk-subtitle">{subtitle}</p>}
+</div>
+
+<style>
+  .zk-section-header {
+    max-width: 720px;
+  }
+  .zk-section-header[data-align='center'] {
+    text-align: center;
+    margin: 0 auto;
+  }
+  .zk-section-header[data-align='left'] {
+    text-align: left;
+    margin: 0;
+  }
+  .zk-eyebrow {
+    font-size: var(--fs-small);
+    letter-spacing: var(--ls-eyebrow);
+    color: var(--color-primary);
+    font-weight: var(--fw-semibold);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  h2 {
+    font-size: var(--fs-h2);
+    margin: 0;
+  }
+  .zk-subtitle {
+    font-size: var(--fs-body-lg);
+    color: var(--text-body);
+    margin-top: 14px;
+    margin-bottom: 0;
+  }
+</style>

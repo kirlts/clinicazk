@@ -1,0 +1,26 @@
+/* Clínica ZK — Espaciado, radios, sombras */
+:root {
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+  --space-9: 96px;
+  --space-10: 128px;
+
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 10px;
+  --radius-xl: 14px;
+  --radius-pill: 999px;
+
+  /* Sombras suaves con tinte teal (nunca negro duro) */
+  --shadow-card: 0 2px 12px rgba(47, 123, 119, 0.08);
+  --shadow-raised: 0 10px 30px rgba(47, 123, 119, 0.14);
+  --shadow-pill: 0 4px 14px rgba(81, 179, 174, 0.30);
+
+  --container-max: 1180px;
+}

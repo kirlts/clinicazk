@@ -1,0 +1,202 @@
+---
+import { Image } from 'astro:assets';
+import isotipo from '../../assets/brand/isotipo.png';
+import Button from '../core/Button.astro';
+import { heroSlides } from '../../data/site';
+
+const first = heroSlides[0];
+---
+
+<section class="zk-hero">
+  <div class="zk-container zk-hero__grid">
+    <div class="zk-hero__copy" id="zk-hero-copy">
+      <h1>
+        <span id="zk-hero-lead">{first.lead}</span>
+        <span id="zk-hero-accent" style={`color:${first.accentColor}`}>{first.accent}</span>
+      </h1>
+      <p id="zk-hero-sub">{first.sub}</p>
+      <div class="zk-hero__actions">
+        <Button size="lg" href={first.href} id="zk-hero-cta">{first.cta}</Button>
+        <Button variant="ghost" href="#especialidades">Ver especialidades</Button>
+      </div>
+      <div class="zk-hero__dots" id="zk-hero-dots">
+        {heroSlides.map((_, i) => (
+          <button type="button" data-dot data-index={i} aria-label={`Ver slide ${i + 1}`} class={i === 0 ? 'is-active' : ''}></button>
+        ))}
+      </div>
+    </div>
+
+    <div class="zk-hero__panel" id="zk-hero-panel" style={`background:${first.imageGrad}`}>
+      <Image src={isotipo} alt="" width={190} height={195} class="zk-hero__mark" />
+      <div class="zk-hero__pending">FOTO PENDIENTE</div>
+      <div class="zk-hero__tag">Los Ángeles · Pucón</div>
+    </div>
+  </div>
+</section>
+
+<script>
+  import { heroSlides } from '../../data/site';
+
+  const copy = document.getElementById('zk-hero-copy');
+  const lead = document.getElementById('zk-hero-lead');
+  const accent = document.getElementById('zk-hero-accent');
+  const sub = document.getElementById('zk-hero-sub');
+  const cta = document.getElementById('zk-hero-cta') as HTMLAnchorElement | null;
+  const panel = document.getElementById('zk-hero-panel');
+  const dots = Array.from(document.querySelectorAll<HTMLButtonElement>('#zk-hero-dots [data-dot]'));
+
+  if (copy && lead && accent && sub && cta && panel && dots.length) {
+    let current = 0;
+    let timer: ReturnType<typeof setInterval> | null = null;
+
+    const render = (index: number) => {
+      const slide = heroSlides[index];
+      copy.style.animation = 'none';
+      // force reflow so the animation restarts
+      void copy.offsetWidth;
+      copy.style.animation = 'zkfade .55s var(--ease-out)';
+
+      lead.textContent = slide.lead;
+      accent.textContent = slide.accent;
+      accent.style.color = slide.accentColor;
+      sub.textContent = slide.sub;
+      cta.textContent = slide.cta;
+      cta.setAttribute('href', slide.href);
+      panel.style.background = slide.imageGrad;
+
+      dots.forEach((dot, i) => dot.classList.toggle('is-active', i === index));
+      current = index;
+    };
+
+    const start = () => {
+      timer = setInterval(() => render((current + 1) % heroSlides.length), 5600);
+    };
+    const stop = () => {
+      if (timer) clearInterval(timer);
+      timer = null;
+    };
+
+    dots.forEach((dot, i) => {
+      dot.addEventListener('click', () => {
+        stop();
+        render(i);
+      });
+    });
+
+    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      start();
+    }
+  }
+</script>
+
+<style>
+  .zk-hero {
+    background: var(--gradient-tint);
+    padding: 72px 24px 64px;
+  }
+  .zk-hero__grid {
+    display: grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: 48px;
+    align-items: center;
+  }
+  #zk-hero-copy {
+    animation: zkfade 0.55s var(--ease-out);
+  }
+  .zk-hero h1 {
+    font-size: var(--fs-display);
+    font-weight: var(--fw-light);
+    line-height: var(--lh-tight);
+    color: var(--text-heading);
+    margin: 0;
+  }
+  #zk-hero-lead {
+    margin-right: 0.28em;
+  }
+  #zk-hero-accent {
+    font-weight: var(--fw-regular);
+  }
+  .zk-hero p {
+    font-size: var(--fs-body-lg);
+    color: var(--text-body);
+    margin-top: 18px;
+    max-width: 520px;
+    line-height: var(--lh-body);
+  }
+  .zk-hero__actions {
+    display: flex;
+    gap: 14px;
+    margin-top: 28px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .zk-hero__dots {
+    display: flex;
+    gap: 8px;
+    margin-top: 36px;
+  }
+  .zk-hero__dots button {
+    width: 10px;
+    height: 10px;
+    border-radius: 999px;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    background: var(--zk-teal-200);
+    transition: width 0.25s var(--ease-out), background 0.25s var(--ease-out);
+  }
+  .zk-hero__dots button.is-active {
+    width: 26px;
+    background: var(--color-primary);
+  }
+  .zk-hero__panel {
+    position: relative;
+    height: 380px;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-raised);
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+    transition: background 0.55s var(--ease-out);
+  }
+  .zk-hero__panel :global(.zk-hero__mark) {
+    width: 190px;
+    height: auto;
+    opacity: 0.9;
+  }
+  .zk-hero__pending {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    background: rgba(255, 255, 255, 0.85);
+    border-radius: var(--radius-sm);
+    padding: 4px 10px;
+    font-size: 11px;
+    letter-spacing: 0.05em;
+    color: var(--text-muted);
+    font-weight: 600;
+    white-space: nowrap;
+  }
+  .zk-hero__tag {
+    position: absolute;
+    bottom: 18px;
+    left: 18px;
+    background: rgba(255, 255, 255, 0.92);
+    border-radius: var(--radius-sm);
+    padding: 8px 16px;
+    font-size: 14px;
+    color: var(--zk-teal-700);
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  @media (max-width: 900px) {
+    .zk-hero__grid {
+      grid-template-columns: 1fr;
+    }
+    .zk-hero__panel {
+      height: 280px;
+      order: -1;
+    }
+  }
+</style>

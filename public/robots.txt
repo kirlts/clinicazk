@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://kirlts.github.io/clinicazk/sitemap-index.xml

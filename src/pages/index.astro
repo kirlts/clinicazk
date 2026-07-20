@@ -1,0 +1,34 @@
+---
+import Layout from '../layouts/Layout.astro';
+import SiteHeader from '../components/site/SiteHeader.astro';
+import SiteFooter from '../components/site/SiteFooter.astro';
+import WhatsAppFab from '../components/site/WhatsAppFab.astro';
+import Hero from '../components/sections/Hero.astro';
+import Specialties from '../components/sections/Specialties.astro';
+import PromoBanner from '../components/sections/PromoBanner.astro';
+import Memberships from '../components/sections/Memberships.astro';
+import Branches from '../components/sections/Branches.astro';
+import AboutUs from '../components/sections/AboutUs.astro';
+import Agreements from '../components/sections/Agreements.astro';
+import TeamPlaceholder from '../components/sections/TeamPlaceholder.astro';
+import Faq from '../components/sections/Faq.astro';
+import Contact from '../components/sections/Contact.astro';
+---
+
+<Layout>
+  <SiteHeader />
+  <main>
+    <Hero />
+    <Specialties />
+    <PromoBanner />
+    <Memberships />
+    <Branches />
+    <AboutUs />
+    <Agreements />
+    <TeamPlaceholder />
+    <Faq />
+    <Contact />
+  </main>
+  <SiteFooter />
+  <WhatsAppFab />
+</Layout>

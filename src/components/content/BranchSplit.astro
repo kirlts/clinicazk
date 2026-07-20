@@ -1,0 +1,268 @@
+---
+import { branches } from '../../data/site';
+
+interface Props {
+  height?: number;
+}
+
+const { height = 460 } = Astro.props;
+
+const ACCENT: Record<string, { c: string; s: string }> = {
+  la: { c: 'var(--zk-branch-la)', s: 'var(--zk-branch-la-strong)' },
+  pucon: { c: 'var(--zk-branch-pucon)', s: 'var(--zk-branch-pucon-strong)' },
+};
+
+const [left, right] = branches;
+---
+
+<div class="zk-branchsplit" id="zk-branchsplit" style={`height:${height}px`}>
+  {[
+    { b: left, side: 'left' as const },
+    { b: right, side: 'right' as const },
+  ].map(({ b, side }) => {
+    const a = ACCENT[b.key] ?? ACCENT.la;
+    const alignRight = side === 'right';
+    return (
+      <div
+        role="button"
+        tabindex={0}
+        aria-label={`Sede ${b.city}`}
+        data-key={b.key}
+        class={`zk-branch zk-branch--${side}`}
+        style={`background:${a.c}`}
+      >
+        <div
+          class="zk-branch__tint"
+          style={`background: linear-gradient(${alignRight ? 250 : 110}deg, color-mix(in srgb, ${a.s} 80%, transparent) 0%, color-mix(in srgb, ${a.s} 40%, transparent) 100%);`}
+        ></div>
+        <div class="zk-branch__pending" data-align={alignRight ? 'right' : 'left'}>FOTO PENDIENTE</div>
+        <div class="zk-branch__content" data-align={alignRight ? 'right' : 'left'}>
+          <div class="zk-branch__eyebrow" data-align={alignRight ? 'right' : 'left'}>
+            <span aria-hidden="true" class="zk-branch__chip"></span>
+            <span>Clínica ZK</span>
+          </div>
+          <div class="zk-branch__city">{b.city}</div>
+          <div class="zk-branch__blurb">{b.blurb}</div>
+          <div class="zk-branch__detail">
+            <div class="zk-branch__address">{b.address}</div>
+            <a
+              href={`https://wa.me/${b.whatsapp.replace(/[^0-9]/g, '')}`}
+              target="_blank"
+              rel="noopener"
+              class="zk-branch__wa"
+              style={`color:${a.s}`}
+            >
+              WhatsApp {b.whatsapp}
+            </a>
+          </div>
+        </div>
+      </div>
+    );
+  })}
+</div>
+
+<script>
+  const container = document.getElementById('zk-branchsplit');
+  if (container) {
+    const panels = Array.from(container.querySelectorAll<HTMLElement>('.zk-branch'));
+    const setActive = (key: string | null) => {
+      container.style.setProperty('--zk-center', key === 'la' ? '58' : key === 'pucon' ? '42' : '50');
+      panels.forEach((p) => p.classList.toggle('is-active', p.dataset.key === key));
+    };
+    panels.forEach((p) => {
+      p.addEventListener('mouseenter', () => setActive(p.dataset.key ?? null));
+      p.addEventListener('focus', () => setActive(p.dataset.key ?? null));
+      p.addEventListener('click', (e) => {
+        if ((e.target as HTMLElement).closest('a')) return;
+        const isActive = p.classList.contains('is-active');
+        setActive(isActive ? null : (p.dataset.key ?? null));
+      });
+      p.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          const isActive = p.classList.contains('is-active');
+          setActive(isActive ? null : (p.dataset.key ?? null));
+        }
+      });
+    });
+    container.addEventListener('mouseleave', () => setActive(null));
+  }
+</script>
+
+<style>
+  .zk-branchsplit {
+    --zk-center: 50;
+    --zk-d: 7;
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    background: var(--zk-gray-100);
+  }
+  .zk-branch {
+    position: absolute;
+    inset: 0;
+    cursor: pointer;
+    outline: none;
+    border: none;
+    padding: 0;
+    transition: clip-path 0.7s var(--ease-out);
+  }
+  .zk-branch--left {
+    clip-path: polygon(
+      0 0,
+      calc((var(--zk-center) + var(--zk-d)) * 1%) 0,
+      calc((var(--zk-center) - var(--zk-d)) * 1%) 100%,
+      0 100%
+    );
+  }
+  .zk-branch--right {
+    clip-path: polygon(
+      calc((var(--zk-center) + var(--zk-d)) * 1%) 0,
+      100% 0,
+      100% 100%,
+      calc((var(--zk-center) - var(--zk-d)) * 1%) 100%
+    );
+  }
+  .zk-branch:focus-visible {
+    outline: 2px solid #fff;
+    outline-offset: -4px;
+  }
+  .zk-branch__tint {
+    position: absolute;
+    inset: 0;
+  }
+  .zk-branch__pending {
+    position: absolute;
+    top: 14px;
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    color: rgba(255, 255, 255, 0.8);
+    font-weight: 600;
+  }
+  .zk-branch__pending[data-align='left'] { right: 18px; }
+  .zk-branch__pending[data-align='right'] { left: 18px; }
+
+  .zk-branch__content {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    color: #fff;
+    box-sizing: border-box;
+    padding: 0 24% 0 7%;
+  }
+  .zk-branch__content[data-align='right'] {
+    align-items: flex-end;
+    text-align: right;
+    padding: 0 7% 0 24%;
+  }
+
+  .zk-branch__eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .zk-branch__eyebrow[data-align='right'] { flex-direction: row-reverse; }
+  .zk-branch__eyebrow span:last-child {
+    font-size: 12px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    font-weight: 600;
+    opacity: 0.9;
+  }
+  .zk-branch__chip {
+    width: 13px;
+    height: 13px;
+    background: #fff;
+    transform: skewX(var(--zk-diagonal-skew));
+    flex-shrink: 0;
+  }
+  .zk-branch__city {
+    font-size: clamp(28px, 4.2vw, 44px);
+    font-weight: 300;
+    line-height: 1.02;
+    margin-top: 12px;
+  }
+  .zk-branch__blurb {
+    font-size: clamp(13px, 1.6vw, 16px);
+    line-height: 1.5;
+    opacity: 0.95;
+    margin-top: 10px;
+    max-width: 300px;
+  }
+  .zk-branch__detail {
+    overflow: hidden;
+    max-height: 0;
+    opacity: 0;
+    margin-top: 0;
+    transition: max-height 0.5s var(--ease-out), opacity 0.4s var(--ease-out), margin-top 0.5s var(--ease-out);
+  }
+  .zk-branch.is-active .zk-branch__detail {
+    max-height: 120px;
+    opacity: 1;
+    margin-top: 16px;
+  }
+  .zk-branch__address {
+    font-size: 15px;
+  }
+  .zk-branch__wa {
+    display: inline-block;
+    margin-top: 12px;
+    background: #fff;
+    text-decoration: none;
+    font-weight: var(--fw-semibold);
+    font-size: 14px;
+    padding: 9px 18px;
+    border-radius: var(--radius-md);
+  }
+
+  @media (max-width: 640px) {
+    .zk-branchsplit {
+      --zk-d: 5;
+      height: 340px !important;
+    }
+    .zk-branch__content {
+      padding: 0 26% 0 6%;
+    }
+    .zk-branch__content[data-align='right'] {
+      padding: 0 6% 0 26%;
+    }
+    .zk-branch__eyebrow span:last-child {
+      font-size: 10.5px;
+    }
+    .zk-branch__city {
+      font-size: clamp(19px, 6.4vw, 26px);
+      margin-top: 8px;
+    }
+    .zk-branch__blurb {
+      font-size: 12px;
+      line-height: 1.4;
+      margin-top: 6px;
+      max-width: 118px;
+    }
+    .zk-branch__address {
+      font-size: 12.5px;
+    }
+    .zk-branch__wa {
+      font-size: 12px;
+      padding: 7px 12px;
+      margin-top: 8px;
+    }
+    .zk-branch.is-active .zk-branch__detail {
+      max-height: 100px;
+    }
+  }
+
+  @media (max-width: 420px) {
+    .zk-branch__content {
+      padding: 0 30% 0 5%;
+    }
+    .zk-branch__content[data-align='right'] {
+      padding: 0 5% 0 30%;
+    }
+    .zk-branch__blurb {
+      max-width: 100px;
+    }
+  }
+</style>

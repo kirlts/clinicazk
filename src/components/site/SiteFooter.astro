@@ -1,0 +1,82 @@
+---
+import { Image } from 'astro:assets';
+import logoVertical from '../../assets/brand/logo-zk-vertical.png';
+---
+
+<footer class="zk-footer">
+  <div class="zk-footer__grid">
+    <div>
+      <Image src={logoVertical} alt="Clínica ZK" width={120} height={106} />
+    </div>
+    <div>
+      <h4>Los Ángeles</h4>
+      <div class="zk-footer__text">
+        Av. Gabriela Mistral 74<br />
+        Fono 2-241 822 85<br />
+        WhatsApp +56 9 5790 6641<br />
+        <a href="https://instagram.com/clinicazk" target="_blank" rel="noopener">@clinicazk</a>
+      </div>
+    </div>
+    <div>
+      <h4>Pucón</h4>
+      <div class="zk-footer__text">
+        Brasil 321<br />
+        WhatsApp +56 9 5219 4952<br />
+        <a href="https://instagram.com/clinicazkpucon" target="_blank" rel="noopener">@clinicazkpucon</a>
+      </div>
+    </div>
+    <div>
+      <h4>Clínica ZK</h4>
+      <div class="zk-footer__text">
+        <a href="#especialidades">Especialidades</a><br />
+        <a href="#membresias">Familia ZK</a><br />
+        <a href="#nosotros">Nosotros</a><br />
+        <a href="#contacto">Contacto</a>
+      </div>
+    </div>
+  </div>
+  <div class="zk-footer__bar">Clínica ZK · Odontología · Estética · Salud — www.clinicazk.cl</div>
+</footer>
+
+<style>
+  .zk-footer {
+    background: var(--surface-section);
+    border-top: 1px solid var(--border-subtle);
+  }
+  .zk-footer__grid {
+    max-width: var(--container-max);
+    margin: 0 auto;
+    padding: 56px 24px 40px;
+    display: grid;
+    grid-template-columns: 1.2fr 1fr 1fr 1fr;
+    gap: 40px;
+  }
+  .zk-footer__grid h4 {
+    font-size: 16px;
+    margin: 0 0 12px;
+  }
+  .zk-footer__text {
+    font-size: 15px;
+    color: var(--text-body);
+    line-height: 1.8;
+  }
+  .zk-footer__bar {
+    background: var(--gradient-brand);
+    color: #fff;
+    text-align: center;
+    padding: 14px 24px;
+    font-size: 14px;
+  }
+
+  @media (max-width: 760px) {
+    .zk-footer__grid {
+      grid-template-columns: 1fr 1fr;
+      gap: 32px 24px;
+    }
+  }
+  @media (max-width: 480px) {
+    .zk-footer__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

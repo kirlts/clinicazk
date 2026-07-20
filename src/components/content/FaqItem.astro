@@ -1,0 +1,57 @@
+---
+interface Props {
+  question: string;
+  answer: string;
+}
+
+const { question, answer } = Astro.props;
+---
+
+<details class="zk-faq">
+  <summary class="zk-faq__q">
+    <span>{question}</span>
+    <span class="zk-faq__icon" aria-hidden="true">+</span>
+  </summary>
+  <div class="zk-faq__a">{answer}</div>
+</details>
+
+<style>
+  .zk-faq {
+    border-bottom: 1px solid var(--border-subtle);
+  }
+  .zk-faq__q {
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    cursor: pointer;
+    padding: 18px 4px;
+    font-size: 17px;
+    font-weight: var(--fw-semibold);
+    color: var(--text-heading);
+  }
+  .zk-faq__q::-webkit-details-marker {
+    display: none;
+  }
+  .zk-faq__q:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+  }
+  .zk-faq__icon {
+    color: var(--color-primary);
+    font-size: 22px;
+    font-weight: 300;
+    flex-shrink: 0;
+    transition: transform 0.2s ease;
+  }
+  .zk-faq[open] .zk-faq__icon {
+    transform: rotate(45deg);
+  }
+  .zk-faq__a {
+    padding: 0 4px 20px;
+    font-size: 16px;
+    color: var(--text-body);
+    line-height: var(--lh-body);
+  }
+</style>

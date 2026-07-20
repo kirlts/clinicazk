@@ -1,0 +1,28 @@
+/* Clínica ZK — Tipografía */
+:root {
+  --font-sans: 'Source Sans 3', 'Source Sans Pro', -apple-system, 'Segoe UI', sans-serif;
+
+  /* Escala fluida (clamp) — hero/h1/h2/h3 fluyen entre móvil y desktop sin saltos */
+  --fs-display: clamp(38px, 2.9vw + 26px, 54px); /* @kind other */
+  --fs-h1: clamp(32px, 2.2vw + 23px, 42px); /* @kind other */
+  --fs-h2: clamp(26px, 1.4vw + 21px, 33px); /* @kind other */
+  --fs-h3: clamp(21px, 0.8vw + 18px, 25px); /* @kind other */
+  --fs-h4: 20px;
+  --fs-body-lg: 19px;
+  --fs-body: 17px;
+  --fs-small: 15px;
+  --fs-caption: 13px;
+
+  --lh-tight: 1.12; /* @kind font */
+  --lh-heading: 1.2; /* @kind font */
+  --lh-body: 1.6; /* @kind font */
+
+  --fw-light: 300; /* @kind font */
+  --fw-regular: 400; /* @kind font */
+  --fw-semibold: 600; /* @kind font */
+  --fw-bold: 700; /* @kind font */
+
+  /* Eyebrow / slogan estilo "ODONTOLOGÍA · ESTÉTICA · SALUD" */
+  --ls-eyebrow: 0.18em;
+  --ls-heading: -0.01em;
+}

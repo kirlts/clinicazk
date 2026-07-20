@@ -1,0 +1,155 @@
+---
+import { Image } from 'astro:assets';
+import logoHorizontal from '../../assets/brand/logo-zk-horizontal.png';
+import Button from '../core/Button.astro';
+import { navLinks, waPuconLink } from '../../data/site';
+---
+
+<header class="zk-header">
+  <div class="zk-header__bar">
+    <a href={`${import.meta.env.BASE_URL}#`} class="zk-header__logo">
+      <Image src={logoHorizontal} alt="Clínica ZK" width={168} height={52} />
+    </a>
+
+    <nav id="zk-nav" class="zk-header__nav">
+      {navLinks.map((link) => (
+        <a href={`#${link.id}`}>{link.label}</a>
+      ))}
+    </nav>
+
+    <Button size="sm" href={waPuconLink} class="zk-header__cta">WhatsApp</Button>
+
+    <button
+      type="button"
+      class="zk-header__toggle"
+      aria-expanded="false"
+      aria-controls="zk-nav"
+      aria-label="Abrir menú"
+      id="zk-nav-toggle"
+    >
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </div>
+</header>
+
+<script>
+  const toggle = document.getElementById('zk-nav-toggle');
+  const nav = document.getElementById('zk-nav');
+  toggle?.addEventListener('click', () => {
+    const open = nav?.classList.toggle('is-open');
+    toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+  nav?.querySelectorAll('a').forEach((a) =>
+    a.addEventListener('click', () => {
+      nav.classList.remove('is-open');
+      toggle?.setAttribute('aria-expanded', 'false');
+    })
+  );
+</script>
+
+<style>
+  .zk-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(255, 255, 255, 0.94);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--border-subtle);
+  }
+  .zk-header__bar {
+    max-width: var(--container-max);
+    margin: 0 auto;
+    padding: 0 24px;
+    height: 76px;
+    display: flex;
+    align-items: center;
+    gap: 32px;
+  }
+  .zk-header__logo {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+  }
+  .zk-header__logo :global(img) {
+    height: 48px;
+    width: auto;
+    display: block;
+  }
+  .zk-header__nav {
+    display: flex;
+    gap: 22px;
+    margin-left: auto;
+  }
+  .zk-header__nav a {
+    padding: 10px 2px;
+    font-size: 16px;
+    text-decoration: none;
+    font-weight: var(--fw-regular);
+    color: var(--text-body);
+    border-bottom: 2px solid transparent;
+  }
+  .zk-header__nav a:hover {
+    color: var(--zk-teal-700);
+    text-decoration: none;
+  }
+  .zk-header__toggle {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    width: 40px;
+    height: 40px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    padding: 0;
+    flex-shrink: 0;
+  }
+  .zk-header__toggle span {
+    display: block;
+    height: 2px;
+    background: var(--text-heading);
+    border-radius: 1px;
+  }
+
+  @media (max-width: 860px) {
+    .zk-header__bar {
+      height: 64px;
+      gap: 16px;
+    }
+    .zk-header__logo :global(img) {
+      height: 38px;
+    }
+    .zk-header__toggle {
+      display: flex;
+      margin-left: auto;
+    }
+    .zk-header__cta {
+      display: none;
+    }
+    .zk-header__nav {
+      position: absolute;
+      top: 64px;
+      left: 0;
+      right: 0;
+      margin-left: 0;
+      flex-direction: column;
+      gap: 0;
+      background: var(--zk-white);
+      border-bottom: 1px solid var(--border-subtle);
+      box-shadow: var(--shadow-card);
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height var(--duration-base) var(--ease-out);
+    }
+    .zk-header__nav.is-open {
+      max-height: 400px;
+    }
+    .zk-header__nav a {
+      padding: 16px 24px;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+  }
+</style>

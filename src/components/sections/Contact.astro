@@ -1,0 +1,228 @@
+---
+import Button from '../core/Button.astro';
+import Icon from '../core/Icon.astro';
+import { waLaLink, waPuconLink } from '../../data/site';
+---
+
+<section id="contacto" class="zk-contact">
+  <div class="zk-container">
+    <div class="zk-contact__panel">
+      <div>
+        <h2>Da el primer paso hoy</h2>
+        <p>Escríbenos y te orientamos —sin compromiso— para ordenar tu salud dental este año.</p>
+        <div class="zk-contact__ctas">
+          <Button variant="on-dark" href={waLaLink}>WhatsApp Los Ángeles</Button>
+          <Button variant="on-dark" href={waPuconLink}>WhatsApp Pucón</Button>
+        </div>
+        <div class="zk-contact__addresses">
+          <div>
+            <Icon name="map-pin" size={18} />
+            <span>Los Ángeles · Av. Gabriela Mistral 74 · Fono 2-241 822 85</span>
+          </div>
+          <div>
+            <Icon name="map-pin" size={18} />
+            <span>Pucón · Brasil 321</span>
+          </div>
+        </div>
+        <div class="zk-contact__social">
+          <a href="https://instagram.com/clinicazk" target="_blank" rel="noopener" aria-label="Instagram">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect>
+              <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+              <line x1="17.5" x2="17.51" y1="6.5" y2="6.5"></line>
+            </svg>
+          </a>
+          <a href="https://facebook.com/clinicazk" target="_blank" rel="noopener" aria-label="Facebook">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+            </svg>
+          </a>
+          <a href={waPuconLink} target="_blank" rel="noopener" aria-label="WhatsApp">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.693.625.712.227 1.36.195 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0 0 20.885 3.488"></path>
+            </svg>
+          </a>
+        </div>
+      </div>
+
+      <form id="zk-contact-form" class="zk-contact__form">
+        <p class="zk-contact__form-lead">Déjanos tu mensaje y te respondemos por email.</p>
+        <label>
+          Nombre
+          <input name="nombre" placeholder="Tu nombre" autocomplete="name" />
+        </label>
+        <label>
+          Teléfono o correo
+          <input name="contacto" placeholder="+56 9 …" autocomplete="tel" />
+        </label>
+        <label>
+          Mensaje
+          <textarea name="mensaje" placeholder="Cuéntanos qué necesitas" rows="3"></textarea>
+        </label>
+        <button type="submit" class="zk-contact__submit">
+          <Icon name="mail" size={17} />
+          Enviar por correo
+        </button>
+        <div class="zk-contact__form-note">Se abrirá tu correo hacia contacto@clinicazk.cl (dirección por confirmar).</div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<script>
+  const form = document.getElementById('zk-contact-form') as HTMLFormElement | null;
+  form?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const data = new FormData(form);
+    const nombre = String(data.get('nombre') || '');
+    const contacto = String(data.get('contacto') || '');
+    const mensaje = String(data.get('mensaje') || '');
+
+    const subject = 'Contacto web' + (nombre ? ' — ' + nombre : '');
+    const body =
+      'Nombre: ' + nombre + '\n' + 'Teléfono o correo: ' + contacto + '\n\n' + (mensaje || 'Quisiera más información.');
+
+    window.location.href = 'mailto:contacto@clinicazk.cl?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+  });
+</script>
+
+<style>
+  .zk-contact {
+    padding: var(--space-9) 24px;
+  }
+  .zk-contact__panel {
+    background: var(--gradient-hero);
+    border-radius: var(--radius-lg);
+    padding: 56px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    align-items: start;
+    box-shadow: var(--shadow-raised);
+  }
+  .zk-contact__panel h2 {
+    color: #fff;
+    font-size: var(--fs-h2);
+    font-weight: var(--fw-light);
+    margin: 0;
+  }
+  .zk-contact__panel > div:first-child > p {
+    color: rgba(255, 255, 255, 0.92);
+    font-size: var(--fs-body-lg);
+    margin-top: 12px;
+    line-height: var(--lh-body);
+  }
+  .zk-contact__ctas {
+    display: flex;
+    gap: 12px;
+    margin-top: 28px;
+    flex-wrap: wrap;
+  }
+  .zk-contact__addresses {
+    margin-top: 32px;
+    display: grid;
+    gap: 14px;
+  }
+  .zk-contact__addresses div {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: rgba(255, 255, 255, 0.95);
+    font-size: 15px;
+  }
+  .zk-contact__addresses :global(svg) {
+    flex: none;
+  }
+  .zk-contact__social {
+    display: flex;
+    gap: 14px;
+    margin-top: 28px;
+  }
+  .zk-contact__social a {
+    width: 42px;
+    height: 42px;
+    border-radius: var(--radius-md);
+    background: rgba(255, 255, 255, 0.18);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+  }
+  .zk-contact__social a:hover {
+    background: rgba(255, 255, 255, 0.28);
+  }
+
+  .zk-contact__form {
+    background: var(--zk-white);
+    border-radius: var(--radius-md);
+    padding: 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .zk-contact__form-lead {
+    margin: 0 0 4px;
+    font-size: 14px;
+    color: var(--text-body);
+    line-height: var(--lh-body);
+  }
+  .zk-contact__form label {
+    font-size: 13px;
+    font-weight: var(--fw-semibold);
+    color: var(--text-heading);
+  }
+  .zk-contact__form input,
+  .zk-contact__form textarea {
+    margin-top: 6px;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 11px 12px;
+    font-size: 15px;
+    font-family: var(--font-sans);
+    color: var(--text-body);
+    border: 1px solid var(--border-subtle);
+    border-radius: 6px;
+    background: #fff;
+  }
+  .zk-contact__form textarea {
+    resize: vertical;
+  }
+  .zk-contact__form input:focus,
+  .zk-contact__form textarea:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: var(--focus-ring);
+  }
+  .zk-contact__submit {
+    margin-top: 4px;
+    padding: 12px 20px;
+    font-size: 15px;
+    font-weight: var(--fw-semibold);
+    font-family: var(--font-sans);
+    color: #fff;
+    background: var(--color-primary);
+    border: none;
+    border-radius: var(--radius-pill);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: background var(--duration-fast) var(--ease-out);
+  }
+  .zk-contact__submit:hover {
+    background: var(--zk-teal-700);
+  }
+  .zk-contact__form-note {
+    font-size: 12px;
+    color: var(--text-muted);
+    text-align: center;
+  }
+
+  @media (max-width: 860px) {
+    .zk-contact__panel {
+      grid-template-columns: 1fr;
+      padding: 40px 28px;
+    }
+  }
+</style>
