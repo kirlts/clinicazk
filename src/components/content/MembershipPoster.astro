@@ -1,0 +1,650 @@
+---
+import { Image } from 'astro:assets';
+import logoHorizontal from '../../assets/brand/logo-zk-horizontal.png';
+import MembershipTag from './MembershipTag.astro';
+import Icon from '../core/Icon.astro';
+import type { MembershipKey } from '../../data/membershipDetails';
+import { getMembershipDetail } from '../../data/membershipDetails';
+
+interface Props {
+  membership: MembershipKey;
+}
+
+const { membership } = Astro.props;
+const d = getMembershipDetail(membership);
+---
+
+<div class="zk-poster">
+  <!-- ============ CARA A — presentación ============ -->
+  <div class="zk-poster__frame">
+    <section class={`face m-${membership}`} aria-label="Cara A: presentación">
+      <header class="face__header">
+        <Image src={logoHorizontal} alt="Clínica ZK" width={152} height={47} class="face__logo" />
+        <span class="face__pill">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 5.5c-1.5-1.3-3.2-1.8-4.8-1.3C4.6 5 3.5 7.5 4 10.2c.3 1.6 1 3.6 2 5.3.9 1.6 1.7 2.8 2.5 2.8.9 0 1-.9 1.5-.9s.6.9 1.5.9c.8 0 1.6-1.2 2.5-2.8"></path>
+            <path d="m15.5 3 1 2.2 2.4.3-1.8 1.6.5 2.4-2.1-1.2-2.1 1.2.5-2.4-1.8-1.6 2.4-.3z"></path>
+          </svg>
+          {d.name}
+        </span>
+      </header>
+
+      <div class="face__intro">
+        <div class="face__eyebrow">Membresía anual</div>
+        <h1 class="face__title">{d.name}</h1>
+        <p class="face__tagline">{d.tagline}</p>
+      </div>
+
+      <p class="face__sub">{d.sub}</p>
+
+      <div class="face__tag-row">
+        <MembershipTag membership={membership} name={d.name} motto={d.tagMotto} size="sm" />
+        <ul class="face__beneficios">
+          {d.beneficios.map((b) => (
+            <li>
+              <span class="face__check">
+                <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M20 6 9 17l-5-5"></path>
+                </svg>
+              </span>
+              <div>
+                <div class="face__beneficio-title">{b.title}</div>
+                <div class="face__beneficio-desc">{b.desc}</div>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <div class="face__ruta">
+        <div class="face__ruta-title">{d.rutaTitulo}</div>
+        <div class="face__ruta-row">
+          <div class="face__ruta-line"></div>
+          {d.ruta.map((paso) => (
+            <div class="face__ruta-step">
+              <span class="face__ruta-num">{paso.n}</span>
+              <span class="face__ruta-label">{paso.label}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <footer class="face__footer">
+        <div class="face__qr" aria-hidden="true">
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <rect width="5" height="5" x="3" y="3" rx="1"></rect>
+            <rect width="5" height="5" x="16" y="3" rx="1"></rect>
+            <rect width="5" height="5" x="3" y="16" rx="1"></rect>
+            <path d="M21 16h-3a2 2 0 0 0-2 2v3M21 21v.01M12 7v3a2 2 0 0 1-2 2H7M3 12h.01M12 3h.01M12 16v.01M16 12h1M21 12v.01M12 21v-1"></path>
+          </svg>
+        </div>
+        <div class="face__footer-text">
+          <div class="face__footer-title">Escanea el QR y conoce más</div>
+          <div class="face__footer-sub">
+            <Icon name="map-pin" size={15} />
+            Disponible en Pucón y Los Ángeles
+          </div>
+        </div>
+        <div class="face__footer-tagline">{d.tagline}</div>
+      </footer>
+    </section>
+  </div>
+
+  <!-- ============ CARA B — lo que incluye ============ -->
+  <div class="zk-poster__frame">
+    <section class={`face m-${membership}`} aria-label="Cara B: lo que incluye">
+      <header class="face__header">
+        <Image src={logoHorizontal} alt="Clínica ZK" width={136} height={42} class="face__logo" />
+        <span class="face__pill face__pill--sm">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 5.5c-1.5-1.3-3.2-1.8-4.8-1.3C4.6 5 3.5 7.5 4 10.2c.3 1.6 1 3.6 2 5.3.9 1.6 1.7 2.8 2.5 2.8.9 0 1-.9 1.5-.9s.6.9 1.5.9c.8 0 1.6-1.2 2.5-2.8"></path>
+            <path d="m15.5 3 1 2.2 2.4.3-1.8 1.6.5 2.4-2.1-1.2-2.1 1.2.5-2.4-1.8-1.6 2.4-.3z"></path>
+          </svg>
+          {d.name}
+        </span>
+      </header>
+
+      <div class="face__b-title">
+        <h2>Lo que incluye tu membresía {d.name}</h2>
+      </div>
+
+      <div class="face__ideal">
+        <span class="face__ideal-icon" aria-hidden="true">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="8" r="5"></circle>
+            <path d="M20 21a8 8 0 0 0-16 0"></path>
+          </svg>
+        </span>
+        <div class="face__ideal-body">
+          <div class="face__ideal-title">Ideal para ti si…</div>
+          <ul class="face__ideal-list">
+            {d.ideal.map((item) => (
+              <li>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M20 6 9 17l-5-5"></path>
+                </svg>
+                {item}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+
+      <ol class="face__timeline">
+        {d.stages.map((stage, i) => (
+          <li class="face__tl-item" data-last={i === d.stages.length - 1 ? '' : undefined}>
+            <div class="face__tl-marker">
+              <span class="face__tl-num">{stage.n}</span>
+              <span class="face__tl-line"></span>
+            </div>
+            <div class="face__tl-body">
+              <div class="face__tl-eyebrow">Etapa {stage.n}</div>
+              <div class="face__tl-title">{stage.title}</div>
+              <ul class="face__tl-list">
+                {stage.items.map((it) => (
+                  <li>{it.text}</li>
+                ))}
+              </ul>
+            </div>
+          </li>
+        ))}
+      </ol>
+
+      <div class="face__grid2">
+        <div class="face__box">
+          <div class="face__box-title">¿Cómo usarla?</div>
+          <ul class="face__box-list">
+            {d.comoUsarla.map((paso) => (
+              <li>
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M20 6 9 17l-5-5"></path>
+                </svg>
+                {paso}
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div class="face__box face__box--muted">
+          <div class="face__box-title">Importante</div>
+          <p class="face__box-note">{d.importante}</p>
+        </div>
+      </div>
+
+      <footer class="face__footer face__footer--b">
+        <div class="face__qr face__qr--sm" aria-hidden="true">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <rect width="5" height="5" x="3" y="3" rx="1"></rect>
+            <rect width="5" height="5" x="16" y="3" rx="1"></rect>
+            <rect width="5" height="5" x="3" y="16" rx="1"></rect>
+            <path d="M21 16h-3a2 2 0 0 0-2 2v3M21 21v.01M12 7v3a2 2 0 0 1-2 2H7M3 12h.01M12 3h.01M12 16v.01M16 12h1M21 12v.01M12 21v-1"></path>
+          </svg>
+        </div>
+        <div class="face__footer-text">
+          <div class="face__footer-title face__footer-title--sm">Escanea el QR y agenda tu evaluación</div>
+          <div class="face__footer-sub">
+            <Icon name="map-pin" size={14} />
+            Disponible en Pucón y Los Ángeles
+          </div>
+        </div>
+        <Image src={logoHorizontal} alt="Clínica ZK" width={92} height={28} />
+      </footer>
+    </section>
+  </div>
+</div>
+
+<style>
+  .zk-poster {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 26px;
+  }
+  .zk-poster__frame {
+    container-type: inline-size;
+    width: 100%;
+    max-width: 794px;
+    aspect-ratio: 794 / 1123;
+    position: relative;
+  }
+  .face {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 794px;
+    height: 1123px;
+    transform: translateX(-50%) scale(calc(100cqw / 794px));
+    transform-origin: top center;
+    background: var(--zk-white);
+    box-shadow: 0 20px 60px -24px rgba(47, 123, 119, 0.35);
+    border-radius: 6px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    padding: 46px 50px;
+    font-family: var(--font-sans);
+  }
+  .face.m-anticipa {
+    --m: var(--zk-anticipa);
+    --mtint: var(--zk-teal-50);
+  }
+  .face.m-familia {
+    --m: var(--zk-familia);
+    --mtint: var(--zk-purple-50);
+  }
+  .face.m-seguimiento {
+    --m: var(--zk-seguimiento);
+    --mtint: var(--surface-section);
+  }
+  .face.m-total {
+    --m: var(--zk-total);
+    --mtint: var(--surface-section);
+  }
+
+  .face__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .face__pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px 8px 13px;
+    border: 1.5px solid var(--m);
+    border-radius: var(--radius-pill);
+    color: var(--m);
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1;
+  }
+  .face__pill--sm {
+    padding: 7px 15px 7px 12px;
+    font-size: 13px;
+  }
+
+  .face__intro {
+    margin-top: 40px;
+  }
+  .face__eyebrow {
+    font-size: 13px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--m);
+    font-weight: 600;
+  }
+  .face__title {
+    margin: 12px 0 0;
+    font-size: 52px;
+    line-height: 1.02;
+    font-weight: 300;
+    color: var(--text-heading);
+  }
+  .face__tagline {
+    margin: 16px 0 0;
+    font-size: 22px;
+    line-height: 1.35;
+    color: var(--m);
+    max-width: 560px;
+  }
+  .face__sub {
+    margin: 22px 0 0;
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--text-body);
+    max-width: 600px;
+  }
+
+  .face__tag-row {
+    display: flex;
+    gap: 40px;
+    align-items: center;
+    margin-top: 36px;
+  }
+  .face__beneficios {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    flex: 1;
+  }
+  .face__beneficios li {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+  }
+  .face__check {
+    width: 38px;
+    height: 38px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    background: var(--mtint);
+    color: var(--m);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .face__beneficio-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text-heading);
+  }
+  .face__beneficio-desc {
+    font-size: 14px;
+    color: var(--text-body);
+    line-height: 1.45;
+  }
+
+  .face__ruta {
+    margin-top: auto;
+    padding-top: 34px;
+  }
+  .face__ruta-title {
+    font-size: 13px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--m);
+    font-weight: 600;
+    text-align: center;
+  }
+  .face__ruta-row {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-top: 20px;
+    position: relative;
+  }
+  .face__ruta-line {
+    position: absolute;
+    top: 26px;
+    left: 9%;
+    right: 9%;
+    border-top: 2px dotted var(--border-strong);
+    z-index: 0;
+  }
+  .face__ruta-step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    position: relative;
+    z-index: 1;
+    flex: 1;
+    text-align: center;
+    padding: 0 6px;
+  }
+  .face__ruta-num {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: var(--zk-white);
+    border: 2px solid var(--m);
+    color: var(--m);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 19px;
+    font-weight: 700;
+  }
+  .face__ruta-label {
+    font-size: 12.5px;
+    line-height: 1.35;
+    color: var(--text-body);
+  }
+
+  .face__footer {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    margin-top: 32px;
+    padding-top: 22px;
+    border-top: 1px solid var(--border-subtle);
+  }
+  .face__footer--b {
+    margin-top: 22px;
+    padding-top: 20px;
+  }
+  .face__qr {
+    width: 64px;
+    height: 64px;
+    flex-shrink: 0;
+    border: 1.5px solid var(--border-strong);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-muted);
+  }
+  .face__qr--sm {
+    width: 58px;
+    height: 58px;
+  }
+  .face__footer-text {
+    flex: 1;
+  }
+  .face__footer-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text-heading);
+  }
+  .face__footer-title--sm {
+    font-size: 14px;
+  }
+  .face__footer-sub {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 14px;
+    color: var(--text-body);
+    margin-top: 3px;
+  }
+  .face__footer-sub :global(svg) {
+    color: var(--m);
+    flex-shrink: 0;
+  }
+  .face__footer-tagline {
+    font-size: 15px;
+    font-style: italic;
+    color: var(--m);
+    text-align: right;
+    max-width: 220px;
+    line-height: 1.3;
+  }
+
+  /* Cara B */
+  .face__b-title {
+    text-align: center;
+    margin-top: 20px;
+  }
+  .face__b-title h2 {
+    margin: 0;
+    font-size: 30px;
+    line-height: 1.15;
+    font-weight: 300;
+    color: var(--m);
+  }
+  .face__ideal {
+    margin-top: 22px;
+    background: var(--mtint);
+    border-radius: var(--radius-lg);
+    padding: 22px 26px;
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+  }
+  .face__ideal-icon {
+    width: 46px;
+    height: 46px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    background: var(--m);
+    color: #fff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .face__ideal-body {
+    flex: 1;
+  }
+  .face__ideal-title {
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--text-heading);
+    margin-bottom: 10px;
+  }
+  .face__ideal-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px 24px;
+  }
+  .face__ideal-list li {
+    display: flex;
+    gap: 9px;
+    font-size: 13.5px;
+    color: var(--text-body);
+    line-height: 1.4;
+  }
+  .face__ideal-list svg {
+    color: var(--m);
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .face__timeline {
+    margin: 24px 0 0;
+    padding: 0;
+    list-style: none;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  .face__tl-item {
+    display: flex;
+    gap: 16px;
+  }
+  .face__tl-marker {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-shrink: 0;
+  }
+  .face__tl-num {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--m);
+    color: #fff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    font-weight: 700;
+  }
+  .face__tl-line {
+    flex: 1;
+    width: 0;
+    border-left: 2px dotted var(--border-strong);
+    min-height: 14px;
+    margin: 4px 0;
+  }
+  .face__tl-item[data-last] .face__tl-line {
+    display: none;
+  }
+  .face__tl-body {
+    flex: 1;
+    padding-bottom: 16px;
+  }
+  .face__tl-eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--m);
+    font-weight: 600;
+  }
+  .face__tl-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text-heading);
+    margin: 2px 0 7px;
+  }
+  .face__tl-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  .face__tl-list li {
+    font-size: 13.5px;
+    color: var(--text-body);
+    line-height: 1.5;
+  }
+
+  .face__grid2 {
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap: 20px;
+    margin-top: 8px;
+  }
+  .face__box {
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    padding: 18px 20px;
+  }
+  .face__box--muted {
+    border: none;
+    background: var(--surface-section);
+  }
+  .face__box-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text-heading);
+    margin-bottom: 10px;
+  }
+  .face__box-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .face__box-list li {
+    display: flex;
+    gap: 9px;
+    font-size: 13px;
+    color: var(--text-body);
+    line-height: 1.45;
+  }
+  .face__box-list svg {
+    color: var(--m);
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .face__box-note {
+    margin: 0;
+    font-size: 12.5px;
+    color: var(--text-muted);
+    line-height: 1.5;
+  }
+
+  @media print {
+    .zk-poster {
+      gap: 0;
+    }
+    .zk-poster__frame {
+      max-width: none;
+      break-after: page;
+    }
+    .face {
+      box-shadow: none;
+      border-radius: 0;
+    }
+  }
+</style>

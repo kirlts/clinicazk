@@ -1,7 +1,7 @@
 ---
 import SectionHeader from '../core/SectionHeader.astro';
 import MembershipCard from '../content/MembershipCard.astro';
-import { memberships, waPuconLink } from '../../data/site';
+import { memberships } from '../../data/site';
 ---
 
 <section class="zk-memberships">
@@ -16,8 +16,8 @@ import { memberships, waPuconLink } from '../../data/site';
           headline={mb.headline}
           tagline={mb.tag}
           features={mb.feats}
-          ctaLabel="Consultar por WhatsApp"
-          ctaHref={`${waPuconLink}?text=${encodeURIComponent(`Hola, quisiera más información sobre la membresía ${mb.name}.`)}`}
+          ctaLabel="Ver más"
+          ctaHref={`${import.meta.env.BASE_URL}membresias/${mb.m}/`}
           highlighted={mb.hl}
         />
       ))}
