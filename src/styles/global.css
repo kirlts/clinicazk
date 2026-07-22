@@ -12,6 +12,8 @@
 
 html {
   scroll-behavior: smooth;
+  /* Zoom base del sitio: "100% por defecto" equivale a ~80% de zoom del navegador. */
+  zoom: 0.8;
 }
 
 @media (prefers-reduced-motion: reduce) {
