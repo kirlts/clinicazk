@@ -3,7 +3,7 @@ interface Props {
   eyebrow?: string;
   title: string;
   subtitle?: string;
-  align?: 'left' | 'center';
+  align?: 'left' | 'center' | 'right';
 }
 
 const { eyebrow, title, subtitle, align = 'center' } = Astro.props;
@@ -26,6 +26,10 @@ const { eyebrow, title, subtitle, align = 'center' } = Astro.props;
   .zk-section-header[data-align='left'] {
     text-align: left;
     margin: 0;
+  }
+  .zk-section-header[data-align='right'] {
+    text-align: right;
+    margin: 0 0 0 auto;
   }
   .zk-eyebrow {
     font-size: var(--fs-small);

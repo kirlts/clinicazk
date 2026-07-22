@@ -1,7 +1,6 @@
 ---
 import { Image } from 'astro:assets';
 import isotipo from '../../assets/brand/isotipo.png';
-import Button from '../core/Button.astro';
 
 interface Props {
   membership: 'anticipa' | 'familia' | 'seguimiento' | 'total';
@@ -43,16 +42,18 @@ const brand = parts.length > 1 ? parts[0] : 'ZK';
 const label = parts.length > 1 ? parts.slice(1).join(' ') : name;
 ---
 
-<div class="zk-mcard" data-highlighted={highlighted ? '' : undefined} style={highlighted ? `border-color:${accent}` : ''}>
+<div class="zk-mcard" data-highlighted={highlighted ? '' : undefined}>
   <div class="zk-mcard__banner" style={`background:${grad}`}>
     <span class="zk-mcard__mark">
       <Image src={isotipo} alt="" width={27} height={28} />
     </span>
-    <div class="zk-mcard__brand">
-      <div>{brand}</div>
-      <div>{label}</div>
+    <div class="zk-mcard__head">
+      <div class="zk-mcard__brand">
+        <span class="zk-mcard__brand-zk">{brand}</span>
+        <span class="zk-mcard__brand-label">{label}</span>
+      </div>
+      {motto && <div class="zk-mcard__motto">{motto}</div>}
     </div>
-    {motto && <div class="zk-mcard__motto">{motto}</div>}
     <svg viewBox="0 0 320 60" preserveAspectRatio="none" aria-hidden="true" class="zk-mcard__wave">
       <path d="M120 58 C 200 34, 250 36, 340 8" fill="none" stroke="#fff" stroke-width="1.1"></path>
     </svg>
@@ -70,14 +71,7 @@ const label = parts.length > 1 ? parts.slice(1).join(' ') : name;
       ))}
     </ul>
     <div class="zk-mcard__cta">
-      <Button
-        variant={highlighted ? 'primary' : 'outline'}
-        size="sm"
-        href={ctaHref}
-        style={highlighted ? `background:${accent};box-shadow:none` : `color:${accent};border-color:${accent}`}
-      >
-        {ctaLabel}
-      </Button>
+      <a href={ctaHref} class="zk-mcard__btn" style={`background:${grad}`}>{ctaLabel}</a>
     </div>
   </div>
 </div>
@@ -86,24 +80,28 @@ const label = parts.length > 1 ? parts.slice(1).join(' ') : name;
   .zk-mcard {
     display: flex;
     flex-direction: column;
-    background: var(--surface-card);
+    background: var(--zk-white);
     border-radius: var(--radius-lg);
     box-shadow: var(--shadow-card);
     overflow: hidden;
     border: 1px solid var(--border-subtle);
     height: 100%;
     box-sizing: border-box;
+    transition: box-shadow 0.2s var(--ease-out), filter 0.2s var(--ease-out);
   }
-  .zk-mcard[data-highlighted] {
-    border-width: 2px;
+  .zk-mcard[data-highlighted],
+  .zk-mcard:hover {
     box-shadow: var(--shadow-raised);
+  }
+  .zk-mcard:hover {
+    filter: brightness(1.02);
   }
   .zk-mcard__banner {
     position: relative;
     color: #fff;
-    padding: 22px 24px 24px;
+    padding: 24px 24px 26px;
     overflow: hidden;
-    min-height: 184px;
+    min-height: 150px;
     box-sizing: border-box;
   }
   .zk-mcard__mark {
@@ -118,27 +116,35 @@ const label = parts.length > 1 ? parts.slice(1).join(' ') : name;
     align-items: center;
     justify-content: center;
   }
-  .zk-mcard__brand {
+  .zk-mcard__head {
     position: relative;
     z-index: 1;
-    font-size: 21px;
-    font-weight: var(--fw-light);
-    letter-spacing: 0.04em;
-    line-height: 1.5;
+  }
+  .zk-mcard__brand {
+    display: flex;
+    align-items: baseline;
+    gap: 9px;
+    line-height: 1.2;
     text-transform: uppercase;
+    flex-wrap: wrap;
+  }
+  .zk-mcard__brand-zk {
+    font-size: 30px;
+    font-weight: var(--fw-light);
+    letter-spacing: 0.02em;
+  }
+  .zk-mcard__brand-label {
+    font-size: 23px;
+    font-weight: var(--fw-light);
+    letter-spacing: 0.02em;
   }
   .zk-mcard__motto {
-    position: relative;
-    z-index: 1;
-    margin-top: 14px;
-    font-size: 16px;
+    margin-top: 12px;
+    font-size: 17.5px;
     font-weight: var(--fw-light);
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-    line-height: 1.5;
-    opacity: 0.95;
-    max-width: 80%;
-    min-height: 48px;
+    line-height: 1.45;
+    opacity: 0.96;
+    max-width: 82%;
   }
   .zk-mcard__wave {
     position: absolute;
@@ -167,6 +173,7 @@ const label = parts.length > 1 ? parts.slice(1).join(' ') : name;
     margin: 0;
     font-size: 15px;
     color: var(--text-body);
+    line-height: var(--lh-body);
   }
   .zk-mcard__feats {
     margin: 0;
@@ -189,5 +196,31 @@ const label = parts.length > 1 ? parts.slice(1).join(' ') : name;
   .zk-mcard__cta {
     margin-top: auto;
     padding-top: 8px;
+    display: flex;
+    justify-content: center;
+  }
+  .zk-mcard__btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: var(--fw-regular);
+    letter-spacing: 0.01em;
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    border: none;
+    color: #fff;
+    box-shadow: 0 2px 10px rgba(47, 63, 66, 0.2), inset 0 0 0 1px rgba(255, 255, 255, 0.16);
+    transition: filter 0.18s var(--ease-out), transform 0.12s var(--ease-out);
+  }
+  .zk-mcard__btn:hover {
+    color: #fff;
+    text-decoration: none;
+    filter: brightness(1.07);
+  }
+  .zk-mcard__btn:active {
+    filter: brightness(0.95);
+    transform: translateY(1px);
   }
 </style>

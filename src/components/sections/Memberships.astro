@@ -1,12 +1,20 @@
 ---
-import SectionHeader from '../core/SectionHeader.astro';
 import MembershipCard from '../content/MembershipCard.astro';
 import { memberships } from '../../data/site';
 ---
 
-<section class="zk-memberships">
+<section id="membresias" class="zk-memberships">
   <div class="zk-container">
-    <SectionHeader align="left" title="Algunos reaccionan. Otros se anticipan." />
+    <div class="zk-memberships__head">
+      <h2 class="zk-memberships__title">
+        Algunos reaccionan. <span class="zk-memberships__accent">Otros se anticipan.</span>
+      </h2>
+      <p class="zk-memberships__intro">
+        Las membresías anuales Familia ZK son una nueva forma de cuidar tu salud dental: con orden,
+        controles al día y respaldo ante urgencias, en Los Ángeles y Pucón. Elige la que va contigo.
+      </p>
+    </div>
+
     <div class="zk-memberships__grid">
       {memberships.map((mb) => (
         <MembershipCard
@@ -22,16 +30,46 @@ import { memberships } from '../../data/site';
         />
       ))}
     </div>
+
     <p class="zk-memberships__disclaimer">
-      Tu membresía no reemplaza la evaluación clínica profesional. Prestaciones, controles e indicaciones sujetas al diagnóstico del equipo tratante.
+      Tu membresía no reemplaza la evaluación clínica profesional. Prestaciones, controles e indicaciones
+      sujetas al diagnóstico del equipo tratante.
     </p>
   </div>
 </section>
 
 <style>
   .zk-memberships {
-    background: var(--surface-section);
-    padding: var(--space-9) 24px;
+    background: linear-gradient(
+      to bottom,
+      var(--zk-white),
+      var(--surface-section) 9%,
+      var(--surface-section) 91%,
+      var(--zk-white)
+    );
+    padding: 52px 24px;
+  }
+  .zk-memberships__head {
+    text-align: center;
+  }
+  .zk-memberships__title {
+    color: var(--text-heading);
+    font-size: var(--fs-h1);
+    font-weight: var(--fw-light);
+    margin: 0;
+    line-height: var(--lh-tight);
+  }
+  .zk-memberships__accent {
+    font-weight: var(--fw-semibold);
+    color: var(--zk-teal-600);
+  }
+  .zk-memberships__intro {
+    color: var(--text-body);
+    font-size: var(--fs-body-lg);
+    margin: 18px auto 0;
+    max-width: 1180px;
+    line-height: var(--lh-body);
+    text-wrap: pretty;
   }
   .zk-memberships__grid {
     display: grid;
@@ -43,8 +81,9 @@ import { memberships } from '../../data/site';
   .zk-memberships__disclaimer {
     font-size: var(--fs-caption);
     color: var(--text-muted);
-    margin-top: 24px;
-    max-width: 640px;
+    margin: 28px auto 0;
+    max-width: 720px;
+    text-align: center;
     line-height: var(--lh-body);
   }
 

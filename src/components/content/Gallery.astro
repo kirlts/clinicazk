@@ -1,0 +1,207 @@
+---
+import { getImage } from 'astro:assets';
+import { fotos } from '../../lib/fotos';
+
+interface Photo {
+  file: string;
+  alt: string;
+  caption: string;
+}
+interface Props {
+  photos: readonly Photo[];
+  galId: string;
+  accent: string; // variable CSS del acento de la sede
+}
+
+const { photos, galId, accent } = Astro.props;
+
+const items = await Promise.all(
+  photos.map(async (p) => {
+    const main = await getImage({ src: fotos[p.file], width: 1000, format: 'webp' });
+    const thumb = await getImage({ src: fotos[p.file], width: 220, height: 132, fit: 'cover', format: 'webp' });
+    return { ...p, main: main.src, thumb: thumb.src };
+  })
+);
+const first = items[0];
+---
+
+<div class="zk-gal" id={`gal-${galId}`} style={`--gal-accent:${accent}`}>
+  <div class="zk-gal__stage">
+    <img class="zk-gal__main" src={first.main} alt={first.alt} decoding="async" />
+    <div class="zk-gal__cap"><span class="zk-gal__cap-text">{first.caption}</span></div>
+    <button type="button" class="zk-gal__nav zk-gal__nav--prev" data-dir="-1" aria-label="Foto anterior">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"></path></svg>
+    </button>
+    <button type="button" class="zk-gal__nav zk-gal__nav--next" data-dir="1" aria-label="Foto siguiente">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"></path></svg>
+    </button>
+    <div class="zk-gal__count"><span class="zk-gal__cur">1</span> / {items.length}</div>
+  </div>
+  <div class="zk-gal__thumbs">
+    {items.map((it, i) => (
+      <button
+        type="button"
+        class="zk-gal__thumb"
+        data-idx={i}
+        data-main={it.main}
+        data-alt={it.alt}
+        data-caption={it.caption}
+        aria-label={it.alt}
+        aria-current={i === 0 ? 'true' : 'false'}
+      >
+        <img src={it.thumb} alt="" loading="lazy" decoding="async" />
+      </button>
+    ))}
+  </div>
+</div>
+
+<script>
+  document.querySelectorAll<HTMLElement>('.zk-gal').forEach((gal) => {
+    const main = gal.querySelector<HTMLImageElement>('.zk-gal__main');
+    const cap = gal.querySelector<HTMLElement>('.zk-gal__cap-text');
+    const cur = gal.querySelector<HTMLElement>('.zk-gal__cur');
+    const thumbs = Array.from(gal.querySelectorAll<HTMLButtonElement>('.zk-gal__thumb'));
+    if (!main || !thumbs.length) return;
+    let i = 0;
+
+    const show = (n: number) => {
+      i = (n + thumbs.length) % thumbs.length;
+      const t = thumbs[i];
+      main.src = t.dataset.main || '';
+      main.alt = t.dataset.alt || '';
+      if (cap) cap.textContent = t.dataset.caption || '';
+      if (cur) cur.textContent = String(i + 1);
+      thumbs.forEach((th, j) => th.setAttribute('aria-current', j === i ? 'true' : 'false'));
+    };
+
+    gal.querySelectorAll<HTMLButtonElement>('.zk-gal__nav').forEach((btn) =>
+      btn.addEventListener('click', () => show(i + Number(btn.dataset.dir)))
+    );
+    thumbs.forEach((t) => t.addEventListener('click', () => show(Number(t.dataset.idx))));
+  });
+</script>
+
+<style>
+  .zk-gal {
+    position: relative;
+  }
+  .zk-gal__stage {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 1 / 1;
+    background: var(--surface-section);
+    border-radius: var(--radius-md);
+  }
+  .zk-gal__main {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .zk-gal__cap {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 34px 18px 16px;
+    background: linear-gradient(to top, color-mix(in srgb, var(--gal-accent) 78%, transparent), transparent);
+    color: #fff;
+    font-size: 15px;
+    opacity: 0;
+    transition: opacity 0.28s ease;
+    pointer-events: none;
+  }
+  .zk-gal__stage:hover .zk-gal__cap,
+  .zk-gal__stage:focus-within .zk-gal__cap {
+    opacity: 1;
+  }
+  .zk-gal__nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 38px;
+    height: 38px;
+    border-radius: 999px;
+    border: none;
+    background: rgba(255, 255, 255, 0.9);
+    color: var(--text-heading);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: var(--shadow-card);
+    opacity: 0;
+    transition: opacity 0.2s ease, background 0.2s ease;
+  }
+  .zk-gal__nav--prev {
+    left: 12px;
+  }
+  .zk-gal__nav--next {
+    right: 12px;
+  }
+  .zk-gal__stage:hover .zk-gal__nav,
+  .zk-gal__stage:focus-within .zk-gal__nav {
+    opacity: 1;
+  }
+  .zk-gal__nav:hover {
+    background: #fff;
+    color: var(--gal-accent);
+  }
+  .zk-gal__nav:focus-visible {
+    opacity: 1;
+    outline: 2px solid var(--gal-accent);
+    outline-offset: 2px;
+  }
+  .zk-gal__count {
+    position: absolute;
+    top: 12px;
+    right: 14px;
+    background: rgba(47, 63, 66, 0.55);
+    color: #fff;
+    font-size: 12px;
+    padding: 3px 9px;
+    border-radius: 999px;
+    font-variant-numeric: tabular-nums;
+  }
+  .zk-gal__thumbs {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 1px;
+    background: var(--border-subtle);
+    margin-top: 1px;
+  }
+  .zk-gal__thumb {
+    padding: 0;
+    border: none;
+    cursor: pointer;
+    display: block;
+    background: var(--zk-white);
+    transition: opacity 0.2s var(--ease-out);
+    opacity: 0.5;
+    outline-offset: -2px;
+  }
+  .zk-gal__thumb[aria-current='true'] {
+    opacity: 1;
+    outline: 2px solid var(--gal-accent);
+  }
+  .zk-gal__thumb:hover {
+    opacity: 1;
+  }
+  .zk-gal__thumb:focus-visible {
+    opacity: 1;
+    outline: 2px solid var(--gal-accent);
+  }
+  .zk-gal__thumb img {
+    width: 100%;
+    height: 60px;
+    object-fit: cover;
+    display: block;
+  }
+
+  @media (hover: none) {
+    .zk-gal__cap,
+    .zk-gal__nav {
+      opacity: 1;
+    }
+  }
+</style>

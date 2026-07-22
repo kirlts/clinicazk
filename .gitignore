@@ -22,4 +22,5 @@ npm-debug.log*
 # source design exports (not part of the site) and local agent tooling config
 /Sitio.zip
 /Membresias.zip
+/Versión 2 del sitio.zip
 /.agents/

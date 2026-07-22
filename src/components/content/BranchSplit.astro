@@ -1,11 +1,13 @@
 ---
+import { getImage } from 'astro:assets';
 import { branches } from '../../data/site';
+import { fotos } from '../../lib/fotos';
 
 interface Props {
   height?: number;
 }
 
-const { height = 460 } = Astro.props;
+const { height = 680 } = Astro.props;
 
 const ACCENT: Record<string, { c: string; s: string }> = {
   la: { c: 'var(--zk-branch-la)', s: 'var(--zk-branch-la-strong)' },
@@ -13,13 +15,20 @@ const ACCENT: Record<string, { c: string; s: string }> = {
 };
 
 const [left, right] = branches;
+
+const panels = await Promise.all(
+  [
+    { b: left, side: 'left' as const },
+    { b: right, side: 'right' as const },
+  ].map(async ({ b, side }) => {
+    const img = b.photoSrc ? await getImage({ src: fotos[b.photoSrc], width: 1100, format: 'webp' }) : null;
+    return { b, side, img };
+  })
+);
 ---
 
 <div class="zk-branchsplit" id="zk-branchsplit" style={`height:${height}px`}>
-  {[
-    { b: left, side: 'left' as const },
-    { b: right, side: 'right' as const },
-  ].map(({ b, side }) => {
+  {panels.map(({ b, side, img }) => {
     const a = ACCENT[b.key] ?? ACCENT.la;
     const alignRight = side === 'right';
     return (
@@ -29,13 +38,15 @@ const [left, right] = branches;
         aria-label={`Sede ${b.city}`}
         data-key={b.key}
         class={`zk-branch zk-branch--${side}`}
-        style={`background:${a.c}`}
       >
+        <div class="zk-branch__bg" style={`background:${a.c}`}></div>
+        {img && (
+          <img src={img.src} alt="" class={`zk-branch__photo zk-branch__photo--${side}`} loading="lazy" decoding="async" />
+        )}
         <div
           class="zk-branch__tint"
           style={`background: linear-gradient(${alignRight ? 250 : 110}deg, color-mix(in srgb, ${a.s} 80%, transparent) 0%, color-mix(in srgb, ${a.s} 40%, transparent) 100%);`}
         ></div>
-        <div class="zk-branch__pending" data-align={alignRight ? 'right' : 'left'}>FOTO PENDIENTE</div>
         <div class="zk-branch__content" data-align={alignRight ? 'right' : 'left'}>
           <div class="zk-branch__eyebrow" data-align={alignRight ? 'right' : 'left'}>
             <span aria-hidden="true" class="zk-branch__chip"></span>
@@ -97,6 +108,7 @@ const [left, right] = branches;
     width: 100%;
     overflow: hidden;
     background: var(--zk-gray-100);
+    border-radius: var(--radius-lg);
   }
   .zk-branch {
     position: absolute;
@@ -127,21 +139,28 @@ const [left, right] = branches;
     outline: 2px solid #fff;
     outline-offset: -4px;
   }
+  .zk-branch__bg {
+    position: absolute;
+    inset: 0;
+  }
+  .zk-branch__photo {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 64%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .zk-branch__photo--left {
+    left: 0;
+  }
+  .zk-branch__photo--right {
+    right: 0;
+  }
   .zk-branch__tint {
     position: absolute;
     inset: 0;
   }
-  .zk-branch__pending {
-    position: absolute;
-    top: 14px;
-    font-size: 11px;
-    letter-spacing: 0.06em;
-    color: rgba(255, 255, 255, 0.8);
-    font-weight: 600;
-  }
-  .zk-branch__pending[data-align='left'] { right: 18px; }
-  .zk-branch__pending[data-align='right'] { left: 18px; }
-
   .zk-branch__content {
     position: absolute;
     inset: 0;
@@ -157,13 +176,14 @@ const [left, right] = branches;
     text-align: right;
     padding: 0 7% 0 24%;
   }
-
   .zk-branch__eyebrow {
     display: inline-flex;
     align-items: center;
     gap: 10px;
   }
-  .zk-branch__eyebrow[data-align='right'] { flex-direction: row-reverse; }
+  .zk-branch__eyebrow[data-align='right'] {
+    flex-direction: row-reverse;
+  }
   .zk-branch__eyebrow span:last-child {
     font-size: 12px;
     letter-spacing: 0.18em;
@@ -220,7 +240,7 @@ const [left, right] = branches;
   @media (max-width: 640px) {
     .zk-branchsplit {
       --zk-d: 5;
-      height: 340px !important;
+      height: 420px !important;
     }
     .zk-branch__content {
       padding: 0 26% 0 6%;
