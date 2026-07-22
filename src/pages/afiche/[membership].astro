@@ -1,0 +1,57 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import AficheEmbed from '../../components/content/AficheEmbed.astro';
+import { MEMBERSHIP_KEYS, getMembershipDetail } from '../../data/membershipDetails';
+import type { MembershipKey } from '../../data/membershipDetails';
+
+export function getStaticPaths() {
+  return MEMBERSHIP_KEYS.map((membership) => ({ params: { membership } }));
+}
+
+const { membership } = Astro.params as { membership: MembershipKey };
+const d = getMembershipDetail(membership);
+---
+
+<Layout
+  title={`${d.name} — Familia ZK | Clínica ZK`}
+  description={`${d.tagline} ${d.sub}`}
+>
+  <main class="afiche-page">
+    <AficheEmbed membership={membership} />
+  </main>
+</Layout>
+
+<script>
+  const close = () => {
+    if (window.parent && window.parent !== window) {
+      window.parent.postMessage('zk-close-afiche', '*');
+    } else {
+      const base = document.querySelector<HTMLAnchorElement>('[data-afiche-close]');
+      window.location.href = base?.getAttribute('href') || '../';
+    }
+  };
+  document.querySelectorAll('[data-afiche-close]').forEach((el) =>
+    el.addEventListener('click', (e) => {
+      e.preventDefault();
+      close();
+    })
+  );
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') close();
+  });
+</script>
+
+<style is:global>
+  /* Fondo transparente para que, embebido en el modal, se vea el backdrop del sitio. */
+  body {
+    background: transparent;
+  }
+</style>
+
+<style>
+  .afiche-page {
+    display: flex;
+    justify-content: center;
+    padding: 24px;
+  }
+</style>

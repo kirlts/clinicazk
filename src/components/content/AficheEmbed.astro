@@ -1,0 +1,547 @@
+---
+import { Image } from 'astro:assets';
+import logoHorizontal from '../../assets/brand/logo-zk-horizontal.png';
+import MembershipTag from './MembershipTag.astro';
+import type { MembershipKey } from '../../data/membershipDetails';
+import { getMembershipDetail } from '../../data/membershipDetails';
+
+interface Props {
+  membership: MembershipKey;
+}
+
+const { membership } = Astro.props;
+const d = getMembershipDetail(membership);
+const backHref = `${import.meta.env.BASE_URL}#membresias`;
+---
+
+<article class={`afiche m-${membership}`}>
+  <a href={backHref} class="afiche__back" data-afiche-close>
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 19-7-7 7-7"></path><path d="M19 12H5"></path></svg>
+    Volver al sitio
+  </a>
+
+  <header class="afiche__header">
+    <Image src={logoHorizontal} alt="Clínica ZK" width={152} height={47} class="afiche__logo" />
+    <span class="afiche__pill">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path><path d="M3 3v5h5"></path></svg>
+      {d.name}
+    </span>
+  </header>
+
+  <div class="afiche__intro">
+    <div class="afiche__eyebrow">Membresía anual</div>
+    <h1 class="afiche__title">{d.name}</h1>
+    <p class="afiche__tagline">{d.tagline}</p>
+  </div>
+
+  <p class="afiche__sub">{d.sub}</p>
+
+  <div class="afiche__tagrow">
+    <MembershipTag membership={membership} name={d.name} motto={d.tagMotto} size="sm" />
+    <ul class="afiche__beneficios">
+      {d.beneficios.map((b) => (
+        <li>
+          <span class="afiche__check">
+            <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg>
+          </span>
+          <div>
+            <div class="afiche__beneficio-title">{b.title}</div>
+            <div class="afiche__beneficio-desc">{b.desc}</div>
+          </div>
+        </li>
+      ))}
+    </ul>
+  </div>
+
+  <div class="afiche__ruta">
+    <div class="afiche__ruta-title">{d.rutaTitulo}</div>
+    <div class="afiche__ruta-row">
+      <div class="afiche__ruta-line"></div>
+      {d.ruta.map((paso) => (
+        <div class="afiche__ruta-step">
+          <span class="afiche__ruta-num">{paso.n}</span>
+          <span class="afiche__ruta-label">{paso.label}</span>
+        </div>
+      ))}
+    </div>
+  </div>
+
+  <hr class="afiche__sep" />
+
+  <h2 class="afiche__b-title">Lo que incluye tu membresía {d.name}</h2>
+
+  <div class="afiche__ideal">
+    <span class="afiche__ideal-icon" aria-hidden="true">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="5"></circle><path d="M20 21a8 8 0 0 0-16 0"></path></svg>
+    </span>
+    <div class="afiche__ideal-body">
+      <div class="afiche__ideal-title">Ideal para ti si…</div>
+      <ul class="afiche__ideal-list">
+        {d.ideal.map((item) => (
+          <li>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg>
+            {item}
+          </li>
+        ))}
+      </ul>
+    </div>
+  </div>
+
+  <ol class="afiche__timeline">
+    {d.stages.map((stage, i) => (
+      <li class="afiche__tl-item" data-last={i === d.stages.length - 1 ? '' : undefined}>
+        <div class="afiche__tl-marker">
+          <span class="afiche__tl-num">{stage.n}</span>
+          <span class="afiche__tl-line"></span>
+        </div>
+        <div class="afiche__tl-body">
+          <div class="afiche__tl-eyebrow">Etapa {stage.n}</div>
+          <div class="afiche__tl-title">{stage.title}</div>
+          <ul class="afiche__tl-list">
+            {stage.items.map((it) => (
+              <li>{it.text}</li>
+            ))}
+          </ul>
+        </div>
+      </li>
+    ))}
+  </ol>
+
+  <div class="afiche__grid2">
+    <div class="afiche__box">
+      <div class="afiche__box-title">¿Cómo usarla?</div>
+      <ul class="afiche__box-list">
+        {d.comoUsarla.map((paso) => (
+          <li>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg>
+            {paso}
+          </li>
+        ))}
+      </ul>
+    </div>
+    <div class="afiche__box afiche__box--muted">
+      <div class="afiche__box-title">Importante</div>
+      <p class="afiche__box-note">{d.importante}</p>
+    </div>
+  </div>
+
+  <footer class="afiche__footer">
+    <a href={backHref} class="afiche__back-btn" data-afiche-close>
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 19-7-7 7-7"></path><path d="M19 12H5"></path></svg>
+      Volver al sitio
+    </a>
+  </footer>
+</article>
+
+<style>
+  .afiche {
+    max-width: 720px;
+    margin: 0 auto;
+    background: var(--zk-white);
+    border-radius: var(--radius-lg);
+    padding: 40px 48px 44px;
+    font-family: var(--font-sans);
+    box-shadow: 0 20px 60px -24px rgba(47, 123, 119, 0.35);
+  }
+  .afiche.m-anticipa {
+    --m: var(--zk-anticipa);
+    --mtint: var(--zk-teal-50);
+  }
+  .afiche.m-familia {
+    --m: var(--zk-familia);
+    --mtint: var(--zk-purple-50);
+  }
+  .afiche.m-seguimiento {
+    --m: var(--zk-seguimiento);
+    --mtint: var(--surface-section);
+  }
+  .afiche.m-total {
+    --m: var(--zk-total);
+    --mtint: var(--surface-section);
+  }
+
+  .afiche__back,
+  .afiche__back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    font-weight: var(--fw-semibold);
+    color: var(--text-body);
+    text-decoration: none;
+    cursor: pointer;
+  }
+  .afiche__back {
+    margin-bottom: 22px;
+  }
+  .afiche__back:hover,
+  .afiche__back-btn:hover {
+    color: var(--m);
+    text-decoration: none;
+  }
+
+  .afiche__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .afiche__logo {
+    width: 152px;
+    height: auto;
+  }
+  .afiche__pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px 8px 13px;
+    border: 1.5px solid var(--m);
+    border-radius: var(--radius-pill);
+    color: var(--m);
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1;
+  }
+
+  .afiche__intro {
+    margin-top: 34px;
+  }
+  .afiche__eyebrow {
+    font-size: 13px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--m);
+    font-weight: 600;
+  }
+  .afiche__title {
+    margin: 12px 0 0;
+    font-size: clamp(38px, 6vw, 48px);
+    line-height: 1.02;
+    font-weight: 300;
+    color: var(--text-heading);
+  }
+  .afiche__tagline {
+    margin: 14px 0 0;
+    font-size: 20px;
+    line-height: 1.35;
+    color: var(--m);
+    max-width: 560px;
+  }
+  .afiche__sub {
+    margin: 20px 0 0;
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--text-body);
+    max-width: 600px;
+  }
+
+  .afiche__tagrow {
+    display: flex;
+    gap: 36px;
+    align-items: center;
+    margin-top: 32px;
+  }
+  .afiche__beneficios {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    flex: 1;
+  }
+  .afiche__beneficios li {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+  }
+  .afiche__check {
+    width: 38px;
+    height: 38px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    background: var(--mtint);
+    color: var(--m);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .afiche__beneficio-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text-heading);
+  }
+  .afiche__beneficio-desc {
+    font-size: 14px;
+    color: var(--text-body);
+    line-height: 1.45;
+  }
+
+  .afiche__ruta {
+    margin-top: 36px;
+  }
+  .afiche__ruta-title {
+    font-size: 13px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--m);
+    font-weight: 600;
+    text-align: center;
+  }
+  .afiche__ruta-row {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-top: 20px;
+    position: relative;
+  }
+  .afiche__ruta-line {
+    position: absolute;
+    top: 26px;
+    left: 9%;
+    right: 9%;
+    border-top: 2px dotted var(--border-strong);
+    z-index: 0;
+  }
+  .afiche__ruta-step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    position: relative;
+    z-index: 1;
+    flex: 1;
+    text-align: center;
+    padding: 0 6px;
+  }
+  .afiche__ruta-num {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: var(--zk-white);
+    border: 2px solid var(--m);
+    color: var(--m);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 19px;
+    font-weight: 700;
+  }
+  .afiche__ruta-label {
+    font-size: 12.5px;
+    line-height: 1.35;
+    color: var(--text-body);
+  }
+
+  .afiche__sep {
+    margin: 36px 0 0;
+    border: none;
+    border-top: 1px solid var(--border-subtle);
+  }
+
+  .afiche__b-title {
+    text-align: center;
+    margin: 30px 0 0;
+    font-size: 30px;
+    line-height: 1.15;
+    font-weight: 300;
+    color: var(--m);
+  }
+  .afiche__ideal {
+    margin-top: 22px;
+    background: var(--mtint);
+    border-radius: var(--radius-lg);
+    padding: 22px 26px;
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+  }
+  .afiche__ideal-icon {
+    width: 46px;
+    height: 46px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    background: var(--m);
+    color: #fff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .afiche__ideal-body {
+    flex: 1;
+  }
+  .afiche__ideal-title {
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--text-heading);
+    margin-bottom: 10px;
+  }
+  .afiche__ideal-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px 24px;
+  }
+  .afiche__ideal-list li {
+    display: flex;
+    gap: 9px;
+    font-size: 13.5px;
+    color: var(--text-body);
+    line-height: 1.4;
+  }
+  .afiche__ideal-list svg {
+    color: var(--m);
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .afiche__timeline {
+    margin: 24px 0 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+  }
+  .afiche__tl-item {
+    display: flex;
+    gap: 16px;
+  }
+  .afiche__tl-marker {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-shrink: 0;
+  }
+  .afiche__tl-num {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--m);
+    color: #fff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    font-weight: 700;
+  }
+  .afiche__tl-line {
+    flex: 1;
+    width: 0;
+    border-left: 2px dotted var(--border-strong);
+    min-height: 14px;
+    margin: 4px 0;
+  }
+  .afiche__tl-item[data-last] .afiche__tl-line {
+    display: none;
+  }
+  .afiche__tl-body {
+    flex: 1;
+    padding-bottom: 16px;
+  }
+  .afiche__tl-eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--m);
+    font-weight: 600;
+  }
+  .afiche__tl-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text-heading);
+    margin: 2px 0 7px;
+  }
+  .afiche__tl-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  .afiche__tl-list li {
+    font-size: 13.5px;
+    color: var(--text-body);
+    line-height: 1.5;
+  }
+
+  .afiche__grid2 {
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap: 20px;
+    margin-top: 8px;
+  }
+  .afiche__box {
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    padding: 18px 20px;
+  }
+  .afiche__box--muted {
+    border: none;
+    background: var(--surface-section);
+  }
+  .afiche__box-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text-heading);
+    margin-bottom: 10px;
+  }
+  .afiche__box-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .afiche__box-list li {
+    display: flex;
+    gap: 9px;
+    font-size: 13px;
+    color: var(--text-body);
+    line-height: 1.45;
+  }
+  .afiche__box-list svg {
+    color: var(--m);
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .afiche__box-note {
+    margin: 0;
+    font-size: 12.5px;
+    color: var(--text-muted);
+    line-height: 1.5;
+  }
+
+  .afiche__footer {
+    margin-top: 30px;
+    padding-top: 22px;
+    border-top: 1px solid var(--border-subtle);
+    display: flex;
+    justify-content: center;
+  }
+  .afiche__back-btn {
+    padding: 11px 22px;
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-md);
+  }
+  .afiche__back-btn:hover {
+    border-color: var(--m);
+  }
+
+  @media (max-width: 620px) {
+    .afiche {
+      padding: 28px 22px 32px;
+    }
+    .afiche__tagrow {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 24px;
+    }
+    .afiche__grid2,
+    .afiche__ideal-list {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
