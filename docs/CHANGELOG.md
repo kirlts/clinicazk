@@ -1,13 +1,13 @@
 # Changelog
 
-All notable changes to this project will be documented in this file.
+Todos los cambios relevantes de este proyecto se documentan en este archivo.
 
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
-and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+El formato se basa en [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
+y este proyecto adhiere a [Versionado Semántico](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [Sin publicar]
 
-### Pending
+### Pendiente
 - Textos reales del sitio y descripciones por especialidad (Clínica ZK).
 - Listado de convenios vigentes (Clínica ZK).
 - Contenido de la sección Equipo: fotos y nómina de especialistas (Clínica ZK).
@@ -22,7 +22,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 > Rediseño completo alineado 1:1 con el design handoff "Sitio Web Clínica ZK v2".
 
-### Added
+### Añadido
 - Hero fijo con h1, franja de accesos rápidos a especialidades y fila de cierre "Un buen tratamiento empieza por un buen diagnóstico.".
 - Especialidades como índice maestro-detalle interactivo (13 especialidades, agrupadas por sede, con botones de contacto por sede).
 - Sección Clínica que reúne Nosotros, Equipo y dos galerías gemelas por sede (flechas, contador, miniaturas) con convenios integrados en el contacto de cada sede.
@@ -30,20 +30,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Optimización de imágenes a webp con `astro:assets`; galerías por sede con fotos reales.
 - Zoom base del sitio (`html { zoom: 0.8 }`): el 100% por defecto equivale al 80% preferido por el director.
 
-### Changed
+### Cambiado
 - Membresías: cabecera centrada, párrafo introductorio y tarjetas estilo V2.
 - FAQ: rediseño compacto a dos columnas (6 preguntas).
 - Contacto: formulario protagonista sobre gradiente, con WhatsApp por sede; campos ampliados (nombre, correo, teléfono, motivo, sede, mensaje).
 - BranchSplit: foto real por sede anclada a su mitad; blurbs de sede del archivo aprobado.
 - Ancho máximo del sitio a `min(1520px, 94vw)` para igualar el layout del diseño v2.
 
-### Removed
+### Eliminado
 - PromoBanner, AboutUs, Agreements y TeamPlaceholder (fusionados o descartados en el diseño v2).
 - Ruta `/membresias/[m]/` y MembershipPoster (reemplazados por el modal-afiche y `/afiche/[m]/`).
 
 ## [1.0.0] - 2026-07-09
 
-### Added
+### Añadido
 - Proyecto Astro v7 inicializado con TypeScript.
 - Sistema de tokens de diseño CSS (colores, tipografía, espaciado, geometría, motion).
 - Layout base con SEO, metas y fuentes.

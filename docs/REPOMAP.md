@@ -1,22 +1,22 @@
 # REPOMAP: Clínica ZK
 
-> Generated: 2026-07-22  
-> Purpose: Routing matrix. Defines when the AI is authorized to read each directory or file.
+> Generado: 2026-07-22  
+> Propósito: Matriz de enrutamiento. Define cuándo la IA está autorizada a leer cada directorio o archivo.
 
-## Routing Matrix
+## Matriz de enrutamiento
 
-| Directory / File | Nature | When to Consult |
+| Directorio / Archivo | Naturaleza | Cuándo consultarlo |
 |---|---|---|
-| `.agents/` | **[Active Governance]** Rules, skills, workflows, and templates that define agent behavior. | **MANDATORY.** Consult `01-behavior.md` at session start; dynamically load other files per `[RULE: DYNAMIC CONTEXT LOAD]` triggers. |
-| `docs/MASTER-SPEC.md` | **[Domain Axiom]** Project specification and architectural truth. | Every session. All code must trace to this document. |
-| `docs/TODO.md`, `docs/MEMORY.md`, `docs/USER-DECISIONS.md`, `docs/CHANGELOG.md`, `docs/VERIFICATION.md`, `docs/RULES.md` | **[Documentary Axis]** Task tracking, heuristics, human decisions, changelog, verification, and operational rules. | When updating task status, recording decisions, adding heuristics, or verifying compliance. |
-| `src/` | **[Project Source]** All application source code. | When implementing features, fixing bugs, or refactoring. |
-| `src/components/` | **[UI Components]** Astro components organized by role (core, content, sections, site). | When modifying UI or layout. |
-| `src/data/` | **[Static Data]** TypeScript modules with site content (site.ts, membershipDetails.ts). | When updating site copy, specialties, memberships, galleries, or FAQs. |
-| `src/lib/` | **[Helpers]** Utilidades de build (fotos.ts: mapa de imágenes para astro:assets). | When wiring image optimization or shared helpers. |
-| `src/styles/` | **[Design System]** CSS custom properties and global styles aligned with brand manual (incluye el zoom base). | When modifying visual tokens or global styles. |
-| `src/assets/` | **[Static Assets]** Brand logos e imágenes (brand/, fotos/ de sedes). | When updating brand assets or images. |
-| `src/pages/` | **[Routes]** Astro page components. `index.astro` (single-page) y `afiche/[membership].astro` (afiche embebido del modal). | When adding or modifying page routes. |
-| `src/layouts/` | **[Layouts]** Base page layout component. | When modifying the overall page structure. |
-| `public/` | **[Static Files]** Unprocessed static files served directly. | When adding favicon, robots.txt, or other root-level files. |
-| `dist/` | **[Build Output]** Generated static site. | Never. Regenerated on each build. |
+| `.agents/` | **[Gobernanza activa]** Reglas, skills, workflows y plantillas que definen el comportamiento del agente. | **OBLIGATORIO.** Consultar `01-behavior.md` al inicio de sesión; cargar el resto dinámicamente según los disparadores de `[RULE: DYNAMIC CONTEXT LOAD]`. |
+| `docs/MASTER-SPEC.md` | **[Axioma de dominio]** Especificación del proyecto y verdad arquitectónica. | Cada sesión. Todo el código debe trazar a este documento. |
+| `docs/TODO.md`, `docs/MEMORY.md`, `docs/USER-DECISIONS.md`, `docs/CHANGELOG.md`, `docs/VERIFICATION.md`, `docs/RULES.md` | **[Eje documental]** Seguimiento de tareas, heurísticas, decisiones humanas, changelog, verificación y reglas operativas. | Al actualizar el estado de tareas, registrar decisiones, agregar heurísticas o verificar cumplimiento. |
+| `src/` | **[Código fuente]** Todo el código de la aplicación. | Al implementar funcionalidades, corregir errores o refactorizar. |
+| `src/components/` | **[Componentes de UI]** Componentes Astro organizados por rol (core, content, sections, site). | Al modificar interfaz o layout. |
+| `src/data/` | **[Datos estáticos]** Módulos TypeScript con el contenido del sitio (site.ts, membershipDetails.ts). | Al actualizar textos, especialidades, membresías, galerías o preguntas frecuentes. |
+| `src/lib/` | **[Utilidades]** Helpers de build (fotos.ts: mapa de imágenes para astro:assets). | Al ajustar la optimización de imágenes o helpers compartidos. |
+| `src/styles/` | **[Design System]** Custom properties CSS y estilos globales alineados con el manual de marca (incluye el zoom base). | Al modificar tokens visuales o estilos globales. |
+| `src/assets/` | **[Recursos estáticos]** Logos de marca e imágenes (brand/, fotos/ de sedes). | Al actualizar recursos de marca o imágenes. |
+| `src/pages/` | **[Rutas]** Páginas Astro: `index.astro` (single-page) y `afiche/[membership].astro` (afiche embebido del modal). | Al agregar o modificar rutas. |
+| `src/layouts/` | **[Layouts]** Componente de layout base de la página. | Al modificar la estructura general de la página. |
+| `public/` | **[Archivos estáticos]** Archivos servidos tal cual, sin procesar. | Al agregar favicon, robots.txt u otros archivos de raíz. |
+| `dist/` | **[Salida de build]** Sitio estático generado. | Nunca. Se regenera en cada build. |
