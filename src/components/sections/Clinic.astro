@@ -1,0 +1,253 @@
+---
+import { getImage } from 'astro:assets';
+import SectionHeader from '../core/SectionHeader.astro';
+import Gallery from '../content/Gallery.astro';
+import { fotos } from '../../lib/fotos';
+import { laPhotos, puPhotos, waLaLink, waPuconLink } from '../../data/site';
+
+const equipoImg = await getImage({ src: fotos['pu-doctora-atendiendo-paciente.jpg'], width: 180, height: 180, fit: 'cover', format: 'webp' });
+
+const mapLa = 'https://maps.google.com/?q=Cl%C3%ADnica+ZK,+Av.+Gabriela+Mistral+74,+Los+%C3%81ngeles,+Chile';
+const mapPu = 'https://maps.google.com/?q=Cl%C3%ADnica+ZK,+Brasil+321,+Puc%C3%B3n,+Chile';
+
+const PIN =
+  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"></path><circle cx="12" cy="10" r="3"></circle></svg>';
+const PHONE =
+  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>';
+const IG =
+  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"></line></svg>';
+const HAND =
+  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m11 17 2 2a1 1 0 1 0 3-3"></path><path d="m14 14 2.5 2.5a1 1 0 1 0 3-3l-3.88-3.88a3 3 0 0 0-4.24 0l-.88.88a1 1 0 1 1-3-3l2.81-2.81a5.79 5.79 0 0 1 7.06-.87l.47.28a2 2 0 0 0 1.42.25L21 4"></path><path d="m21 3 1 11h-2"></path><path d="M3 3 2 14l6.5 6.5a1 1 0 1 0 3-3"></path><path d="M3 4h8"></path></svg>';
+---
+
+<section id="sucursales" class="zk-clinic">
+  <div class="zk-container">
+    <div id="nosotros" class="zk-clinic__intro">
+      <div>
+        <SectionHeader align="left" title="Nosotros" />
+        <p class="zk-clinic__p">
+          Clínica ZK nació en Los Ángeles hace una década, con una convicción: la salud dental se cuida
+          mejor cuando se cuida antes. Hoy esa forma de entender el cuidado también vive en Pucón, nuestra
+          segunda sede con centro radiológico propio.
+        </p>
+        <p class="zk-clinic__p zk-clinic__p--strong">
+          La misma clínica, cada vez más cerca de las familias del sur.
+        </p>
+        <p class="zk-clinic__note">Texto definitivo de Nosotros pendiente del director.</p>
+      </div>
+
+      <div id="equipo" class="zk-clinic__equipo">
+        <SectionHeader align="right" title="Equipo" />
+        <div class="zk-clinic__equipo-card">
+          <img src={equipoImg.src} alt="Atención en box, Pucón" width="86" height="86" loading="lazy" decoding="async" />
+          <div class="zk-clinic__equipo-text">
+            Dirección clínica: <strong>Dra. Romina</strong>, en ambas sedes.
+            <span class="zk-clinic__muted">Nómina completa por especialidad en preparación.</span>
+          </div>
+        </div>
+        <p class="zk-clinic__equipo-note">
+          Estamos reuniendo las fotos y datos de nuestros especialistas para publicarlos aquí.
+        </p>
+      </div>
+    </div>
+
+    <div class="zk-clinic__sedes">
+      <div class="zk-clinic__sede">
+        <Gallery photos={laPhotos} galId="la" accent="var(--zk-teal-500)" />
+        <h3 class="zk-clinic__sede-title zk-clinic__sede-title--la">Los Ángeles</h3>
+        <p class="zk-clinic__sede-text">
+          Nuestra sede mayor: once especialidades, escáner, pabellón de cirugías y centro radiológico
+          propio. <span class="zk-clinic__muted">[Texto por sede pendiente del director]</span>
+        </p>
+        <div class="zk-clinic__contact">
+          <div class="zk-clinic__contact-row">
+            <span class="zk-clinic__ic zk-clinic__ic--la" set:html={PIN}></span>
+            Av. Gabriela Mistral 74 · <a href={mapLa} target="_blank" rel="noopener">Cómo llegar</a>
+          </div>
+          <div class="zk-clinic__contact-row">
+            <span class="zk-clinic__ic zk-clinic__ic--la" set:html={PHONE}></span>
+            Fono 2-241 822 85 · <a href={waLaLink} target="_blank" rel="noopener">WhatsApp +56 9 5790 6641</a>
+          </div>
+          <div class="zk-clinic__contact-row">
+            <span class="zk-clinic__ic zk-clinic__ic--la" set:html={IG}></span>
+            <a href="https://instagram.com/clinicazk" target="_blank" rel="noopener">@clinicazk</a>
+          </div>
+          <div class="zk-clinic__contact-row">
+            <span class="zk-clinic__ic zk-clinic__ic--la" set:html={HAND}></span>
+            Convenios: <a href="#contacto">escríbenos</a> y confirmamos si el tuyo aplica.
+          </div>
+        </div>
+      </div>
+
+      <div class="zk-clinic__sede">
+        <Gallery photos={puPhotos} galId="pucon" accent="var(--zk-purple-500)" />
+        <h3 class="zk-clinic__sede-title zk-clinic__sede-title--pucon">Pucón</h3>
+        <p class="zk-clinic__sede-text">
+          Dos box de atención, centro radiológico propio y trato cercano, a pasos del centro.
+          <span class="zk-clinic__muted">[Texto por sede pendiente del director]</span>
+        </p>
+        <div class="zk-clinic__contact">
+          <div class="zk-clinic__contact-row">
+            <span class="zk-clinic__ic zk-clinic__ic--pucon" set:html={PIN}></span>
+            Brasil 321 · <a href={mapPu} target="_blank" rel="noopener">Cómo llegar</a>
+          </div>
+          <div class="zk-clinic__contact-row">
+            <span class="zk-clinic__ic zk-clinic__ic--pucon" set:html={PHONE}></span>
+            <a href={waPuconLink} target="_blank" rel="noopener">WhatsApp +56 9 5219 4952</a>
+          </div>
+          <div class="zk-clinic__contact-row">
+            <span class="zk-clinic__ic zk-clinic__ic--pucon" set:html={IG}></span>
+            <a href="https://instagram.com/clinicazkpucon" target="_blank" rel="noopener">@clinicazkpucon</a>
+          </div>
+          <div class="zk-clinic__contact-row">
+            <span class="zk-clinic__ic zk-clinic__ic--pucon" set:html={HAND}></span>
+            Convenios: <a href="#contacto">escríbenos</a> y confirmamos si el tuyo aplica.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .zk-clinic {
+    padding: var(--space-9) 24px;
+  }
+  .zk-clinic__intro {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 56px;
+    align-items: start;
+  }
+  .zk-clinic__p {
+    font-size: var(--fs-body-lg);
+    color: var(--text-body);
+    margin: 18px 0 0;
+    line-height: var(--lh-body);
+    text-wrap: pretty;
+  }
+  .zk-clinic__p--strong {
+    color: var(--text-heading);
+  }
+  .zk-clinic__note {
+    font-size: var(--fs-caption);
+    color: var(--text-muted);
+    margin: 12px 0 0;
+  }
+  .zk-clinic__equipo {
+    text-align: right;
+  }
+  .zk-clinic__equipo-card {
+    display: flex;
+    gap: 18px;
+    align-items: center;
+    border: 1px solid var(--border-subtle);
+    padding: 18px 22px;
+    margin-top: 18px;
+    text-align: left;
+    border-radius: var(--radius-md);
+  }
+  .zk-clinic__equipo-card img {
+    width: 86px;
+    height: 86px;
+    object-fit: cover;
+    border-radius: var(--radius-md);
+    flex: none;
+  }
+  .zk-clinic__equipo-text {
+    font-size: 14.5px;
+    line-height: var(--lh-body);
+    color: var(--text-body);
+  }
+  .zk-clinic__equipo-text strong {
+    color: var(--text-heading);
+  }
+  .zk-clinic__equipo-note {
+    font-size: 15px;
+    line-height: var(--lh-body);
+    margin: 12px 0 0;
+    color: var(--text-body);
+  }
+  .zk-clinic__muted {
+    color: var(--text-muted);
+  }
+
+  .zk-clinic__sedes {
+    margin-top: 44px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 56px;
+    border-top: 1px solid var(--border-subtle);
+    padding-top: 44px;
+    align-items: start;
+  }
+  .zk-clinic__sede {
+    display: flex;
+    flex-direction: column;
+  }
+  .zk-clinic__sede-title {
+    font-size: var(--fs-h3);
+    color: var(--text-heading);
+    font-weight: var(--fw-semibold);
+    margin: 24px 0 0;
+    padding-left: 14px;
+  }
+  .zk-clinic__sede-title--la {
+    border-left: 3px solid var(--zk-teal-500);
+  }
+  .zk-clinic__sede-title--pucon {
+    border-left: 3px solid var(--color-secondary);
+  }
+  .zk-clinic__sede-text {
+    font-size: 15px;
+    line-height: var(--lh-body);
+    color: var(--text-body);
+    margin: 14px 0 0;
+  }
+  .zk-clinic__contact {
+    margin-top: auto;
+    padding-top: 20px;
+    display: grid;
+    gap: 9px;
+    font-size: 15px;
+    color: var(--text-body);
+  }
+  .zk-clinic__contact-row {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
+  .zk-clinic__contact a {
+    text-decoration: none;
+    border-bottom: 1px solid var(--zk-teal-200);
+    color: inherit;
+  }
+  .zk-clinic__contact a:hover {
+    color: var(--zk-teal-700);
+  }
+  .zk-clinic__ic {
+    display: inline-flex;
+    flex: none;
+  }
+  .zk-clinic__ic :global(svg) {
+    width: 16px;
+    height: 16px;
+  }
+  .zk-clinic__ic--la {
+    color: var(--zk-teal-600);
+  }
+  .zk-clinic__ic--pucon {
+    color: var(--color-secondary);
+  }
+
+  @media (max-width: 860px) {
+    .zk-clinic__intro,
+    .zk-clinic__sedes {
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+    .zk-clinic__equipo {
+      text-align: left;
+    }
+  }
+</style>

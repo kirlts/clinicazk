@@ -1,202 +1,110 @@
 ---
-import { Image } from 'astro:assets';
-import isotipo from '../../assets/brand/isotipo.png';
 import Button from '../core/Button.astro';
-import { heroSlides } from '../../data/site';
-
-const first = heroSlides[0];
+import BranchSplit from '../content/BranchSplit.astro';
+import { quickLinks } from '../../data/site';
 ---
 
-<section class="zk-hero">
-  <div class="zk-container zk-hero__grid">
-    <div class="zk-hero__copy" id="zk-hero-copy">
-      <h1>
-        <span id="zk-hero-lead">{first.lead}</span>
-        <span id="zk-hero-accent" style={`color:${first.accentColor}`}>{first.accent}</span>
-      </h1>
-      <p id="zk-hero-sub">{first.sub}</p>
-      <div class="zk-hero__actions">
-        <Button size="lg" href={first.href} id="zk-hero-cta">{first.cta}</Button>
-        <Button variant="ghost" href="#especialidades">Ver especialidades</Button>
-      </div>
-      <div class="zk-hero__dots" id="zk-hero-dots">
-        {heroSlides.map((_, i) => (
-          <button type="button" data-dot data-index={i} aria-label={`Ver slide ${i + 1}`} class={i === 0 ? 'is-active' : ''}></button>
-        ))}
-      </div>
+<section id="inicio" class="zk-hero">
+  <div class="zk-container">
+    <h1 class="zk-hero__h1">
+      Tu salud dental, <span class="zk-hero__accent">en orden.</span>
+    </h1>
+
+    <div class="zk-hero__quick">
+      {quickLinks.map((q) => (
+        <a href="#especialidades" data-espec-idx={q.idx} class="zk-hero__quick-link">{q.label}</a>
+      ))}
     </div>
 
-    <div class="zk-hero__panel" id="zk-hero-panel" style={`background:${first.imageGrad}`}>
-      <Image src={isotipo} alt="" width={190} height={195} class="zk-hero__mark" />
-      <div class="zk-hero__pending">FOTO PENDIENTE</div>
-      <div class="zk-hero__tag">Los Ángeles · Pucón</div>
+    <div class="zk-hero__split">
+      <BranchSplit height={680} />
+    </div>
+
+    <div class="zk-hero__foot">
+      <p class="zk-hero__lead">
+        Un buen tratamiento empieza por un buen diagnóstico<span class="zk-hero__dot">.</span>
+      </p>
+      <Button size="lg" href="#contacto">Agenda tu evaluación</Button>
     </div>
   </div>
 </section>
 
-<script>
-  import { heroSlides } from '../../data/site';
-
-  const copy = document.getElementById('zk-hero-copy');
-  const lead = document.getElementById('zk-hero-lead');
-  const accent = document.getElementById('zk-hero-accent');
-  const sub = document.getElementById('zk-hero-sub');
-  const cta = document.getElementById('zk-hero-cta') as HTMLAnchorElement | null;
-  const panel = document.getElementById('zk-hero-panel');
-  const dots = Array.from(document.querySelectorAll<HTMLButtonElement>('#zk-hero-dots [data-dot]'));
-
-  if (copy && lead && accent && sub && cta && panel && dots.length) {
-    let current = 0;
-    let timer: ReturnType<typeof setInterval> | null = null;
-
-    const render = (index: number) => {
-      const slide = heroSlides[index];
-      copy.style.animation = 'none';
-      // force reflow so the animation restarts
-      void copy.offsetWidth;
-      copy.style.animation = 'zkfade .55s var(--ease-out)';
-
-      lead.textContent = slide.lead;
-      accent.textContent = slide.accent;
-      accent.style.color = slide.accentColor;
-      sub.textContent = slide.sub;
-      cta.textContent = slide.cta;
-      cta.setAttribute('href', slide.href);
-      panel.style.background = slide.imageGrad;
-
-      dots.forEach((dot, i) => dot.classList.toggle('is-active', i === index));
-      current = index;
-    };
-
-    const start = () => {
-      timer = setInterval(() => render((current + 1) % heroSlides.length), 5600);
-    };
-    const stop = () => {
-      if (timer) clearInterval(timer);
-      timer = null;
-    };
-
-    dots.forEach((dot, i) => {
-      dot.addEventListener('click', () => {
-        stop();
-        render(i);
-      });
-    });
-
-    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      start();
-    }
-  }
-</script>
-
 <style>
   .zk-hero {
-    background: var(--gradient-tint);
-    padding: 72px 24px 64px;
+    padding: 60px 24px 0;
   }
-  .zk-hero__grid {
-    display: grid;
-    grid-template-columns: 1.15fr 0.85fr;
-    gap: 48px;
-    align-items: center;
-  }
-  #zk-hero-copy {
-    animation: zkfade 0.55s var(--ease-out);
-  }
-  .zk-hero h1 {
-    font-size: var(--fs-display);
+  .zk-hero__h1 {
+    font-size: clamp(42px, 5.6vw, 82px);
     font-weight: var(--fw-light);
-    line-height: var(--lh-tight);
+    line-height: 1.08;
     color: var(--text-heading);
     margin: 0;
+    letter-spacing: -0.01em;
   }
-  #zk-hero-lead {
-    margin-right: 0.28em;
-  }
-  #zk-hero-accent {
+  .zk-hero__accent {
+    color: var(--color-primary);
     font-weight: var(--fw-regular);
   }
-  .zk-hero p {
-    font-size: var(--fs-body-lg);
-    color: var(--text-body);
-    margin-top: 18px;
-    max-width: 520px;
-    line-height: var(--lh-body);
-  }
-  .zk-hero__actions {
-    display: flex;
-    gap: 14px;
-    margin-top: 28px;
-    align-items: center;
-    flex-wrap: wrap;
-  }
-  .zk-hero__dots {
-    display: flex;
-    gap: 8px;
-    margin-top: 36px;
-  }
-  .zk-hero__dots button {
-    width: 10px;
-    height: 10px;
-    border-radius: 999px;
-    border: none;
-    cursor: pointer;
-    padding: 0;
-    background: var(--zk-teal-200);
-    transition: width 0.25s var(--ease-out), background 0.25s var(--ease-out);
-  }
-  .zk-hero__dots button.is-active {
-    width: 26px;
-    background: var(--color-primary);
-  }
-  .zk-hero__panel {
-    position: relative;
-    height: 380px;
-    border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-raised);
+  .zk-hero__quick {
+    margin-top: 26px;
     display: grid;
-    place-items: center;
-    overflow: hidden;
-    transition: background 0.55s var(--ease-out);
+    grid-template-columns: repeat(5, 1fr);
   }
-  .zk-hero__panel :global(.zk-hero__mark) {
-    width: 190px;
-    height: auto;
-    opacity: 0.9;
+  .zk-hero__quick-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 16px 14px;
+    text-decoration: none;
+    color: var(--text-heading);
+    font-size: 16.5px;
+    transition: color 0.18s var(--ease-out);
   }
-  .zk-hero__pending {
-    position: absolute;
-    top: 14px;
-    right: 14px;
-    background: rgba(255, 255, 255, 0.85);
-    border-radius: var(--radius-sm);
-    padding: 4px 10px;
-    font-size: 11px;
-    letter-spacing: 0.05em;
-    color: var(--text-muted);
-    font-weight: 600;
-    white-space: nowrap;
+  .zk-hero__quick-link + .zk-hero__quick-link {
+    border-left: 1px solid var(--border-subtle);
   }
-  .zk-hero__tag {
-    position: absolute;
-    bottom: 18px;
-    left: 18px;
-    background: rgba(255, 255, 255, 0.92);
-    border-radius: var(--radius-sm);
-    padding: 8px 16px;
-    font-size: 14px;
-    color: var(--zk-teal-700);
-    font-weight: 600;
-    white-space: nowrap;
+  .zk-hero__quick-link:hover {
+    color: var(--zk-teal-600);
+    text-decoration: none;
+  }
+  .zk-hero__split {
+    margin-top: 20px;
+  }
+  .zk-hero__foot {
+    margin-top: 26px;
+    border-top: 1px solid var(--border-subtle);
+    padding-top: 26px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: 20px 48px;
+  }
+  .zk-hero__lead {
+    font-size: clamp(22px, 2vw, 30px);
+    font-weight: var(--fw-light);
+    color: var(--text-heading);
+    margin: 0;
+    line-height: var(--lh-tight);
+    text-wrap: pretty;
+  }
+  .zk-hero__dot {
+    color: var(--zk-teal-600);
   }
 
-  @media (max-width: 900px) {
-    .zk-hero__grid {
-      grid-template-columns: 1fr;
+  @media (max-width: 720px) {
+    .zk-hero__quick {
+      grid-template-columns: repeat(2, 1fr);
     }
-    .zk-hero__panel {
-      height: 280px;
-      order: -1;
+    .zk-hero__quick-link:nth-child(odd) {
+      border-left: none;
+    }
+    .zk-hero__quick-link {
+      border-top: 1px solid var(--border-subtle);
+    }
+    .zk-hero__foot {
+      grid-template-columns: 1fr;
+      justify-items: start;
     }
   }
 </style>

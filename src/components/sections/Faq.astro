@@ -1,12 +1,16 @@
 ---
-import SectionHeader from '../core/SectionHeader.astro';
 import FaqItem from '../content/FaqItem.astro';
 import { faqs } from '../../data/site';
 ---
 
-<section id="faq" class="zk-faq-section">
+<section id="preguntas" class="zk-faq-section">
   <div class="zk-container">
-    <SectionHeader align="left" title="Preguntas frecuentes" />
+    <div class="zk-faq-section__head">
+      <h2 class="zk-faq-section__title">Preguntas frecuentes</h2>
+      <p class="zk-faq-section__link">
+        ¿No encuentras la tuya? <a href="#contacto">Escríbenos</a> y te orientamos.
+      </p>
+    </div>
     <div class="zk-faq-section__list">
       {faqs.map((f) => (
         <FaqItem question={f.q} answer={f.a} />
@@ -17,10 +21,38 @@ import { faqs } from '../../data/site';
 
 <style>
   .zk-faq-section {
+    background: var(--surface-section);
     padding: var(--space-9) 24px;
   }
+  .zk-faq-section__head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 24px;
+    flex-wrap: wrap;
+    padding-bottom: 18px;
+    border-bottom: 1px solid var(--border-subtle);
+  }
+  .zk-faq-section__title {
+    font-size: var(--fs-h2);
+    font-weight: var(--fw-semibold);
+    color: var(--text-heading);
+    margin: 0;
+  }
+  .zk-faq-section__link {
+    font-size: 15px;
+    color: var(--text-body);
+    margin: 0;
+  }
+  .zk-faq-section__link a {
+    text-decoration: none;
+    border-bottom: 1px solid var(--zk-teal-200);
+  }
   .zk-faq-section__list {
-    max-width: 760px;
-    margin: 28px 0 0;
+    margin-top: 8px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    gap: 0 56px;
+    align-items: start;
   }
 </style>

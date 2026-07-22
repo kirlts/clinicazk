@@ -2,7 +2,7 @@
 import { Image } from 'astro:assets';
 import logoHorizontal from '../../assets/brand/logo-zk-horizontal.png';
 import Button from '../core/Button.astro';
-import { navLinks, waPuconLink } from '../../data/site';
+import { navLinks } from '../../data/site';
 ---
 
 <header class="zk-header">
@@ -17,7 +17,7 @@ import { navLinks, waPuconLink } from '../../data/site';
       ))}
     </nav>
 
-    <Button size="sm" href={waPuconLink} class="zk-header__cta">WhatsApp</Button>
+    <Button size="sm" href="#contacto" class="zk-header__cta">Contacto</Button>
 
     <button
       type="button"
