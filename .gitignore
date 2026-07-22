@@ -24,3 +24,6 @@ npm-debug.log*
 /Membresias.zip
 /Versión 2 del sitio.zip
 /.agents/
+
+# documentos comerciales (no forman parte del sitio)
+/propuestas/
