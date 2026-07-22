@@ -46,6 +46,11 @@ const d = getMembershipDetail(membership);
   body {
     background: transparent;
   }
+  /* El afiche vive dentro del iframe del modal, que ya se escala con el zoom del
+     sitio padre; se evita el doble escalado desactivando el zoom base aquí. */
+  html {
+    zoom: 1;
+  }
 </style>
 
 <style>
