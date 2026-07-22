@@ -107,7 +107,7 @@ const espec = specialties.map((s, i) => {
       const btns = s.contacts
         .map(
           (c) =>
-            `<button type="button" class="zk-esp__contact" data-sede="${c.sede}" style="background:${c.grad}">Contacto · ${c.city}</button>`
+            `<button type="button" class="zk-esp__contact" data-sede="${c.sede}" style="background:${c.grad}">Contacto - ${c.city}</button>`
         )
         .join('');
 
@@ -206,7 +206,6 @@ const espec = specialties.map((s, i) => {
     padding: 44px 48px;
     overflow: hidden;
     background: var(--surface-section);
-    border-radius: var(--radius-md);
   }
   .zk-esp__panel :global(.zk-esp__panel-body) {
     margin: auto 0;
