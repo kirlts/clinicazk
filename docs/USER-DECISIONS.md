@@ -51,6 +51,8 @@
 - (-) Depende de la API de Google Maps.
 **Reversion conditions:** Si Google cambia los términos de la API embed, se evaluará un widget alternativo.
 
+> **Estado:** REVERTIDA en la v2 por [UD-009]. Ver esa decisión.
+
 ## [UD-004] BranchSplit como componente de diferenciación de sucursales
 
 **Date:** 2026-07-15 (Reunión Online)
@@ -74,3 +76,52 @@
 - (+) Consistencia con las redes sociales y materiales impresos.
 - (+) Posicionamiento como clínica preventiva, no reactiva.
 **Reversion conditions:** Si el equipo de marketing decide cambiar el posicionamiento.
+
+## [UD-006] Fidelidad 1:1 con el design handoff v2
+
+**Date:** 2026-07-22
+**Context:** El usuario entregó el bundle "Sitio Web Clínica ZK v2" (proyecto de Claude Design) como fuente de verdad y exigió que el sitio quedara idéntico. Detectó divergencias introducidas durante el primer port (descripciones en galerías, disclaimer añadido, textos de sede acortados, botones de distinto alto).
+**Decision:** El sitio Astro se alinea 1:1 con el render del handoff. No se reinterpreta layout, copy ni color. Se ejecuta una pasada de diffing visual sección por sección contra el render de referencia y se corrige toda divergencia.
+**Discarded alternatives:**
+- Reinterpretar o "mejorar" el diseño durante el port: se descartó porque el diseño ya fue aprobado por el cliente tras varias rondas.
+**Consequences:**
+- (+) El sitio refleja exactamente lo aprobado.
+- (-) Menos libertad para introducir mejoras propias sin aprobación.
+**Reversion conditions:** Si el cliente aprueba explícitamente cambios sobre el diseño v2.
+
+## [UD-007] Modal-afiche embebido para el detalle de membresía
+
+**Date:** 2026-07-22
+**Context:** El contrato del diseño v2 abre el folleto de cada membresía en un modal que embebe el afiche (`afiche-membresia.html?m=...&embed=1`), no como página aparte. El usuario marcó el modal como importante.
+**Decision:** Implementar el detalle de membresía como modal con iframe a `/afiche/[m]/`, con el afiche en hoja continua (modo embed) y cierre por clic fuera, Escape o "Volver al sitio" (postMessage). Se mantiene la ruta como fallback sin JS.
+**Discarded alternatives:**
+- Navegar a una página de detalle (enfoque del primer port): se descartó por no coincidir con el comportamiento del diseño v2.
+**Consequences:**
+- (+) Coincide con el diseño aprobado y mantiene al usuario en la misma vista.
+- (-) Dependencia de iframe + postMessage entre documentos.
+**Reversion conditions:** Si se decide mover el afiche a una página independiente.
+
+## [UD-008] Zoom base 0.8 (el 100% por defecto equivale al 80%)
+
+**Date:** 2026-07-22
+**Context:** El usuario declara que al entrar al sitio siempre hace Ctrl+- hasta el 80%, su punto óptimo. Pide que el 100% por defecto ya se vea como su 80%.
+**Decision:** Aplicar `html { zoom: 0.8 }` global. En el afiche embebido se fija `zoom: 1` para evitar doble escalado dentro del iframe del modal.
+**Discarded alternatives:**
+- `transform: scale(0.8)`: se descartó porque rompe el flujo de layout, scrollbars y posicionamiento fijo.
+**Consequences:**
+- (+) Reproduce exactamente el zoom manual del navegador, incluyendo header sticky y FAB.
+- (-) Depende del soporte de `zoom` (Chrome/Edge/Safari; Firefox 126+). En navegadores antiguos se ve al 100% sin romperse.
+**Reversion conditions:** Si el usuario cambia su preferencia de zoom o el objetivo pasa a ser el 100% nativo.
+
+## [UD-009] Omitir los widgets de Google Maps en la v2 (revierte UD-003)
+
+**Date:** 2026-07-22
+**Context:** UD-003 planeaba embeber Google Maps con reseñas. Al implementar la v2, el usuario decidió omitirlo: al haber dos sucursales harían falta dos widgets (se ve recargado) o un selector que alterne el widget (complejidad injustificada para el valor que aporta hoy).
+**Decision:** No incluir widgets de Google Maps en la v2. Los enlaces "Cómo llegar" de cada sede apuntan a Google Maps por URL. Reevaluar según el feedback de la reunión.
+**Discarded alternatives:**
+- Dos widgets simultáneos: recargan visualmente la sección.
+- Selector que alterna el widget: complejidad injustificada.
+**Consequences:**
+- (+) Sección de sedes más limpia y liviana.
+- (-) Se posterga la prueba social de reseñas dentro del sitio.
+**Reversion conditions:** Si Clínica ZK prioriza mostrar reseñas embebidas; se retomaría con un patrón que no recargue la vista.

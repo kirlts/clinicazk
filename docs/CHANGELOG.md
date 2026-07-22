@@ -7,19 +7,39 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Pending
+- Textos reales del sitio y descripciones por especialidad (Clínica ZK).
+- Listado de convenios vigentes (Clínica ZK).
+- Contenido de la sección Equipo: fotos y nómina de especialistas (Clínica ZK).
+- Texto identitario de la sección Nosotros (Clínica ZK).
+- Definición de si se agregan más fotos (Clínica ZK).
+- Conexión del formulario de contacto a un servicio de email (hoy usa mailto:).
+- Iteración de la versión mobile (tras la reunión del 22-07).
+- Dominio clinicazk.cl (pendiente de trámite).
+- Widgets de Google Maps: diferidos por complejidad con dos sedes (reevaluar).
+
+## [2.0.0] - 2026-07-22
+
+> Rediseño completo alineado 1:1 con el design handoff "Sitio Web Clínica ZK v2".
+
 ### Added
-- Sección de equipo médico con placeholder (pendiente fotos y datos reales).
-- Sección de convenios con placeholder (pendiente listado definitivo).
-- Texto identitario de la clínica pendiente de definición.
+- Hero fijo con h1, franja de accesos rápidos a especialidades y fila de cierre "Un buen tratamiento empieza por un buen diagnóstico.".
+- Especialidades como índice maestro-detalle interactivo (13 especialidades, agrupadas por sede, con botones de contacto por sede).
+- Sección Clínica que reúne Nosotros, Equipo y dos galerías gemelas por sede (flechas, contador, miniaturas) con convenios integrados en el contacto de cada sede.
+- Modal-afiche: "Ver más" abre el folleto de la membresía en hoja continua dentro de un iframe (`/afiche/[m]/`), con cierre por clic fuera, Escape o "Volver al sitio" (postMessage).
+- Optimización de imágenes a webp con `astro:assets`; galerías por sede con fotos reales.
+- Zoom base del sitio (`html { zoom: 0.8 }`): el 100% por defecto equivale al 80% preferido por el director.
 
 ### Changed
-- BranchSplit: ajustes visuales para alinear con feedback de la reunión del 15-07.
+- Membresías: cabecera centrada, párrafo introductorio y tarjetas estilo V2.
+- FAQ: rediseño compacto a dos columnas (6 preguntas).
+- Contacto: formulario protagonista sobre gradiente, con WhatsApp por sede; campos ampliados (nombre, correo, teléfono, motivo, sede, mensaje).
+- BranchSplit: foto real por sede anclada a su mitad; blurbs de sede del archivo aprobado.
+- Ancho máximo del sitio a `min(1520px, 94vw)` para igualar el layout del diseño v2.
 
-### Pending
-- Conexión del formulario de contacto a servicio de email.
-- Integración de imágenes reales de sucursales (13 LA, 10 Pucón).
-- Texto descriptivo por especialidad.
-- Dominio clinicazk.cl (pendiente de trámite).
+### Removed
+- PromoBanner, AboutUs, Agreements y TeamPlaceholder (fusionados o descartados en el diseño v2).
+- Ruta `/membresias/[m]/` y MembershipPoster (reemplazados por el modal-afiche y `/afiche/[m]/`).
 
 ## [1.0.0] - 2026-07-09
 
