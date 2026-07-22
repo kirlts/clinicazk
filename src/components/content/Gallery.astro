@@ -10,10 +10,9 @@ interface Photo {
 interface Props {
   photos: readonly Photo[];
   galId: string;
-  accent: string; // variable CSS del acento de la sede
 }
 
-const { photos, galId, accent } = Astro.props;
+const { photos, galId } = Astro.props;
 
 const items = await Promise.all(
   photos.map(async (p) => {
@@ -25,10 +24,9 @@ const items = await Promise.all(
 const first = items[0];
 ---
 
-<div class="zk-gal" id={`gal-${galId}`} style={`--gal-accent:${accent}`}>
+<div class="zk-gal" id={`gal-${galId}`}>
   <div class="zk-gal__stage">
     <img class="zk-gal__main" src={first.main} alt={first.alt} decoding="async" />
-    <div class="zk-gal__cap"><span class="zk-gal__cap-text">{first.caption}</span></div>
     <button type="button" class="zk-gal__nav zk-gal__nav--prev" data-dir="-1" aria-label="Foto anterior">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"></path></svg>
     </button>
@@ -45,7 +43,6 @@ const first = items[0];
         data-idx={i}
         data-main={it.main}
         data-alt={it.alt}
-        data-caption={it.caption}
         aria-label={it.alt}
         aria-current={i === 0 ? 'true' : 'false'}
       >
@@ -58,7 +55,6 @@ const first = items[0];
 <script>
   document.querySelectorAll<HTMLElement>('.zk-gal').forEach((gal) => {
     const main = gal.querySelector<HTMLImageElement>('.zk-gal__main');
-    const cap = gal.querySelector<HTMLElement>('.zk-gal__cap-text');
     const cur = gal.querySelector<HTMLElement>('.zk-gal__cur');
     const thumbs = Array.from(gal.querySelectorAll<HTMLButtonElement>('.zk-gal__thumb'));
     if (!main || !thumbs.length) return;
@@ -69,7 +65,6 @@ const first = items[0];
       const t = thumbs[i];
       main.src = t.dataset.main || '';
       main.alt = t.dataset.alt || '';
-      if (cap) cap.textContent = t.dataset.caption || '';
       if (cur) cur.textContent = String(i + 1);
       thumbs.forEach((th, j) => th.setAttribute('aria-current', j === i ? 'true' : 'false'));
     };
@@ -82,38 +77,17 @@ const first = items[0];
 </script>
 
 <style>
-  .zk-gal {
-    position: relative;
-  }
   .zk-gal__stage {
     position: relative;
     overflow: hidden;
     aspect-ratio: 1 / 1;
     background: var(--surface-section);
-    border-radius: var(--radius-md);
   }
   .zk-gal__main {
     width: 100%;
     height: 100%;
     object-fit: cover;
     display: block;
-  }
-  .zk-gal__cap {
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    padding: 34px 18px 16px;
-    background: linear-gradient(to top, color-mix(in srgb, var(--gal-accent) 78%, transparent), transparent);
-    color: #fff;
-    font-size: 15px;
-    opacity: 0;
-    transition: opacity 0.28s ease;
-    pointer-events: none;
-  }
-  .zk-gal__stage:hover .zk-gal__cap,
-  .zk-gal__stage:focus-within .zk-gal__cap {
-    opacity: 1;
   }
   .zk-gal__nav {
     position: absolute;
@@ -145,11 +119,10 @@ const first = items[0];
   }
   .zk-gal__nav:hover {
     background: #fff;
-    color: var(--gal-accent);
   }
   .zk-gal__nav:focus-visible {
     opacity: 1;
-    outline: 2px solid var(--gal-accent);
+    outline: 2px solid var(--color-primary);
     outline-offset: 2px;
   }
   .zk-gal__count {
@@ -182,14 +155,14 @@ const first = items[0];
   }
   .zk-gal__thumb[aria-current='true'] {
     opacity: 1;
-    outline: 2px solid var(--gal-accent);
+    outline: 2px solid var(--color-primary);
   }
   .zk-gal__thumb:hover {
     opacity: 1;
   }
   .zk-gal__thumb:focus-visible {
     opacity: 1;
-    outline: 2px solid var(--gal-accent);
+    outline: 2px solid var(--color-primary);
   }
   .zk-gal__thumb img {
     width: 100%;
@@ -199,7 +172,6 @@ const first = items[0];
   }
 
   @media (hover: none) {
-    .zk-gal__cap,
     .zk-gal__nav {
       opacity: 1;
     }

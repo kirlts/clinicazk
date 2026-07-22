@@ -53,7 +53,7 @@ const HAND =
 
     <div class="zk-clinic__sedes">
       <div class="zk-clinic__sede">
-        <Gallery photos={laPhotos} galId="la" accent="var(--zk-teal-500)" />
+        <Gallery photos={laPhotos} galId="la" />
         <h3 class="zk-clinic__sede-title zk-clinic__sede-title--la">Los Ángeles</h3>
         <p class="zk-clinic__sede-text">
           Nuestra sede mayor: once especialidades, escáner, pabellón de cirugías y centro radiológico
@@ -80,7 +80,7 @@ const HAND =
       </div>
 
       <div class="zk-clinic__sede">
-        <Gallery photos={puPhotos} galId="pucon" accent="var(--zk-purple-500)" />
+        <Gallery photos={puPhotos} galId="pucon" />
         <h3 class="zk-clinic__sede-title zk-clinic__sede-title--pucon">Pucón</h3>
         <p class="zk-clinic__sede-text">
           Dos box de atención, centro radiológico propio y trato cercano, a pasos del centro.
@@ -179,7 +179,7 @@ const HAND =
     gap: 56px;
     border-top: 1px solid var(--border-subtle);
     padding-top: 44px;
-    align-items: start;
+    align-items: stretch;
   }
   .zk-clinic__sede {
     display: flex;

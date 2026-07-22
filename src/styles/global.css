@@ -5,6 +5,11 @@
 @import './tokens/motion.css';
 @import './tokens/base.css';
 
+:root {
+  /* Ancho máximo del sitio v2 (override del token base 1180px). */
+  --container-max: min(1520px, 94vw);
+}
+
 html {
   scroll-behavior: smooth;
 }
