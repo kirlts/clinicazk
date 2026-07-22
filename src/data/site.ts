@@ -134,7 +134,7 @@ export const branches = [
   {
     key: 'la',
     city: 'Los Ángeles',
-    blurb: 'Doce especialidades · escáner · pabellón de cirugías',
+    blurb: 'Sede mayor: once especialidades, escáner, pabellón de cirugías y centro radiológico propio.',
     address: 'Av. Gabriela Mistral 74',
     whatsapp: '+56 9 5790 6641',
     photoSrc: 'la-sede-cuadrada.jpg',
@@ -142,7 +142,7 @@ export const branches = [
   {
     key: 'pucon',
     city: 'Pucón',
-    blurb: 'Dos box · centro radiológico · trato de barrio',
+    blurb: 'Sede cercana: dos box de atención y centro radiológico propio, a pasos del centro.',
     address: 'Brasil 321',
     whatsapp: '+56 9 5219 4952',
     photoSrc: 'pu-sede-cuadrada.jpg',
