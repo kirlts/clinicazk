@@ -1,17 +1,17 @@
 # TODO: Clínica ZK v2.0.0
 
-> Direct traceability: each task references checks from `VERIFICATION.md`.
+> Trazabilidad directa: cada tarea referencia checks de `VERIFICATION.md`.
 
-## Kairós Symbol Legend
+## Leyenda de símbolos Kairós
 
-| Symbol | Meaning |
+| Símbolo | Significado |
 |---|---|
-| 🤖 | Check verifiable by AI/automated tool |
-| 🧑 | Check requiring human verification |
-| 🤖🧑 | Check pre-verifiable by AI, final human validation |
-| ⏳ | In progress |
-| 🔲 | Pending |
-| 🚨 | Critical block |
+| 🤖 | Check verificable por IA o herramienta automatizada |
+| 🧑 | Check que requiere verificación humana |
+| 🤖🧑 | Check pre-verificable por IA, validación humana final |
+| ⏳ | En curso |
+| 🔲 | Pendiente |
+| 🚨 | Bloqueo crítico |
 
 ---
 
@@ -23,7 +23,7 @@
 
 > Ref: MASTER-SPEC §3, §7.1
 
-**Covered checks:** `DEV.FN.001.LLM`, `DEV.FN.002.LLM`
+**Checks cubiertos:** `DEV.FN.001.LLM`, `DEV.FN.002.LLM`
 
 - [x] Inicializar proyecto Astro v7 con TypeScript `2026-07-09`
 - [x] Definir tokens de color en `src/styles/tokens/colors.css` `2026-07-09`
@@ -34,7 +34,7 @@
 
 > Ref: MASTER-SPEC §6
 
-**Covered checks:** `DEV.FN.003.LLM`, `UIX.AV.001.HUM`
+**Checks cubiertos:** `DEV.FN.003.LLM`, `UIX.AV.001.HUM`
 
 - [x] Crear Layout.astro con SEO, metas, fuentes `2026-07-09`
 - [x] Implementar SiteHeader con navegación responsive `2026-07-09`
@@ -45,20 +45,20 @@
 
 > Ref: MASTER-SPEC §6
 
-**Covered checks:** `UIX.FN.004.LLM`, `UIX.AV.005.HUM`
+**Checks cubiertos:** `UIX.FN.004.LLM`, `UIX.AV.005.HUM`
 
 - [x] Crear componente Hero con slides configurable `2026-07-09`
 - [x] Slides con lead, accent, sub, CTA `2026-07-09`
-- [x] **SUPERSEDED por v2:** el carrusel se reemplazó por el Hero fijo con split de sedes (ver TASK-018) `2026-07-22`
+- [x] **SUPERADO por v2:** el carrusel se reemplazó por el Hero fijo con split de sedes (ver TASK-018) `2026-07-22`
 
 ### [TASK-004] Implementar sección de especialidades (v1)
 
 > Ref: MASTER-SPEC §6
 
-**Covered checks:** `DEV.FN.006.LLM`
+**Checks cubiertos:** `DEV.FN.006.LLM`
 
 - [x] Crear componente Specialties con datos de site.ts `2026-07-09`
-- [x] **SUPERSEDED por v2:** rediseñado a índice maestro-detalle de 13 especialidades (ver TASK-019) `2026-07-22`
+- [x] **SUPERADO por v2:** rediseñado a índice maestro-detalle de 13 especialidades (ver TASK-019) `2026-07-22`
 
 ---
 
@@ -70,7 +70,7 @@
 
 > Ref: MASTER-SPEC §6 (MembershipCard)
 
-**Covered checks:** `DEV.FN.007.LLM`
+**Checks cubiertos:** `DEV.FN.007.LLM`
 
 - [x] Crear sección Memberships con 4 tarjetas `2026-07-09`
 - [x] Tarjetas: Anticipa, Familia, Seguimiento, Total con datos de site.ts `2026-07-09`
@@ -80,7 +80,7 @@
 
 > Ref: MASTER-SPEC §6
 
-**Covered checks:** `DEV.FN.008.LLM`
+**Checks cubiertos:** `DEV.FN.008.LLM`
 
 - [x] Crear PromoBanner con copy de campaña `2026-07-09`
 - [x] **REMOVIDO en v2:** el diseño aprobado no incluye PromoBanner; el mensaje vive en la intro de Membresías `2026-07-22`
@@ -89,7 +89,7 @@
 
 > Ref: MASTER-SPEC §7.2, §7.4; Drive: Afiches membresías PDF
 
-**Covered checks:** `DEV.FN.009.LLM`, `UIX.AV.010.HUM`
+**Checks cubiertos:** `DEV.FN.009.LLM`, `UIX.AV.010.HUM`
 
 - [x] Crear ruta de detalle de membresía (v1) `2026-07-09`
 - [x] Cargar datos detallados desde `membershipDetails.ts` `2026-07-09`
@@ -105,7 +105,7 @@
 
 > Ref: MASTER-SPEC §6 (BranchSplit); Reunión 15-07
 
-**Covered checks:** `DEV.FN.011.LLM`, `UIX.AV.012.HUM`
+**Checks cubiertos:** `DEV.FN.011.LLM`, `UIX.AV.012.HUM`
 
 - [x] Crear BranchSplit con dos caras (LA / Pucón) `2026-07-09`
 - [x] Diferenciación visual por sucursal (teal LA, purple Pucón) `2026-07-09`
@@ -115,7 +115,7 @@
 
 > Ref: MASTER-SPEC §6; Bitácora 15-07 (texto identitario pendiente)
 
-**Covered checks:** `DEV.FN.013.LLM`, `CONT.CR.014.HUM`
+**Checks cubiertos:** `DEV.FN.013.LLM`, `CONT.CR.014.HUM`
 
 - [x] Crear la sección (v2: dentro de la sección Clínica, junto a Equipo) `2026-07-22`
 - [ ] **PENDIENTE (Clínica ZK):** texto identitario definitivo de Nosotros (Bernielli)
@@ -124,7 +124,7 @@
 
 > Ref: MASTER-SPEC §6; Bitácora
 
-**Covered checks:** `DEV.FN.015.LLM`, `CONT.CR.016.HUM`
+**Checks cubiertos:** `DEV.FN.015.LLM`, `CONT.CR.016.HUM`
 
 - [x] **v2:** convenios integrados como fila dentro del contacto de cada sede (no como sección suelta) `2026-07-22`
 - [ ] **PENDIENTE (Clínica ZK):** listado de convenios vigentes (Bernielli/Romina)
@@ -133,7 +133,7 @@
 
 > Ref: Bitácora 15-07; Transcripción reunión
 
-**Covered checks:** `DEV.FN.017.LLM`, `CONT.CR.018.HUM`
+**Checks cubiertos:** `DEV.FN.017.LLM`, `CONT.CR.018.HUM`
 
 - [x] **v2:** ficha de Equipo (Dra. Romina, dirección clínica) dentro de la sección Clínica `2026-07-22`
 - [ ] **PENDIENTE (Clínica ZK):** fotos y nómina completa de especialistas por sede
@@ -142,7 +142,7 @@
 
 > Ref: MASTER-SPEC §6
 
-**Covered checks:** `DEV.FN.019.LLM`
+**Checks cubiertos:** `DEV.FN.019.LLM`
 
 - [x] Crear FAQ con acordeón `2026-07-09`
 - [x] **v2:** rediseño compacto a dos columnas (6 preguntas) `2026-07-22`
@@ -151,7 +151,7 @@
 
 > Ref: Transcripción reunión 15-07
 
-**Covered checks:** `DEV.FN.020.LLM`, `UIX.AV.021.HUM`
+**Checks cubiertos:** `DEV.FN.020.LLM`, `UIX.AV.021.HUM`
 
 - [x] Crear sección Contact con formulario `2026-07-09`
 - [x] **v2:** formulario protagonista sobre gradiente, campos nombre/correo/teléfono/motivo/sede/mensaje, envío por `mailto:` `2026-07-22`
@@ -167,7 +167,7 @@
 
 > Ref: DIDEMCO Manual Textual Operativo; Transcripción reunión 15-07; Audios WhatsApp 10-07
 
-**Covered checks:** `CONT.CR.022.HUM`, `CONT.CR.023.HUM`
+**Checks cubiertos:** `CONT.CR.022.HUM`, `CONT.CR.023.HUM`
 
 - [ ] **PENDIENTE (Clínica ZK):** revisar y aprobar los textos reales del sitio (Bernielli)
 - [ ] **PENDIENTE (Clínica ZK):** texto identitario para Nosotros
@@ -178,7 +178,7 @@
 
 > Ref: Drive: Imágenes/Los Ángeles, Imágenes/Pucón; Bitácora 15-07
 
-**Covered checks:** `CONT.CR.024.HUM`
+**Checks cubiertos:** `CONT.CR.024.HUM`
 
 - [x] Integrar galerías por sede (6 fotos LA + 6 Pucón) optimizadas a webp `2026-07-22`
 - [x] Foto de fachada por sede en el BranchSplit del hero `2026-07-22`
@@ -192,7 +192,7 @@
 
 ### [TASK-016] Configurar dominio clinicazk.cl
 
-**Covered checks:** `OPS.AV.025.HUM`
+**Checks cubiertos:** `OPS.AV.025.HUM`
 
 - [ ] **PENDIENTE (Clínica ZK):** conseguir/comprar dominio (Bernielli en trámite)
 - [ ] **PENDIENTE:** configurar DNS para GitHub Pages
@@ -200,7 +200,7 @@
 
 ### [TASK-017] Configurar GitHub Pages deploy
 
-**Covered checks:** `OAS.AV.026.LLM`
+**Checks cubiertos:** `OAS.AV.026.LLM`
 
 - [x] Configurar GitHub Pages en repo `2026-07-09`
 - [x] Build y deploy automático desde CI (Node 22, withastro/action) `2026-07-22`
@@ -215,7 +215,7 @@
 
 > Ref: MASTER-SPEC §6
 
-**Covered checks:** `DEV.FN.027.LLM`, `UIX.AV.028.HUM`
+**Checks cubiertos:** `DEV.FN.027.LLM`, `UIX.AV.028.HUM`
 
 - [x] h1 fijo + franja de 5 accesos rápidos a especialidades `2026-07-22`
 - [x] BranchSplit a 680px con foto real por sede `2026-07-22`
@@ -225,7 +225,7 @@
 
 > Ref: MASTER-SPEC §6
 
-**Covered checks:** `DEV.FN.029.LLM`, `UIX.AV.030.HUM`
+**Checks cubiertos:** `DEV.FN.029.LLM`, `UIX.AV.030.HUM`
 
 - [x] Índice de 13 especialidades con grupos "solo en" por sede `2026-07-22`
 - [x] Panel de detalle interactivo (línea de sede, descripción, contacto por sede) `2026-07-22`
@@ -235,7 +235,7 @@
 
 > Ref: MASTER-SPEC §7.2; Design handoff (afiche-membresia embed)
 
-**Covered checks:** `DEV.FN.031.LLM`, `UIX.AV.032.HUM`
+**Checks cubiertos:** `DEV.FN.031.LLM`, `UIX.AV.032.HUM`
 
 - [x] AficheEmbed: folleto en hoja continua (cara A + B, sin marcos ni QR) `2026-07-22`
 - [x] Página `/afiche/[m]/` con fondo transparente y cierre por postMessage/Escape `2026-07-22`
@@ -246,7 +246,7 @@
 
 > Ref: MASTER-SPEC §6
 
-**Covered checks:** `DEV.FN.033.LLM`, `UIX.AV.012.HUM`
+**Checks cubiertos:** `DEV.FN.033.LLM`, `UIX.AV.012.HUM`
 
 - [x] Nosotros + Equipo a dos columnas `2026-07-22`
 - [x] Dos galerías gemelas por sede (flechas, contador, miniaturas) `2026-07-22`
@@ -256,7 +256,7 @@
 
 > Ref: MASTER-SPEC §7.3
 
-**Covered checks:** `DEV.FN.034.LLM`
+**Checks cubiertos:** `DEV.FN.034.LLM`
 
 - [x] `src/lib/fotos.ts` con `import.meta.glob` + `getImage` a webp `2026-07-22`
 - [x] Fachadas convertidas de PNG a JPG en la fuente `2026-07-22`
@@ -265,7 +265,7 @@
 
 > Ref: MASTER-SPEC §5; USER-DECISIONS UD-006, UD-008
 
-**Covered checks:** `UIX.AV.035.HUM`, `DEV.FN.036.LLM`
+**Checks cubiertos:** `UIX.AV.035.HUM`, `DEV.FN.036.LLM`
 
 - [x] Pasada de diffing visual sección por sección contra el render de referencia `2026-07-22`
 - [x] Corregir divergencias (captions de galería, disclaimer, ancho de contenedor 1520, blurbs de sede, texto de botón) `2026-07-22`
@@ -275,7 +275,7 @@
 
 > Ref: MASTER-SPEC §2
 
-**Covered checks:** `OAS.AV.026.LLM`
+**Checks cubiertos:** `OAS.AV.026.LLM`
 
 - [x] Build sin errores, deploy en verde y verificación en producción `2026-07-22`
 
@@ -287,7 +287,7 @@
 
 ### [TASK-025] Recopilar insumos de Clínica ZK tras la reunión
 
-**Covered checks:** `CONT.CR.014.HUM`, `CONT.CR.016.HUM`, `CONT.CR.018.HUM`, `CONT.CR.022.HUM`
+**Checks cubiertos:** `CONT.CR.014.HUM`, `CONT.CR.016.HUM`, `CONT.CR.018.HUM`, `CONT.CR.022.HUM`
 
 - [ ] **PENDIENTE (Clínica ZK):** textos reales a ocupar
 - [ ] **PENDIENTE (Clínica ZK):** convenios disponibles
@@ -300,7 +300,7 @@
 
 > Ref: USER-DECISIONS UD-009 (revierte UD-003)
 
-**Covered checks:** `Transversal governance`
+**Checks cubiertos:** `Gobernanza transversal`
 
 - [ ] **DIFERIDO:** omitido en la v2. Con dos sedes harían falta dos widgets (recargado) o un selector (complejidad injustificada). Reevaluar según feedback de Clínica ZK.
 
@@ -308,15 +308,15 @@
 
 > Ref: USER-DECISIONS UD-002 (mobile-first)
 
-**Covered checks:** `UIX.AV.037.HUM`
+**Checks cubiertos:** `UIX.AV.037.HUM`
 
 - [ ] **PENDIENTE (desarrollador):** iterar la versión mobile tras la reunión del 2026-07-22
 
 ---
 
-## Overall Coverage Summary
+## Resumen general de cobertura
 
-| Epic | Tasks | Status | 🤖 .LLM | 🧑 .HUM | 🤖🧑 .MIX | Total Checks |
+| Épica | Tareas | Estado | 🤖 .LLM | 🧑 .HUM | 🤖🧑 .MIX | Total checks |
 | --- | --- | --- | --- | --- | --- | --- |
 | EPIC-001 | TASK-001 a 004 | ✅ 4/4 | 6 | 2 | 0 | 8 |
 | EPIC-002 | TASK-005 a 007 | ✅ 3/3 | 3 | 1 | 0 | 4 |

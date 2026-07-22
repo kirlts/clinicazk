@@ -1,17 +1,17 @@
 # RULES: Clínica ZK
 
-> Operational rules for AI agents working in this repository.
-> Referenced from MASTER-SPEC §8.
+> Reglas operativas para agentes de IA que trabajan en este repositorio.
+> Referenciado desde MASTER-SPEC §8.
 
 ---
 
-## Scope
+## Alcance
 
-All operations in this repository and any agent-invoked context sourced from Google Drive (folder "Web Clinica ZK").
+Todas las operaciones en este repositorio y cualquier contexto invocado por el agente proveniente de Google Drive (carpeta "Web Clinica ZK").
 
 ---
 
-## Rules
+## Reglas
 
 1. **Fuente primaria:** El contexto del proyecto se obtiene de Google Drive (folder `1W9YIti9DEZHtA4v1Q3L97m8VkB9gFuGU`). Toda decisión de branding, contenido y diseño debe basarse en los archivos de ese Drive: manual de marca, manual DIDEMCO, bitácora, transcripciones, afiches de membresías, imágenes y logos. Ninguna decisión se toma sin consultar estas fuentes.
 

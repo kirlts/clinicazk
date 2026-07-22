@@ -1,26 +1,26 @@
 # VERIFICATION: Clínica ZK v2.0.0
 
-> Canonical truth for all formal promise verifications and testing boundaries.
-> Generated and maintained exclusively by the `/derive` algorithm.
+> Verdad canónica de todas las verificaciones formales de promesas y de los límites de testing.
+> Generado y mantenido exclusivamente por el algoritmo `/derive`.
 
-## Kairós Symbol Legend
+## Leyenda de símbolos Kairós
 
-| Symbol | Meaning |
+| Símbolo | Significado |
 |---|---|
-| 🤖 `.LLM` | Verifiable by AI/automated tool |
-| 🧑 `.HUM` | Requires human verification |
-| 🤖🧑 `.MIX` | Pre-verifiable by AI, final human validation |
-| ✅ | Implemented and verified |
-| 🔲 | Pending |
+| 🤖 `.LLM` | Verificable por IA o herramienta automatizada |
+| 🧑 `.HUM` | Requiere verificación humana |
+| 🤖🧑 `.MIX` | Pre-verificable por IA, validación humana final |
+| ✅ | Implementado y verificado |
+| 🔲 | Pendiente |
 
 ---
 
 > Inventario de checks. Los `.LLM` de la v2 fueron verificados por herramienta (🤖 `astro check` sin errores + build + deploy en verde; 2026-07-22). Los `.HUM` quedan pendientes de validación humana. El poblado formal completo lo ejecuta `/derive`.
 
-### Preliminary check inventory
+### Inventario preliminar de checks
 
 <!--
-Dev: Functionality
+DEV: Funcionalidad
 -->
 🤖 `DEV.FN.001.LLM` Proyecto Astro compila sin errores → build exitoso.
 🤖 `DEV.FN.002.LLM` Tokens CSS se cargan y aplican correctamente en todos los componentes.
@@ -38,7 +38,7 @@ Dev: Functionality
 🤖 `UIX.FN.004.LLM` Hero renderiza sin errores de JS. (⚠️ SUPERADO en v2: reemplazado por el Hero fijo; ver DEV.FN.027.)
 
 <!--
-DEV: Functionality (v2)
+DEV: Funcionalidad (v2)
 -->
 🤖 `DEV.FN.027.LLM` Hero v2 renderiza h1 fijo, accesos rápidos y split de sedes. (🤖 Verificado por herramienta; 2026-07-22)
 🤖 `DEV.FN.029.LLM` Índice de especialidades renderiza las 13 con grupos por sede. (🤖 Verificado por herramienta; 2026-07-22)
@@ -48,7 +48,7 @@ DEV: Functionality (v2)
 🤖 `DEV.FN.036.LLM` El sitio compila sin errores tras el rediseño v2 (astro check + build). (🤖 Verificado por herramienta; 2026-07-22)
 
 <!--
-UIX: UX/Availability
+UIX: Experiencia y disponibilidad
 -->
 🧑 `UIX.AV.001.HUM` Header y navegación son intuitivos y funcionan en mobile.
 🧑 `UIX.AV.005.HUM` Carrusel del Hero se ve bien y los slides tienen sentido. (⚠️ SUPERADO en v2: el hero dejó de ser carrusel.)
@@ -62,7 +62,7 @@ UIX: UX/Availability
 🧑 `UIX.AV.037.HUM` La versión mobile de la v2 es adecuada (pendiente de iteración tras la reunión).
 
 <!--
-CONT: Content
+CONT: Contenido
 -->
 🧑 `CONT.CR.014.HUM` Texto identitario de Nosotros es aprobado por Bernielli.
 🧑 `CONT.CR.016.HUM` Listado de convenios vigentes confirmado por el equipo.
@@ -72,7 +72,7 @@ CONT: Content
 🧑 `CONT.CR.024.HUM` Imágenes de sucursales seleccionadas e integradas.
 
 <!--
-OPS/OAS: Operations
+OPS/OAS: Operaciones
 -->
 🧑 `OPS.AV.025.HUM` Dominio clinicazk.cl configurado y apuntando al sitio.
 🤖 `OAS.AV.026.LLM` GitHub Pages deploy automático funciona correctamente.
