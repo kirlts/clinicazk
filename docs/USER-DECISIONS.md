@@ -125,3 +125,35 @@
 - (+) Sección de sedes más limpia y liviana.
 - (-) Se posterga la prueba social de reseñas dentro del sitio.
 **Condiciones de reversión:** Si Clínica ZK prioriza mostrar reseñas embebidas; se retomaría con un patrón que no recargue la vista.
+
+---
+
+## [UD-010] Mantener el zoom base 0.8 también en la v3
+
+**Fecha:** 2026-07-29
+**Decisión:** El sitio conserva `html { zoom: 0.8 }` pese a que el prototipo v3 no lo tiene.
+
+**Contexto:** El handoff v3 pide comparación visual lado a lado sin diferencias. Con el zoom, el sitio nunca queda pixel-idéntico al prototipo: todo se dibuja al 80% y el contenedor ocupa ~75% del ancho de viewport en lugar del 94%.
+
+**Alternativas evaluadas:**
+- Quitar el zoom para lograr paridad de píxel exacta con el diseño.
+- Mantenerlo (elegida).
+
+**Razón:** Es una preferencia de visualización explícita del director, independiente del rediseño. La paridad se verificó igual en texto, estructura, estilos e interacciones; toda diferencia de tamaño observada corresponde exactamente al factor 0.8.
+
+**Excepción:** el afiche (`/familia-zk/afiche`) fija `zoom: 1` porque tiene medida física A4 y dentro del iframe del modal se escalaría dos veces.
+
+---
+
+## [UD-011] Eliminar el código de la v2 en vez de dejarlo desenlazado
+
+**Fecha:** 2026-07-29
+**Decisión:** Los componentes, datos y rutas de la v2 que la v3 ya no usa se borran del repositorio.
+
+**Contexto:** El handoff v3 declara que reemplaza a la v2 en producción. La v2 era el sitio completo (una sola página), no un conjunto de vistas legacy accesibles.
+
+**Alternativas evaluadas:**
+- Dejar el código v2 en el repo pero sin enlazar desde la navegación.
+- Eliminarlo (elegida).
+
+**Razón:** Mantener un sitio completo muerto en el árbol confunde en revisiones futuras y no aporta: el historial de git conserva la v2 íntegra si hiciera falta recuperarla.

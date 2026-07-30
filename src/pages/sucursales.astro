@@ -1,0 +1,307 @@
+---
+/* Sucursales (/sucursales) — Sucursales v3.dc.html.
+   Una sección por sede con la misma estructura; Pucón invierte el orden de las columnas. */
+import Layout from '../layouts/Layout.astro';
+import SiteHeader from '../components/site/SiteHeader.astro';
+import SiteFooter from '../components/site/SiteFooter.astro';
+import WhatsAppFab from '../components/site/WhatsAppFab.astro';
+import Galeria from '../components/content/Galeria.astro';
+import { ruta } from '../data/navegacion';
+import { wa, sedes, type Sede } from '../data/contacto';
+import { LA_PHOTOS, PU_PHOTOS, LA_INFRA, PU_INFRA, LA_DATOS, PU_DATOS } from '../data/sucursales';
+import { isotipo } from '../lib/imagenes';
+
+const waSede = (sede: Sede) =>
+  wa(sede, 'Hola, quisiera recibir información sobre atención odontológica en Clínica ZK ' + sede + '.');
+
+const waLa = waSede('Los Ángeles');
+const waPu = waSede('Pucón');
+---
+
+<Layout
+  title="Sucursales Clínica ZK | Los Ángeles y Pucón"
+  description="Conoce las sucursales de Clínica ZK en Los Ángeles y Pucón: infraestructura, especialidades, apoyo diagnóstico, dirección y canales de atención."
+>
+  <div style="font-family: var(--font-sans); color: var(--text-body);">
+    <SiteHeader active="Sucursales" />
+
+    <section style="position: relative; overflow: hidden; padding: 104px 24px 0;">
+      <div
+        aria-hidden="true"
+        style={`position: absolute; top: -140px; left: -110px; width: 620px; height: 634px; background: url(${isotipo.src}) center / contain no-repeat; opacity: .055; pointer-events: none;`}
+      >
+      </div>
+      <div style="position: relative; max-width: var(--container-max); margin: 0 auto;">
+        <div style="text-align: center;">
+          <div
+            style="font-size: 12px; font-weight: var(--fw-semibold); letter-spacing: var(--ls-eyebrow); text-transform: uppercase; color: var(--zk-teal-600);"
+          >
+            Nuestras sucursales
+          </div>
+          <h1
+            style="font-size: clamp(34px, 3.9vw, 60px); font-weight: var(--fw-light); line-height: 1.07; color: var(--text-heading); margin: 16px 0 0; text-wrap: pretty;"
+          >
+            Encuentra la atención que necesitas, más cerca de ti.
+          </h1>
+        </div>
+        <div style="margin: 72px auto 0; max-width: 1080px; text-align: center;">
+          <p style="font-size: 16.5px; line-height: var(--lh-body); margin: 0; text-wrap: pretty;">
+            Clínica ZK está presente en Los Ángeles y Pucón con equipos, especialidades y servicios de apoyo diagnóstico
+            adaptados a la realidad de cada sede.
+          </p>
+          <p style="font-size: 16.5px; line-height: var(--lh-body); margin: 20px 0 0; text-wrap: pretty;">
+            Aunque cada sucursal cuenta con características propias, ambas comparten una misma forma de trabajar:
+            atención clara, responsabilidad clínica, coordinación y continuidad en el cuidado.
+          </p>
+        </div>
+        <p
+          style="font-size: clamp(20px, 1.8vw, 28px); font-weight: var(--fw-light); color: var(--text-heading); line-height: var(--lh-tight); margin: 96px auto 0; max-width: 1000px; text-align: center; text-wrap: pretty;"
+        >
+          Dos ciudades. Una misma manera de acompañar tu salud dental<span style="color: var(--zk-teal-600);">.</span>
+        </p>
+      </div>
+    </section>
+
+    <!-- ===================== LOS ÁNGELES ===================== -->
+    <section id="los-angeles" style="padding: 112px 24px 0;">
+      <div style="max-width: 1180px; margin: 0 auto; text-align: center;">
+        <div style="width: 40px; height: 3px; background: var(--zk-teal-500); margin: 0 auto;"></div>
+        <h2 style="font-size: var(--fs-h3); color: var(--text-heading); font-weight: var(--fw-semibold); margin: 22px 0 0;">
+          Clínica ZK Los Ángeles
+        </h2>
+        <p
+          style="font-size: clamp(18px, 1.5vw, 24px); font-weight: var(--fw-light); color: var(--text-heading); line-height: var(--lh-tight); margin: 18px 0 0; text-wrap: pretty;"
+        >
+          Atención integral y distintas especialidades en un mismo lugar.
+        </p>
+        <p style="font-size: 15.5px; line-height: var(--lh-body); margin: 28px 0 0; text-wrap: pretty;">
+          Nuestra sede de Los Ángeles reúne profesionales de distintas áreas, servicios de apoyo diagnóstico y espacios
+          preparados para acompañar necesidades preventivas, tratamientos especializados y procesos que requieren
+          continuidad.
+        </p>
+        <p style="font-size: 15.5px; line-height: var(--lh-body); margin: 14px 0 0; text-wrap: pretty;">
+          Su capacidad clínica permite orientar cada caso desde una primera evaluación y, cuando corresponde, coordinar
+          la atención entre diferentes profesionales y áreas odontológicas.
+        </p>
+      </div>
+      <div
+        style="max-width: var(--container-max); margin: 64px auto 0; display: grid; grid-template-columns: 0.62fr 0.38fr; gap: 56px; align-items: start;"
+      >
+        <Galeria id="la" fotos={LA_PHOTOS} />
+        <div>
+          <div
+            style="font-size: 12px; font-weight: var(--fw-semibold); letter-spacing: var(--ls-eyebrow); text-transform: uppercase; color: var(--zk-teal-600); text-align: center;"
+          >
+            Infraestructura y servicios destacados
+          </div>
+          <ul
+            style="margin: 18px 0 0; padding: 0; list-style: none; display: grid; font-size: 15px; line-height: var(--lh-body); border-top: 1px solid var(--border-subtle);"
+          >
+            {
+              LA_INFRA.map((i) => (
+                <li style="display: grid; gap: 3px; padding: 14px 0; border-bottom: 1px solid var(--border-subtle);">
+                  <strong style="font-weight: var(--fw-semibold); color: var(--text-heading);">{i.t}</strong>
+                  <span style="text-wrap: pretty;">{i.d}</span>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+      </div>
+      <div style="max-width: 760px; margin: 88px auto 0; text-align: center;">
+        <div style="display: grid; font-size: 15px; border-top: 1px solid var(--border-subtle);">
+          {
+            LA_DATOS.map((d) => (
+              <div style="display: flex; gap: 16px; align-items: baseline; padding: 11px 0; border-bottom: 1px solid var(--border-subtle);">
+                <span style="color: var(--text-muted); flex: none;">{d.k}</span>
+                <span style="margin-left: auto; text-align: right; color: var(--text-body);">{d.v}</span>
+              </div>
+            ))
+          }
+          <div
+            style="display: flex; gap: 16px; align-items: baseline; padding: 11px 0; border-bottom: 1px solid var(--border-subtle);"
+          >
+            <span style="color: var(--text-muted); flex: none;">Instagram</span>
+            <span style="margin-left: auto; text-align: right;">
+              <a
+                href={sedes.la.instagramUrl}
+                target="_blank"
+                rel="noopener"
+                style="text-decoration: none; border-bottom: 1px solid var(--zk-teal-200);">{sedes.la.instagram}</a
+              >
+            </span>
+          </div>
+          <div
+            style="display: flex; gap: 16px; align-items: baseline; padding: 11px 0; border-bottom: 1px solid var(--border-subtle);"
+          >
+            <span style="color: var(--text-muted); flex: none;">Horario</span>
+            <span style="margin-left: auto; text-align: right; color: var(--text-muted);">Pendiente de confirmación</span>
+          </div>
+        </div>
+        <div style="margin-top: 36px; display: flex; gap: 12px; flex-wrap: wrap; justify-content: center;">
+          <a href={waLa} target="_blank" rel="noopener" class="zk-wa-btn zk-wa-btn--la">
+            Escribir a Clínica ZK Los Ángeles
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== PUCÓN ===================== -->
+    <section id="pucon" style="padding: 112px 24px 0;">
+      <div
+        style="max-width: var(--container-max); margin: 0 auto; border-top: 1px solid var(--border-subtle); padding-top: 112px;"
+      >
+      </div>
+      <div style="max-width: 1180px; margin: 0 auto; text-align: center;">
+        <div style="width: 40px; height: 3px; background: var(--color-secondary); margin: 0 auto;"></div>
+        <h2 style="font-size: var(--fs-h3); color: var(--text-heading); font-weight: var(--fw-semibold); margin: 22px 0 0;">
+          Clínica ZK Pucón
+        </h2>
+        <p
+          style="font-size: clamp(18px, 1.5vw, 24px); font-weight: var(--fw-light); color: var(--text-heading); line-height: var(--lh-tight); margin: 18px 0 0; text-wrap: pretty;"
+        >
+          Cercanía, especialidades y apoyo diagnóstico en el centro de Pucón.
+        </p>
+        <p style="font-size: 15.5px; line-height: var(--lh-body); margin: 28px 0 0; text-wrap: pretty;">
+          Nuestra sede de Pucón entrega atención odontológica integral en un espacio cercano y accesible, preparado para
+          acompañar a personas y familias en distintas etapas de su cuidado dental.
+        </p>
+        <p style="font-size: 15.5px; line-height: var(--lh-body); margin: 14px 0 0; text-wrap: pretty;">
+          Cuenta con atención clínica, distintas áreas odontológicas y centro radiológico, permitiendo realizar
+          evaluaciones, tratamientos y exámenes de apoyo dentro de la misma sede.
+        </p>
+      </div>
+      <div
+        style="max-width: var(--container-max); margin: 64px auto 0; display: grid; grid-template-columns: 0.38fr 0.62fr; gap: 56px; align-items: start;"
+      >
+        <div>
+          <div
+            style="font-size: 12px; font-weight: var(--fw-semibold); letter-spacing: var(--ls-eyebrow); text-transform: uppercase; color: var(--color-secondary); text-align: center;"
+          >
+            Infraestructura y servicios destacados
+          </div>
+          <ul
+            style="margin: 18px 0 0; padding: 0; list-style: none; display: grid; font-size: 15px; line-height: var(--lh-body); border-top: 1px solid var(--border-subtle);"
+          >
+            {
+              PU_INFRA.map((i) => (
+                <li style="display: grid; gap: 3px; padding: 14px 0; border-bottom: 1px solid var(--border-subtle);">
+                  <strong style="font-weight: var(--fw-semibold); color: var(--text-heading);">{i.t}</strong>
+                  <span style="text-wrap: pretty;">{i.d}</span>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+        <Galeria id="pu" fotos={PU_PHOTOS} />
+      </div>
+      <div style="max-width: 760px; margin: 88px auto 0; text-align: center;">
+        <div style="display: grid; font-size: 15px; border-top: 1px solid var(--border-subtle);">
+          {
+            PU_DATOS.map((d) => (
+              <div style="display: flex; gap: 16px; align-items: baseline; padding: 11px 0; border-bottom: 1px solid var(--border-subtle);">
+                <span style="color: var(--text-muted); flex: none;">{d.k}</span>
+                <span style="margin-left: auto; text-align: right; color: var(--text-body);">{d.v}</span>
+              </div>
+            ))
+          }
+          <div
+            style="display: flex; gap: 16px; align-items: baseline; padding: 11px 0; border-bottom: 1px solid var(--border-subtle);"
+          >
+            <span style="color: var(--text-muted); flex: none;">Instagram</span>
+            <span style="margin-left: auto; text-align: right;">
+              <a
+                href={sedes.pucon.instagramUrl}
+                target="_blank"
+                rel="noopener"
+                style="text-decoration: none; border-bottom: 1px solid var(--zk-teal-200);">{sedes.pucon.instagram}</a
+              >
+            </span>
+          </div>
+          <div
+            style="display: flex; gap: 16px; align-items: baseline; padding: 11px 0; border-bottom: 1px solid var(--border-subtle);"
+          >
+            <span style="color: var(--text-muted); flex: none;">Horario</span>
+            <span style="margin-left: auto; text-align: right; color: var(--text-muted);">Pendiente de confirmación</span>
+          </div>
+        </div>
+        <div style="margin-top: 36px; display: flex; gap: 12px; flex-wrap: wrap; justify-content: center;">
+          <a href={waPu} target="_blank" rel="noopener" class="zk-wa-btn zk-wa-btn--pu">Escribir a Clínica ZK Pucón</a>
+        </div>
+      </div>
+    </section>
+
+    <section style="padding: 112px 24px 120px;">
+      <div
+        style="max-width: 1000px; margin: 0 auto; border-top: 1px solid var(--border-subtle); padding-top: 56px; text-align: center;"
+      >
+        <p
+          style="font-size: clamp(19px, 1.6vw, 26px); font-weight: var(--fw-light); color: var(--text-heading); line-height: var(--lh-tight); margin: 0 auto; max-width: 46ch;"
+        >
+          Ambas sedes comparten una misma forma de trabajar.<br />Elige la que te queda más cerca<span
+            style="color: var(--zk-teal-600);">.</span
+          >
+        </p>
+        <div style="margin-top: 32px; display: flex; gap: 12px; flex-wrap: wrap; justify-content: center;">
+          <a href={ruta('/equipo-clinico')} class="zk-btn-sec">Equipo clínico</a>
+          <a href={ruta('/') + '#especialidades'} class="zk-btn-sec">Especialidades y servicios</a>
+        </div>
+      </div>
+    </section>
+
+    <SiteFooter />
+    <WhatsAppFab href={waPu} />
+  </div>
+</Layout>
+
+<style>
+  .zk-wa-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 22px;
+    font-size: 15px;
+    font-weight: var(--fw-semibold);
+    color: #fff;
+    text-decoration: none;
+    border-radius: var(--radius-md);
+    box-shadow:
+      0 2px 10px rgba(47, 63, 66, 0.2),
+      inset 0 0 0 1px rgba(255, 255, 255, 0.16);
+    transition: filter 0.18s var(--ease-out);
+  }
+  .zk-wa-btn--la {
+    background:
+      radial-gradient(130% 120% at 18% 0%, #63c6c0 0%, rgba(99, 198, 192, 0) 55%),
+      linear-gradient(105deg, #46b3ad 0%, #2e9a94 60%, #1e827d 100%);
+  }
+  .zk-wa-btn--pu {
+    background:
+      radial-gradient(130% 120% at 18% 0%, #c8b0d4 0%, rgba(200, 176, 212, 0) 55%),
+      linear-gradient(105deg, #b094bf 0%, #916f9f 60%, #775a80 100%);
+  }
+  .zk-wa-btn:hover {
+    filter: brightness(1.07);
+    color: #fff;
+    text-decoration: none;
+  }
+
+  .zk-btn-sec {
+    display: inline-flex;
+    align-items: center;
+    padding: 13px 24px;
+    font-size: 15px;
+    color: var(--text-heading);
+    text-decoration: none;
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-md);
+    transition:
+      border-color 0.18s var(--ease-out),
+      color 0.18s var(--ease-out);
+  }
+  .zk-btn-sec:hover {
+    border-color: var(--zk-teal-500);
+    color: var(--zk-teal-700);
+    text-decoration: none;
+  }
+</style>

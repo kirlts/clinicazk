@@ -1,0 +1,281 @@
+---
+/* Convenios y seguros (/convenios) — Convenios v3.dc.html. */
+import Layout from '../layouts/Layout.astro';
+import SiteHeader from '../components/site/SiteHeader.astro';
+import SiteFooter from '../components/site/SiteFooter.astro';
+import WhatsAppFab from '../components/site/WhatsAppFab.astro';
+import SectionHeader from '../components/core/SectionHeader.astro';
+import { wa, type Sede } from '../data/contacto';
+import { isotipo } from '../lib/imagenes';
+
+const waConvenio = (sede: Sede) =>
+  wa(sede, 'Hola, quisiera consultar si mi convenio o seguro complementario aplica en Clínica ZK ' + sede + '.');
+
+const slots = [1, 2, 3, 4, 5, 6];
+const pagos = ['Débito', 'Crédito', 'Visa', 'Mastercard', 'American Express', 'Diners Club', 'Magna', 'Webpay'];
+const contactos = [
+  { label: 'Escribir a Los Ángeles', href: waConvenio('Los Ángeles') },
+  { label: 'Escribir a Pucón', href: waConvenio('Pucón') },
+];
+---
+
+<Layout
+  title="Convenios y Seguros Dentales | Clínica ZK"
+  description="Conoce los convenios institucionales y modalidades de reembolso de seguros complementarios disponibles en Clínica ZK."
+>
+  <div style="font-family: var(--font-sans); color: var(--text-body);">
+    <SiteHeader active="Convenios" />
+
+    <section style="position: relative; overflow: hidden; padding: 104px 24px 0;">
+      <div
+        aria-hidden="true"
+        style={`position: absolute; top: -120px; right: -80px; width: 600px; height: 613px; background: url(${isotipo.src}) center / contain no-repeat; opacity: .055; pointer-events: none;`}
+      >
+      </div>
+      <div style="position: relative; max-width: var(--container-max); margin: 0 auto;">
+        <div style="text-align: center;">
+          <div
+            style="font-size: 12px; font-weight: var(--fw-semibold); letter-spacing: var(--ls-eyebrow); text-transform: uppercase; color: var(--zk-teal-600);"
+          >
+            Más alternativas para acceder a tu atención dental
+          </div>
+          <h1
+            style="font-size: clamp(34px, 3.9vw, 60px); font-weight: var(--fw-light); line-height: 1.07; color: var(--text-heading); margin: 16px 0 0;"
+          >
+            Convenios y seguros
+          </h1>
+        </div>
+        <div
+          style="margin: 72px auto 0; max-width: 1240px; display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 28px 96px;"
+        >
+          <p style="font-size: 16.5px; line-height: var(--lh-body); margin: 0; text-wrap: pretty;">
+            En Clínica ZK contamos con convenios institucionales y sistemas de apoyo para el reembolso de seguros
+            complementarios.
+          </p>
+          <p style="font-size: 16.5px; line-height: var(--lh-body); margin: 0; text-wrap: pretty;">
+            Estas alternativas pueden ayudarte a acceder a descuentos especiales o recuperar una parte del valor
+            invertido en tu atención, según las condiciones del convenio o de tu entidad aseguradora.
+          </p>
+        </div>
+        <p
+          style="font-size: clamp(20px, 1.8vw, 28px); font-weight: var(--fw-light); color: var(--text-heading); line-height: var(--lh-tight); margin: 96px auto 0; max-width: 1000px; text-align: center; text-wrap: pretty;"
+        >
+          Antes de tu atención, revisa qué alternativas están disponibles para ti<span
+            style="color: var(--zk-teal-600);">.</span
+          >
+        </p>
+      </div>
+    </section>
+
+    <section style="padding: 112px 24px 0;">
+      <div style="max-width: var(--container-max); margin: 0 auto;">
+        <SectionHeader align="left" title="Convenios con instituciones" />
+        <div
+          style="margin-top: 44px; display: grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); gap: 28px 96px;"
+        >
+          <p style="font-size: 16px; line-height: var(--lh-body); margin: 0; text-wrap: pretty;">
+            Clínica ZK mantiene convenios vigentes con distintas instituciones, cuyos integrantes pueden acceder a
+            descuentos o condiciones especiales en prestaciones determinadas.
+          </p>
+          <p style="font-size: 16px; line-height: var(--lh-body); margin: 0; text-wrap: pretty;">
+            Para utilizar un convenio, deberás acreditar tu pertenencia a la institución correspondiente y consultar
+            previamente las condiciones, prestaciones incluidas y vigencia del beneficio.
+          </p>
+        </div>
+        <div
+          style="margin-top: 44px; border: 1px solid var(--border-subtle); background: var(--surface-section); padding: 44px 40px; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px 48px; align-items: center;"
+        >
+          <div>
+            <div style="font-size: 16px; font-weight: var(--fw-semibold); color: var(--text-heading);">
+              Listado de instituciones en actualización
+            </div>
+            <p
+              style="font-size: 15px; line-height: var(--lh-body); margin: 8px 0 0; color: var(--text-muted); text-wrap: pretty;"
+            >
+              Estamos preparando esta sección: aquí se publicarán los logos de las instituciones con convenio vigente.
+              Mientras tanto, puedes consultar directamente con la sucursal si tu institución cuenta con convenio.
+            </p>
+          </div>
+          <div
+            style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 1px; background: var(--border-subtle); border: 1px solid var(--border-subtle);"
+          >
+            {
+              slots.map(() => (
+                <div style="background: var(--zk-white); aspect-ratio: 16 / 9; display: flex; align-items: center; justify-content: center; font-size: 11.5px; letter-spacing: var(--ls-eyebrow); text-transform: uppercase; color: var(--zk-teal-200);">
+                  Logo
+                </div>
+              ))
+            }
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section style="padding: 112px 24px 0;">
+      <div style="max-width: var(--container-max); margin: 0 auto;">
+        <SectionHeader align="left" title="Reembolso de seguros complementarios" />
+        <p style="font-size: 16.5px; line-height: var(--lh-body); margin: 36px 0 0; max-width: 62ch; text-wrap: pretty;">
+          Si cuentas con un seguro complementario de salud, algunas prestaciones odontológicas pueden ser presentadas
+          para solicitar el reembolso de una parte del valor pagado.
+        </p>
+        <div
+          style="margin-top: 44px; display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1px; background: var(--border-subtle); border: 1px solid var(--border-subtle);"
+        >
+          <div style="background: var(--zk-white); padding: 40px 38px 44px;">
+            <div style="font-size: 18px; font-weight: var(--fw-semibold); color: var(--text-heading);">
+              Solicitud en línea
+            </div>
+            <p style="font-size: 15.5px; line-height: var(--lh-body); margin: 12px 0 0; text-wrap: pretty;">
+              En algunas entidades aseguradoras, el reembolso puede gestionarse directamente mediante el sistema
+              disponible en la clínica, facilitando el ingreso de la solicitud durante el proceso de pago.
+            </p>
+          </div>
+          <div style="background: var(--zk-white); padding: 40px 38px 44px;">
+            <div style="font-size: 18px; font-weight: var(--fw-semibold); color: var(--text-heading);">
+              Solicitud manual
+            </div>
+            <p style="font-size: 15.5px; line-height: var(--lh-body); margin: 12px 0 0; text-wrap: pretty;">
+              Cuando la aseguradora no dispone de integración en línea, entregamos la documentación correspondiente para
+              que realices la solicitud directamente ante tu compañía.
+            </p>
+          </div>
+        </div>
+        <p
+          style="font-size: 15px; line-height: var(--lh-body); color: var(--text-muted); margin: 20px 0 0; max-width: 900px; text-wrap: pretty;"
+        >
+          El reembolso no corresponde a un descuento de Clínica ZK. Su aprobación y monto dependen del plan, cobertura y
+          condiciones de cada aseguradora.
+        </p>
+      </div>
+    </section>
+
+    <section style="padding: 112px 24px 0;">
+      <div style="max-width: var(--container-max); margin: 0 auto;">
+        <SectionHeader align="left" title="Medios de pago" />
+        <div style="margin-top: 44px; display: grid; grid-template-columns: 0.38fr 0.62fr; gap: 96px; align-items: start;">
+          <div>
+            <p
+              style="font-size: clamp(18px, 1.5vw, 24px); font-weight: var(--fw-light); color: var(--text-heading); line-height: var(--lh-tight); margin: 0; text-wrap: pretty;"
+            >
+              3 a 12 cuotas a precio contado, con todas tus tarjetas de crédito.
+            </p>
+            <p style="font-size: 15.5px; line-height: var(--lh-body); margin: 18px 0 0; text-wrap: pretty;">
+              Un convenio de pago para acompañarte con más flexibilidad, disponible para las membresías Familia ZK y
+              tratamientos dentales adheridos.
+            </p>
+            <p style="font-size: 14.5px; line-height: var(--lh-body); color: var(--text-muted); margin: 12px 0 0;">
+              Consulta por los tratamientos adheridos en tu sucursal.
+            </p>
+          </div>
+          <div>
+            <div
+              style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1px; background: var(--border-subtle); border: 1px solid var(--border-subtle);"
+            >
+              {
+                pagos.map((p) => (
+                  <div style="background: var(--zk-white); padding: 22px 24px; display: flex; align-items: center; justify-content: center; text-align: center; font-size: 15px; color: var(--text-heading);">
+                    {p}
+                  </div>
+                ))
+              }
+            </div>
+            <p style="font-size: 14.5px; line-height: var(--lh-body); color: var(--text-muted); margin: 16px 0 0;">
+              Con el respaldo de Transbank y Redcompra. Disponible en Pucón y Los Ángeles.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section style="padding: 112px 24px 120px;">
+      <div
+        style="max-width: var(--container-max); margin: 0 auto; border-top: 1px solid var(--border-subtle); padding-top: 56px;"
+      >
+        <div
+          style="display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 32px 96px; align-items: start;"
+        >
+          <div>
+            <div
+              style="font-size: 12px; font-weight: var(--fw-semibold); letter-spacing: var(--ls-eyebrow); text-transform: uppercase; color: var(--color-secondary);"
+            >
+              Invitación a nuevas instituciones
+            </div>
+            <h2
+              style="font-size: clamp(22px, 2vw, 32px); font-weight: var(--fw-light); color: var(--text-heading); line-height: var(--lh-tight); margin: 14px 0 0; text-wrap: pretty;"
+            >
+              ¿Quieres ser parte de nuestra red de convenios?
+            </h2>
+          </div>
+          <div>
+            <p style="font-size: 16.5px; line-height: var(--lh-body); margin: 0; text-wrap: pretty;">
+              Si representas a una empresa, organización o institución y buscas acercar beneficios odontológicos a tu
+              comunidad, queremos conocerlos. En Clínica ZK estamos abiertos a construir nuevas alianzas que permitan
+              facilitar el acceso al cuidado dental de trabajadores, asociados y sus familias.
+            </p>
+            <p
+              style="font-size: 16.5px; line-height: var(--lh-body); margin: 12px 0 0; color: var(--text-heading); text-wrap: pretty;"
+            >
+              Súmate a nuestra comunidad de convenios y construyamos juntos nuevas formas de cuidar.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section style="background: var(--gradient-brand); padding: 64px 24px;">
+      <div style="max-width: 1100px; margin: 0 auto; text-align: center;">
+        <h2
+          style="font-size: clamp(22px, 2vw, 32px); font-weight: var(--fw-light); color: #fff; line-height: var(--lh-tight); margin: 0; text-wrap: pretty;"
+        >
+          Consulta si tu convenio o seguro está disponible
+        </h2>
+        <p
+          style="font-size: 16px; line-height: var(--lh-body); color: rgba(255,255,255,.92); margin: 16px auto 0; max-width: 760px; text-wrap: pretty;"
+        >
+          Escríbele a la sucursal donde quieres atenderte. Recepción revisa tu caso y te indica cómo continuar.
+        </p>
+        <div style="margin-top: 28px; display: flex; gap: 12px; flex-wrap: wrap; justify-content: center;">
+          {
+            contactos.map((c) => (
+              <a href={c.href} target="_blank" rel="noopener" class="zk-btn-blanco">
+                {c.label}
+              </a>
+            ))
+          }
+        </div>
+        <p style="font-size: 14px; line-height: var(--lh-body); color: rgba(255,255,255,.82); margin: 22px 0 0;">
+          Para crear un convenio institucional, indícanos el nombre de tu empresa u organización en el mismo mensaje.
+        </p>
+      </div>
+    </section>
+
+    <SiteFooter />
+    <WhatsAppFab href={waConvenio('Pucón')} />
+  </div>
+</Layout>
+
+<style>
+  .zk-btn-blanco {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 26px;
+    font-size: 15px;
+    font-weight: var(--fw-semibold);
+    color: var(--zk-teal-700);
+    text-decoration: none;
+    background: #fff;
+    border-radius: var(--radius-md);
+    box-shadow: 0 2px 10px rgba(47, 63, 66, 0.18);
+    transition:
+      filter 0.18s var(--ease-out),
+      transform 0.18s var(--ease-out);
+  }
+  .zk-btn-blanco:hover {
+    filter: brightness(0.97);
+    text-decoration: none;
+  }
+  .zk-btn-blanco:active {
+    transform: translateY(1px);
+  }
+</style>

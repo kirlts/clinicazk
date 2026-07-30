@@ -1,4 +1,5 @@
 ---
+/* SectionHeader del design system (components/core/SectionHeader.jsx). */
 interface Props {
   eyebrow?: string;
   title: string;
@@ -9,44 +10,24 @@ interface Props {
 const { eyebrow, title, subtitle, align = 'center' } = Astro.props;
 ---
 
-<div class="zk-section-header" data-align={align}>
-  {eyebrow && <div class="zk-eyebrow">{eyebrow}</div>}
-  <h2>{title}</h2>
-  {subtitle && <p class="zk-subtitle">{subtitle}</p>}
+<div
+  style={`text-align: ${align}; max-width: 720px; margin: ${align === 'center' ? '0 auto' : 0}; font-family: var(--font-sans);`}
+>
+  {
+    eyebrow && (
+      <div
+        style="font-size: var(--fs-small); letter-spacing: var(--ls-eyebrow); color: var(--color-primary); font-weight: var(--fw-semibold); text-transform: uppercase; margin-bottom: 12px;"
+      >
+        {eyebrow}
+      </div>
+    )
+  }
+  <h2 style="font-size: var(--fs-h2); margin: 0;">{title}</h2>
+  {
+    subtitle && (
+      <p style="font-size: var(--fs-body-lg); color: var(--text-body); margin-top: 14px; margin-bottom: 0;">
+        {subtitle}
+      </p>
+    )
+  }
 </div>
-
-<style>
-  .zk-section-header {
-    max-width: 720px;
-  }
-  .zk-section-header[data-align='center'] {
-    text-align: center;
-    margin: 0 auto;
-  }
-  .zk-section-header[data-align='left'] {
-    text-align: left;
-    margin: 0;
-  }
-  .zk-section-header[data-align='right'] {
-    text-align: right;
-    margin: 0 0 0 auto;
-  }
-  .zk-eyebrow {
-    font-size: var(--fs-small);
-    letter-spacing: var(--ls-eyebrow);
-    color: var(--color-primary);
-    font-weight: var(--fw-semibold);
-    text-transform: uppercase;
-    margin-bottom: 12px;
-  }
-  h2 {
-    font-size: var(--fs-h2);
-    margin: 0;
-  }
-  .zk-subtitle {
-    font-size: var(--fs-body-lg);
-    color: var(--text-body);
-    margin-top: 14px;
-    margin-bottom: 0;
-  }
-</style>

@@ -1,4 +1,4 @@
-# MASTER-SPEC: Clínica ZK v2.0.0
+# MASTER-SPEC: Clínica ZK v3.0.0
 
 > Sitio web institucional para Clínica ZK. Clínica dental con sucursales en Los Ángeles y Pucón.
 
@@ -31,21 +31,22 @@
 ```
 [Navegador] -> [Astro v7] -> [HTML/CSS/JS estático]
                     |
-           [Datos embebidos (TypeScript)]
+           [6 páginas + afiche parametrizado + 404]
+           [Datos embebidos (TypeScript, src/data/)]
            [Imágenes optimizadas a webp (astro:assets / sharp)]
-           [Modal-afiche (iframe a /afiche/[m]/ + postMessage)]
-           [Formulario -> mailto: contacto@clinicazk.cl]
+           [Modal-afiche (iframe a /familia-zk/afiche?m=…&embed=1 + postMessage)]
+           [Contacto -> WhatsApp con mensaje prellenado (único canal)]
 ```
 
 **Flujo de datos principal:**
 
-1. El usuario carga el sitio. Astro genera HTML estático en el build.
-2. Los datos de especialidades, membresías, sucursales, galerías, preguntas frecuentes y contacto residen en `src/data/site.ts` y `src/data/membershipDetails.ts`.
-3. Las imágenes se importan desde `src/assets/` y `astro:assets` (sharp) las optimiza a webp en múltiples tamaños durante el build. El mapa nombre-de-archivo a imagen vive en `src/lib/fotos.ts`.
-4. El formulario de contacto arma un `mailto:` con los campos y abre el cliente de correo del usuario. No hay backend ni servicio externo aún.
-5. Los enlaces y el botón flotante de WhatsApp abren la app nativa o web.
-6. El botón "Ver más" de cada membresía abre un modal que embebe la página `/afiche/[m]/` en un iframe. El cierre viaja por `postMessage('zk-close-afiche')` desde el iframe al documento padre.
-7. El índice de especialidades y las galerías por sede son interactivos vía scripts de cliente livianos (sin framework en runtime).
+1. El usuario carga cualquiera de las 6 páginas. Astro genera HTML estático en el build.
+2. El contenido vive en módulos de `src/data/`: `contacto.ts` (sedes, WhatsApp), `navegacion.ts`, `especialidades.ts`, `membresias.ts`, `afiche.ts`, `faq.ts`, `equipo.ts` y `sucursales.ts`. Cada módulo copia literalmente el `renderVals()` de su archivo de diseño.
+3. Las imágenes se importan desde `src/assets/` y `astro:assets` (sharp) las optimiza a webp durante el build. Los mapas nombre-de-archivo a imagen (fotos, retratos, marca) viven en `src/lib/imagenes.ts`.
+4. No hay formulario ni correo: todo contacto sale por WhatsApp con mensaje prellenado, con `target="_blank" rel="noopener"`.
+5. El botón "Conoce ZK …" de cada membresía en Inicio abre un modal que embebe `/familia-zk/afiche?m=…&embed=1` en un iframe. El cierre viaja por `postMessage('zk-close-afiche')` desde el iframe al documento padre, y también responde a Escape y clic fuera.
+6. El afiche renderiza las cuatro membresías y el querystring decide cuál se muestra, conservando el contrato `?m=` / `&embed=1` del diseño.
+7. El selector de especialidades, el filtro de equipo, las galerías por sede, los acordeones y el popover de agenda son interactivos vía scripts de cliente livianos (sin framework en runtime).
 
 ---
 
@@ -60,7 +61,7 @@
 | Imágenes | `astro:assets` (sharp) | Optimización a webp y redimensionado en build; fachadas grandes bajan de ~3 MB a ~200 KB |
 | Hosting | GitHub Pages | Gratuito, despliegue desde CI, compatible con sitio estático |
 | SEO | `@astrojs/sitemap` | Generación automática de sitemap.xml |
-| Formulario | `mailto:` desde el cliente | Sin backend ni servicio externo aún; abre el cliente de correo del usuario. La conexión a un servicio de email queda pendiente |
+| Contacto | Enlaces a `wa.me` con mensaje prellenado | WhatsApp es el único canal del sitio (la v3 eliminó el formulario y el correo). Sin backend ni servicio externo |
 
 ---
 
@@ -68,13 +69,15 @@
 
 > Estas restricciones prevalecen sobre cualquier otra decisión. Son líneas que el sistema impide cruzar.
 
-1. **Cero transmisión de datos de usuario fuera del navegador:** El sitio no almacena, procesa ni transmite datos de usuarios a ningún servidor propio. El formulario de contacto arma un `mailto:` y abre el cliente de correo del usuario (sin backend ni servicio externo). Si a futuro se conecta a un servicio de email, deberá ser de terceros, manteniendo cero backend propio.
+1. **Cero transmisión de datos de usuario fuera del navegador:** El sitio no almacena, procesa ni transmite datos de usuarios a ningún servidor propio. No hay formulario: el contacto ocurre por WhatsApp, fuera del sitio.
 2. **Solo estático:** El sitio debe ser completamente estático. No se permite backend, base de datos, SSR ni rutas de API.
 3. **Responsive mobile-first:** El diseño prioriza la experiencia móvil sobre desktop. Todos los componentes deben funcionar en pantallas desde 320px.
 4. **Cumplimiento de marca:** Los colores, la tipografía (Source Sans), el espaciado y el tono deben seguir estrictamente el manual de marca ZK y el manual textual DIDEMCO.
 5. **Sin emojis en contenido editorial:** Prohibición de emojis en el texto del sitio, siguiendo el manual DIDEMCO.
 6. **Sin tecnicismos sin explicación:** Cualquier término clínico debe ir acompañado de una explicación legible para el paciente.
 7. **Sin em dash (—):** Cero tolerancia al caracter em dash en todo el sitio.
+8. **WhatsApp como único canal de contacto:** La v3 eliminó el correo electrónico de todo el sitio. Ninguna página puede mostrar una dirección de email.
+9. **Sin datos inventados:** Nada de testimonios, nombres de pacientes, precios ni logos de convenio ficticios. Un placeholder honesto vale más que contenido plausible falso.
 
 ---
 
@@ -87,8 +90,8 @@
 | Sitio 100% estático vs funcionalidad dinámica | Simplicidad, seguridad, costo cero de hosting | Sin reservas online, sin login | El alcance definido por el cliente no requiere backend. Las reservas se hacen por WhatsApp/teléfono. |
 | Datos embebidos en TypeScript vs CMS | Velocidad de carga, sin mantenimiento de CMS | Requiere deploy para cambiar contenido | El contenido cambia con baja frecuencia. Bernielli coordina los cambios vía el desarrollador. |
 | CSS nativo con custom properties vs Tailwind | Control total sobre el design system, alineado con manual de marca | Mayor tamaño de CSS (irrelevante para sitio informativo) | El manual de marca define tokens de color, espaciado y tipografía específicos que Tailwind no cubre sin extensa configuración. |
-| Single-page (scroll) + modal-afiche vs multi-página | Simplicidad de navegación móvil, foco en una sola vista | URLs planas sin jerarquía de contenido | Una sola página con secciones ancla es suficiente. El detalle de cada membresía se muestra en un modal que embebe `/afiche/[m]/` (contrato del diseño v2). Esas rutas existen y sirven de fallback sin JS. |
-| Fidelidad 1:1 con el design handoff v2 vs reinterpretación libre | Consistencia exacta con el diseño aprobado por el cliente | Menos libertad para "mejorar" durante el port | El handoff (bundle de Claude Design) es la fuente de verdad. Se hizo una pasada de diffing visual sección por sección contra el render de referencia para alinear el sitio Astro. |
+| Multi-página (6 rutas) vs single-page con anclas | Jerarquía de contenido, URLs compartibles por sección, páginas más cortas | Más navegación entre vistas que en la v2 | El diseño v3 define Inicio como hub y páginas propias para Familia ZK, Sucursales, Equipo, Nosotros y Convenios. Las anclas de la v2 siguen funcionando: `#nosotros` y `#membresias` como anclas de Inicio, y `#sucursales` / `#convenios` / `#equipo` redirigen a su página nueva. |
+| Fidelidad 1:1 con el design handoff v3 vs reinterpretación libre | Consistencia exacta con el diseño aprobado por el cliente | Menos libertad para "mejorar" durante el port | El handoff (bundle de Claude Design) es la fuente de verdad. La paridad se demuestra ejecutando el prototipo y el sitio lado a lado y comparando `innerText` por escenario, no leyendo código. Ver VERIFICATION. |
 | Zoom base 0.8 horneado (`html { zoom: 0.8 }`) vs 100% nativo | El 100% por defecto del navegador ya equivale al 80% que prefiere el director | Depende del soporte de `zoom` (Chrome/Edge/Safari; Firefox 126+) | Preferencia explícita del usuario. En navegadores sin soporte de `zoom` el sitio se ve al 100% sin romperse. |
 | Optimización de imágenes en build (webp) vs servir originales | Peso del sitio mínimo para el visitante que llega desde Instagram/móvil | Los originales pesados quedan en el repo como fuente | `astro:assets` genera webp por tamaño; el sitio servido queda liviano sin sacrificar la fuente editable. |
 | Omitir widgets de Google Maps por ahora vs embeberlos | Evitar complejidad innecesaria con dos sucursales | Se pierde la prueba social de reseñas en el sitio | Con dos sedes harían falta dos widgets (se ve recargado) o un selector que los alterne (complejidad injustificada). Decisión de reevaluar. Ver USER-DECISIONS UD-009. |
@@ -99,37 +102,48 @@
 
 **Atmósfera de referencia:** Clínica dental moderna, profesional pero cálida. Sensación de orden, tranquilidad y confianza. Referentes visuales: Clínica Cumbres, Uno Salud Dental, Clínica Alemana. Colores teal (principal) y morado (secundario) sobre fondo blanco, texto en gris corporativo (nunca negro). Tipografía Source Sans en todas sus variantes. El sitio aplica un zoom base de 0.8 para que su 100% por defecto equivalga al 80% que prefiere el director.
 
-**Flujo de usuario principal (v2):**
+**Arquitectura de páginas (v3):**
 
-1. Hero (`#inicio`): h1 fijo "Tu salud dental, en orden.", franja de 5 accesos rápidos a especialidades, split diagonal de sedes (BranchSplit) con foto real por sede, y fila de cierre "Un buen tratamiento empieza por un buen diagnóstico." + botón "Agenda tu evaluación".
-2. Especialidades (`#especialidades`): componente maestro-detalle. Índice de 13 especialidades a la izquierda (agrupadas por "en ambas sedes" o exclusivas por sede); panel de detalle a la derecha con la línea de sede, descripción y botones de contacto por sede.
-3. Membresías (`#membresias`): cabecera centrada, párrafo introductorio y 4 tarjetas (Anticipa, Familia, Seguimiento, Total) sobre gradiente de marca. "Ver más" abre el modal-afiche.
-4. La Clínica (`#sucursales`, contiene `#nosotros` y `#equipo`): Nosotros + Equipo a dos columnas; luego dos galerías gemelas por sede (flechas, contador, miniaturas) con datos de contacto y convenios integrados por sede.
-5. Preguntas frecuentes (`#preguntas`): acordeón compacto a dos columnas.
-6. Contacto (`#contacto`): panel con gradiente, logo y botones de WhatsApp por sede a la izquierda; formulario protagonista a la derecha (nombre, correo, teléfono opcional, motivo, sede opcional, mensaje opcional).
-7. Footer: datos de ambas sedes, redes y línea institucional.
-8. Modal-afiche: overlay que embebe `/afiche/[m]/` (folleto de la membresía en hoja continua). Cierra con clic fuera, Escape o "Volver al sitio".
+| Página | Ruta | Rol |
+| --- | --- | --- |
+| Inicio | `/` | Hub: hero, introducción, especialidades, membresías, accesos, preguntas frecuentes, contacto |
+| Familia ZK | `/familia-zk` | Las 4 membresías, comparador, vigencia y condiciones, preguntas del tema |
+| Sucursales | `/sucursales` | Una sección por sede: intro, galería, infraestructura y datos de contacto |
+| Equipo clínico | `/equipo-clinico` | Dirección Clínica destacada + rejilla filtrable por sede |
+| Nosotros | `/nosotros` | Historia, convicción, crecimiento, visión compartida y 4 principios |
+| Convenios y seguros | `/convenios` | Convenios institucionales, reembolsos y medios de pago |
+| Afiche de membresía | `/familia-zk/afiche?m=…` | Pieza imprimible de 2 caras; con `&embed=1` se ve como hoja continua dentro del modal |
+| No encontrada | `/404` | Salida hacia Inicio y hacia ambas sedes |
 
-**Componentes de interfaz (v2):**
+**Flujo de usuario principal (v3):**
+
+1. Hero (`#inicio`): h1 "Tu salud dental, en orden.", botón a Sucursales y popover "Agenda tu evaluación" con las dos sedes; split diagonal de sedes (BranchSplit, 680px) y franja de 8 etiquetas rápidas que saltan a la especialidad correspondiente.
+2. Introducción: banda `--surface-section` con el relato de la clínica y frase de cierre sobre hairline.
+3. Especialidades (`#especialidades`): índice `role="tablist"` de 14 especialidades agrupadas por disponibilidad; panel derecho con sede, gancho, descripción y botones de WhatsApp por sede.
+4. Membresías (`#membresias`): 4 tarjetas; "Conoce ZK …" abre el modal-afiche. Debajo, acceso al comparador de Familia ZK.
+5. Accesos (`#nosotros`): tres celdas hacia Nosotros, Equipo y Convenios. No repiten contenido.
+6. Preguntas frecuentes (`#preguntas`): acordeón de 9 preguntas.
+7. Contacto (`#contacto`): bloque con `--gradient-brand` y botones de WhatsApp por sede. Sin formulario y sin correo.
+8. Footer: cuatro columnas, disclaimer clínico, franja de copyright y modal de Privacidad.
+9. FAB de WhatsApp: aparece al salir de la portada (IntersectionObserver sobre la primera sección).
+
+**Componentes de interfaz (v3):**
 
 | Componente | Función | Archivo |
 | --- | --- | --- |
-| Hero | h1 fijo, accesos rápidos, split de sedes, fila de cierre | `src/components/sections/Hero.astro` |
-| Specialties | Índice maestro-detalle interactivo de especialidades | `src/components/sections/Specialties.astro` |
-| Memberships | Cabecera, intro y 4 tarjetas de membresía | `src/components/sections/Memberships.astro` |
-| Clinic | Nosotros + Equipo + galerías por sede + convenios | `src/components/sections/Clinic.astro` |
-| Faq | Acordeón compacto a dos columnas | `src/components/sections/Faq.astro` |
-| Contact | Panel gradiente con WhatsApp + formulario | `src/components/sections/Contact.astro` |
+| SiteHeader | Header sticky con 6 links + CTA de contacto y estado activo | `src/components/site/SiteHeader.astro` |
+| SiteFooter | Pie de 4 columnas + modal de Privacidad | `src/components/site/SiteFooter.astro` |
+| WhatsAppFab | Píldora fija que aparece al salir de la portada | `src/components/site/WhatsAppFab.astro` |
+| SectionHeader | Titular de sección del design system | `src/components/core/SectionHeader.astro` |
 | BranchSplit | Split diagonal de sedes con foto por sede | `src/components/content/BranchSplit.astro` |
-| MembershipCard | Tarjeta individual de membresía (abre modal) | `src/components/content/MembershipCard.astro` |
-| MembershipTag | Tarjetita de marca de la membresía (folleto) | `src/components/content/MembershipTag.astro` |
-| Gallery | Galería por sede (flechas, contador, miniaturas) | `src/components/content/Gallery.astro` |
-| AficheEmbed | Folleto de membresía en hoja continua (modo embed) | `src/components/content/AficheEmbed.astro` |
-| AficheModal | Overlay con iframe del afiche | `src/components/content/AficheModal.astro` |
-| FaqItem | Item de acordeón de preguntas frecuentes | `src/components/content/FaqItem.astro` |
-| SiteHeader | Navegación superior | `src/components/site/SiteHeader.astro` |
-| SiteFooter | Pie de página | `src/components/site/SiteFooter.astro` |
-| WhatsAppFab | Botón flotante de WhatsApp | `src/components/site/WhatsAppFab.astro` |
+| MembershipCard | Tarjeta de membresía (abre modal o navega al afiche) | `src/components/content/MembershipCard.astro` |
+| MembershipTag | Tarjetita física de la membresía (folleto) | `src/components/content/MembershipTag.astro` |
+| Afiche | Folleto de 2 caras de una membresía | `src/components/content/Afiche.astro` |
+| Galeria | Galería por sede (flechas, contador, miniaturas, caption) | `src/components/content/Galeria.astro` |
+| FaqItem | Item de acordeón | `src/components/content/FaqItem.astro` |
+| FaqBloque | Acordeón por tema (usado en Familia ZK) | `src/components/content/FaqBloque.astro` |
+
+**Marca de agua del isotipo:** una por página (`opacity: .055`, `pointer-events: none`), salvo en Inicio, cuyo motivo de marca es el split diagonal. Nosotros y Equipo llevan además el sello centrado de su sección de cierre.
 
 ---
 
@@ -153,35 +167,43 @@
 
 ### 7.2. Modal-afiche de membresías
 
-**Propósito:** Reproduce el contrato del diseño v2: "Ver más" abre un modal que embebe el folleto de la membresía en hoja continua.
+**Propósito:** Reproduce el contrato del diseño v3: "Conoce ZK …" abre un modal que embebe el folleto de la membresía en hoja continua.
 
 **Piezas:**
-- `AficheEmbed.astro` (props: `membership`): folleto en hoja continua (fusiona cara A y cara B, sin marcos ni QR, con "Volver al sitio" arriba y abajo).
-- `src/pages/afiche/[membership].astro`: página con fondo transparente que renderiza `AficheEmbed`. Cierra por `postMessage('zk-close-afiche')` o Escape. Fija `html { zoom: 1 }` para no escalarse dos veces dentro del iframe.
-- `AficheModal.astro`: overlay `fixed` con backdrop teal e iframe de `min(880px, 94vw)`. Escucha clics en `[data-afiche-open]`, clic fuera, Escape y el `message` de cierre.
+- `Afiche.astro` (props: `membership`): folleto de dos caras (presentación + "Lo que incluye"), con la tarjetita física, la ruta de cuidado, el timeline de etapas y las condiciones.
+- `src/pages/familia-zk/afiche.astro`: renderiza las cuatro membresías y muestra la que indica `?m=`. Con `&embed=1` agrega `body.embed`: fondo transparente, hoja continua y sin pies repetidos. Fija `html { zoom: 1 }` porque el afiche tiene medida física (794px = A4) y no debe escalarse dos veces dentro del iframe.
+- El overlay vive en `src/pages/index.astro`: `fixed` con backdrop teal e iframe de `min(880px, 94vw)`. Cierra por clic fuera, Escape o `postMessage('zk-close-afiche')` desde el iframe.
 
-**Interfaz del disparador:** cada `MembershipCard` lleva `data-afiche-open="{m}"` y un `ctaHref` a `/afiche/[m]/` como fallback sin JS.
+**Interfaz del disparador:** cada `MembershipCard` con `abreModal` lleva `data-afiche="{m}"` y un `ctaHref` a `/familia-zk/afiche?m={m}` como fallback sin JS.
 
-**Dependencias:** `src/data/membershipDetails.ts`, `MembershipTag.astro`.
+**Dependencias:** `src/data/afiche.ts`, `MembershipTag.astro`.
 
 ### 7.3. Optimización de imágenes
 
-**Propósito:** Mantener el sitio liviano sin renunciar a fotos reales de sedes.
+**Propósito:** Mantener el sitio liviano sin renunciar a fotos reales de sedes y retratos del equipo.
 
 **Mecanismo:**
-- `src/lib/fotos.ts` construye un mapa nombre-de-archivo a `ImageMetadata` vía `import.meta.glob` sobre `src/assets/fotos/`.
-- `BranchSplit` y `Gallery` usan `getImage()` de `astro:assets` para generar webp por tamaño (principal ~1000px, miniatura ~220px).
-- Las fachadas grandes se convirtieron de PNG a JPG en la fuente para aligerar el repositorio.
+- `src/lib/imagenes.ts` construye tres mapas nombre-de-archivo a `ImageMetadata` vía `import.meta.glob` sobre `src/assets/fotos/`, `src/assets/equipo/` y `src/assets/brand/`.
+- `BranchSplit` y `Galeria` usan `getImage()` de `astro:assets` para generar webp por tamaño (principal ~1200px, miniatura ~220px).
+- Los retratos del equipo se sirven como `background-image` con URL ya optimizada: así conservan el encuadre del diseño (`background-position: center 22%` en tarjetas, `38%` en Dirección Clínica).
+- El glob es `eager`: cualquier imagen que quede en `src/assets/` se copia al build aunque ninguna vista la use. Las fotos del handoff que el diseño no referencia no se incorporan al repositorio.
 
 ### 7.4. Datos del sitio
 
-**Propósito:** Contiene todos los datos editables del sitio en un solo lugar.
+**Propósito:** Centralizar el contenido editorial en módulos TypeScript, copiando literalmente el `renderVals()` de cada archivo de diseño.
 
-**Archivos:**
-- `src/data/site.ts`: especialidades (13, con `only` por sede), accesos rápidos, membresías (resumen), preguntas frecuentes, sucursales, galerías por sede (`laPhotos` / `puPhotos`), enlaces de navegación.
-- `src/data/membershipDetails.ts`: detalle completo de cada membresía (beneficios, etapas, perfil ideal, ruta de cuidado, cómo usarla, disclaimer).
+| Módulo | Contenido |
+| --- | --- |
+| `src/data/contacto.ts` | Sedes, teléfonos, Instagram, helper `wa()` y degradados por sede |
+| `src/data/navegacion.ts` | Links del header y del footer, y el helper `ruta()` que respeta el `base` de Astro |
+| `src/data/especialidades.ts` | Las 14 especialidades con gancho, descripción, disponibilidad y las 8 etiquetas rápidas del hero |
+| `src/data/membresias.ts` | Las 4 tarjetas, en sus **dos** redacciones (Inicio y Familia ZK), más acentos y degradados |
+| `src/data/afiche.ts` | Copy verbatim de los 8 folletos: beneficios, "ideal para ti si", etapas y ruta |
+| `src/data/faq.ts` | Las 9 preguntas de Inicio y el banco de 25 de FaqBloque, agrupado por tema |
+| `src/data/equipo.ts` | Las 13 fichas del equipo y las reglas de orden y agrupación por sede |
+| `src/data/sucursales.ts` | Galerías (10 fotos en Los Ángeles, 7 en Pucón), infraestructura, datos de contacto y el split del hero |
 
----
+**Nota sobre duplicaciones intencionales:** el diseño trae dos redacciones distintas para las mismas membresías y dos listas de preguntas que comparten enunciado pero no respuesta. No se unifican: cada página usa la suya, tal cual está en su archivo de referencia.
 
 ## §8. Reglas operativas
 

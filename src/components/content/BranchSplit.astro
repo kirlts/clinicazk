@@ -1,7 +1,9 @@
 ---
+/* BranchSplitV2.jsx — split diagonal (~7°) de las dos sedes en el hero de Inicio.
+   Cada foto se ancla a su mitad (64% de ancho) para no quedar oculta por el recorte. */
 import { getImage } from 'astro:assets';
-import { branches } from '../../data/site';
-import { fotos } from '../../lib/fotos';
+import { BRANCHES } from '../../data/sucursales';
+import { fotos } from '../../lib/imagenes';
 
 interface Props {
   height?: number;
@@ -14,62 +16,66 @@ const ACCENT: Record<string, { c: string; s: string }> = {
   pucon: { c: 'var(--zk-branch-pucon)', s: 'var(--zk-branch-pucon-strong)' },
 };
 
-const [left, right] = branches;
+const [left, right] = BRANCHES;
 
 const panels = await Promise.all(
   [
     { b: left, side: 'left' as const },
     { b: right, side: 'right' as const },
   ].map(async ({ b, side }) => {
-    const img = b.photoSrc ? await getImage({ src: fotos[b.photoSrc], width: 1100, format: 'webp' }) : null;
+    const img = await getImage({ src: fotos[b.photoSrc], width: 1100, format: 'webp' });
     return { b, side, img };
   })
 );
 ---
 
 <div class="zk-branchsplit" id="zk-branchsplit" style={`height:${height}px`}>
-  {panels.map(({ b, side, img }) => {
-    const a = ACCENT[b.key] ?? ACCENT.la;
-    const alignRight = side === 'right';
-    return (
-      <div
-        role="button"
-        tabindex={0}
-        aria-label={`Sede ${b.city}`}
-        data-key={b.key}
-        class={`zk-branch zk-branch--${side}`}
-      >
-        <div class="zk-branch__bg" style={`background:${a.c}`}></div>
-        {img && (
-          <img src={img.src} alt="" class={`zk-branch__photo zk-branch__photo--${side}`} loading="lazy" decoding="async" />
-        )}
+  {
+    panels.map(({ b, side, img }) => {
+      const a = ACCENT[b.key] ?? ACCENT.la;
+      const alignRight = side === 'right';
+      return (
         <div
-          class="zk-branch__tint"
-          style={`background: linear-gradient(${alignRight ? 250 : 110}deg, color-mix(in srgb, ${a.s} 80%, transparent) 0%, color-mix(in srgb, ${a.s} 40%, transparent) 100%);`}
-        ></div>
-        <div class="zk-branch__content" data-align={alignRight ? 'right' : 'left'}>
-          <div class="zk-branch__eyebrow" data-align={alignRight ? 'right' : 'left'}>
-            <span aria-hidden="true" class="zk-branch__chip"></span>
-            <span>Clínica ZK</span>
-          </div>
-          <div class="zk-branch__city">{b.city}</div>
-          <div class="zk-branch__blurb">{b.blurb}</div>
-          <div class="zk-branch__detail">
-            <div class="zk-branch__address">{b.address}</div>
-            <a
-              href={`https://wa.me/${b.whatsapp.replace(/[^0-9]/g, '')}`}
-              target="_blank"
-              rel="noopener"
-              class="zk-branch__wa"
-              style={`color:${a.s}`}
-            >
-              WhatsApp {b.whatsapp}
-            </a>
+          role="button"
+          tabindex={0}
+          aria-label={`Sede ${b.city}`}
+          data-key={b.key}
+          class={`zk-branch zk-branch--${side}`}
+        >
+          <div class="zk-branch__bg" style={`background:${a.c}`} />
+          <img
+            src={img.src}
+            alt=""
+            class={`zk-branch__photo zk-branch__photo--${side}`}
+            loading="lazy"
+            decoding="async"
+          />
+          <div
+            class="zk-branch__tint"
+            style={`background: linear-gradient(${alignRight ? 250 : 110}deg, color-mix(in srgb, ${a.s} 80%, transparent) 0%, color-mix(in srgb, ${a.s} 40%, transparent) 100%);`}
+          />
+          <div class="zk-branch__content" data-align={alignRight ? 'right' : 'left'}>
+            <div class="zk-branch__eyebrow" data-align={alignRight ? 'right' : 'left'}>
+              <span aria-hidden="true" class="zk-branch__chip" />
+              <span>Clínica ZK</span>
+            </div>
+            <div class="zk-branch__city">{b.city}</div>
+            <div class="zk-branch__blurb">{b.blurb}</div>
+            <div class="zk-branch__detail">
+              <div class="zk-branch__address">{b.address}</div>
+              <a
+                href={`https://wa.me/${b.whatsapp.replace(/[^0-9]/g, '')}`}
+                class="zk-branch__wa"
+                style={`color:${a.s}`}
+              >
+                WhatsApp {b.whatsapp}
+              </a>
+            </div>
           </div>
         </div>
-      </div>
-    );
-  })}
+      );
+    })
+  }
 </div>
 
 <script>
@@ -108,7 +114,7 @@ const panels = await Promise.all(
     width: 100%;
     overflow: hidden;
     background: var(--zk-gray-100);
-    border-radius: var(--radius-lg);
+    font-family: var(--font-sans);
   }
   .zk-branch {
     position: absolute;
@@ -150,6 +156,7 @@ const panels = await Promise.all(
     width: 64%;
     height: 100%;
     object-fit: cover;
+    object-position: center;
   }
   .zk-branch__photo--left {
     left: 0;
@@ -167,14 +174,16 @@ const panels = await Promise.all(
     display: flex;
     flex-direction: column;
     justify-content: center;
+    align-items: flex-start;
+    text-align: left;
     color: #fff;
     box-sizing: border-box;
-    padding: 0 24% 0 7%;
+    padding: 0 24% 0 48px;
   }
   .zk-branch__content[data-align='right'] {
     align-items: flex-end;
     text-align: right;
-    padding: 0 7% 0 24%;
+    padding: 0 48px 0 24%;
   }
   .zk-branch__eyebrow {
     display: inline-flex;
@@ -199,13 +208,13 @@ const panels = await Promise.all(
     flex-shrink: 0;
   }
   .zk-branch__city {
-    font-size: clamp(28px, 4.2vw, 44px);
+    font-size: 44px;
     font-weight: 300;
     line-height: 1.02;
     margin-top: 12px;
   }
   .zk-branch__blurb {
-    font-size: clamp(13px, 1.6vw, 16px);
+    font-size: 16px;
     line-height: 1.5;
     opacity: 0.95;
     margin-top: 10px;
@@ -216,7 +225,10 @@ const panels = await Promise.all(
     max-height: 0;
     opacity: 0;
     margin-top: 0;
-    transition: max-height 0.5s var(--ease-out), opacity 0.4s var(--ease-out), margin-top 0.5s var(--ease-out);
+    transition:
+      max-height 0.5s var(--ease-out),
+      opacity 0.4s var(--ease-out),
+      margin-top 0.5s var(--ease-out);
   }
   .zk-branch.is-active .zk-branch__detail {
     max-height: 120px;
@@ -237,6 +249,8 @@ const panels = await Promise.all(
     border-radius: var(--radius-md);
   }
 
+  /* La v3 no especifica móvil (queda declarado como pendiente en el handoff):
+     estos ajustes solo evitan que el split se rompa en pantallas angostas. */
   @media (max-width: 640px) {
     .zk-branchsplit {
       --zk-d: 5;
@@ -252,7 +266,7 @@ const panels = await Promise.all(
       font-size: 10.5px;
     }
     .zk-branch__city {
-      font-size: clamp(19px, 6.4vw, 26px);
+      font-size: 26px;
       margin-top: 8px;
     }
     .zk-branch__blurb {

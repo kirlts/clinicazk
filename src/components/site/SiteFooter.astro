@@ -1,82 +1,178 @@
 ---
-import { Image } from 'astro:assets';
-import logoVertical from '../../assets/brand/logo-zk-vertical.png';
+/* Footer de la v3 — ZKFooterV3.dc.html. Cuatro columnas + disclaimer clínico +
+   franja de copyright, y el modal de Privacidad (contenido institucional pendiente). */
+import { FOOTER_LINKS, ruta } from '../../data/navegacion';
+import { sedes, waConsultaSede } from '../../data/contacto';
+import { logoVertical } from '../../lib/imagenes';
+
+interface Props {
+  home?: boolean;
+}
+const { home = false } = Astro.props;
+
+const links = FOOTER_LINKS.map((l) => ({
+  label: l.label,
+  href: l.anchor ? (home ? l.anchor : ruta(l.page) + l.anchor) : ruta(l.page),
+}));
+
+const waLa = waConsultaSede('Los Ángeles');
+const waPu = waConsultaSede('Pucón');
 ---
 
-<footer class="zk-footer">
-  <div class="zk-footer__grid">
+<footer
+  style="border-top: 1px solid var(--border-subtle); background: var(--zk-white); font-family: var(--font-sans); color: var(--text-body);"
+>
+  <div
+    style="max-width: var(--container-max, min(1520px, 94vw)); margin: 0 auto; padding: 56px 24px 40px; display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 44px;"
+  >
     <div>
-      <Image src={logoVertical} alt="Clínica ZK" width={120} height={106} />
+      <img src={logoVertical.src} alt="Clínica ZK" style="height: 104px; display: block;" />
+      <div style="font-size: 16px; font-weight: var(--fw-semibold); color: var(--text-heading); margin-top: 18px;">
+        Tu salud dental, en orden.
+      </div>
+      <p style="font-size: 14.5px; line-height: var(--lh-body); margin: 8px 0 0;">
+        Atención odontológica integral, especialidades y apoyo diagnóstico en Pucón y Los Ángeles.
+      </p>
     </div>
+
     <div>
-      <h4>Los Ángeles</h4>
-      <div class="zk-footer__text">
-        Av. Gabriela Mistral 74<br />
-        Fono 2-241 822 85<br />
-        WhatsApp +56 9 5790 6641<br />
-        <a href="https://instagram.com/clinicazk" target="_blank" rel="noopener">@clinicazk</a>
+      <h4 style="font-size: 15px; font-weight: var(--fw-semibold); color: var(--text-heading); margin: 0 0 12px;">
+        Los Ángeles
+      </h4>
+      <div style="font-size: 14.5px; line-height: 1.85;">
+        <div>{sedes.la.direccion}</div>
+        <div>Teléfono: {sedes.la.telefono}</div>
+        <div>WhatsApp: {sedes.la.whatsapp}</div>
+        <div style="color: var(--text-muted);">Horario: pendiente de confirmación</div>
+        <a href={sedes.la.instagramUrl} target="_blank" rel="noopener" style="text-decoration: none;">
+          {sedes.la.instagram}
+        </a>
       </div>
     </div>
+
     <div>
-      <h4>Pucón</h4>
-      <div class="zk-footer__text">
-        Brasil 321<br />
-        WhatsApp +56 9 5219 4952<br />
-        <a href="https://instagram.com/clinicazkpucon" target="_blank" rel="noopener">@clinicazkpucon</a>
+      <h4 style="font-size: 15px; font-weight: var(--fw-semibold); color: var(--text-heading); margin: 0 0 12px;">
+        Pucón
+      </h4>
+      <div style="font-size: 14.5px; line-height: 1.85;">
+        <div>{sedes.pucon.direccion}</div>
+        <div>Teléfono y WhatsApp: {sedes.pucon.telefono}</div>
+        <div style="color: var(--text-muted);">Horario: pendiente de confirmación</div>
+        <a href={sedes.pucon.instagramUrl} target="_blank" rel="noopener" style="text-decoration: none;">
+          {sedes.pucon.instagram}
+        </a>
       </div>
     </div>
+
     <div>
-      <h4>Clínica ZK</h4>
-      <div class="zk-footer__text">
-        <a href="#especialidades">Especialidades</a><br />
-        <a href="#membresias">Familia ZK</a><br />
-        <a href="#nosotros">Nosotros</a><br />
-        <a href="#contacto">Contacto</a>
+      <h4 style="font-size: 15px; font-weight: var(--fw-semibold); color: var(--text-heading); margin: 0 0 12px;">
+        Clínica ZK
+      </h4>
+      <div style="display: grid; gap: 2px; font-size: 14.5px; line-height: 1.7;">
+        {links.map((l) => <a href={l.href} style="text-decoration: none;">{l.label}</a>)}
+        <button type="button" id="zk-priv-abrir" class="zk-priv-btn">Privacidad</button>
       </div>
     </div>
   </div>
-  <div class="zk-footer__bar">Clínica ZK · Odontología · Estética · Salud — www.clinicazk.cl</div>
+
+  <div style="max-width: var(--container-max, min(1520px, 94vw)); margin: 0 auto; padding: 0 24px;">
+    <p
+      style="font-size: 13px; line-height: var(--lh-body); color: var(--text-muted); margin: 0; padding: 20px 0 24px; border-top: 1px solid var(--border-subtle); text-wrap: pretty;"
+    >
+      La información publicada en este sitio es de carácter orientativo y no reemplaza la evaluación, el diagnóstico ni
+      la indicación de un profesional.
+    </p>
+  </div>
+
+  <div
+    style="background: var(--gradient-brand); color: #fff; text-align: center; padding: 14px 24px; font-size: 13.5px;"
+  >
+    © 2026 Clínica ZK. Todos los derechos reservados.
+  </div>
+
+  <div id="zk-priv" hidden>
+    <div
+      id="zk-priv-fondo"
+      style="position: fixed; inset: 0; z-index: 95; background: color-mix(in srgb, var(--zk-teal-900, #1E4744) 55%, transparent); backdrop-filter: blur(3px); display: flex; align-items: center; justify-content: center; padding: 40px;"
+    >
+      <div
+        id="zk-priv-caja"
+        style="background: var(--zk-white); border-radius: var(--radius-lg); box-shadow: var(--shadow-raised); width: min(620px, 94vw); max-height: 80vh; overflow: auto; padding: 40px 44px;"
+      >
+        <h2 style="font-size: var(--fs-h2); font-weight: var(--fw-semibold); color: var(--text-heading); margin: 0;">
+          Privacidad
+        </h2>
+        <p
+          style="font-size: 15.5px; line-height: var(--lh-body); color: var(--text-body); margin: 20px 0 0; text-wrap: pretty;"
+        >
+          Estamos preparando esta sección. Muy pronto encontrarás aquí nueva información de Clínica ZK. Mientras tanto,
+          puedes comunicarte directamente con nuestras sucursales.
+        </p>
+        <p
+          style="font-size: 14.5px; line-height: var(--lh-body); color: var(--text-muted); margin: 16px 0 0; text-wrap: pretty;"
+        >
+          Evita enviar antecedentes clínicos sensibles, diagnósticos, radiografías o documentación personal por WhatsApp.
+        </p>
+        <div style="display: flex; gap: 12px; margin-top: 28px;">
+          <a
+            href={waLa}
+            target="_blank"
+            rel="noopener"
+            style="padding: 11px 18px; font-size: 14.5px; font-weight: var(--fw-semibold); text-decoration: none; color: #fff; border-radius: var(--radius-md); background: var(--color-primary);"
+          >
+            Escribir a Los Ángeles
+          </a>
+          <a
+            href={waPu}
+            target="_blank"
+            rel="noopener"
+            style="padding: 11px 18px; font-size: 14.5px; font-weight: var(--fw-semibold); text-decoration: none; color: #fff; border-radius: var(--radius-md); background: var(--color-secondary);"
+          >
+            Escribir a Pucón
+          </a>
+          <button type="button" id="zk-priv-cerrar" class="zk-priv-cerrar">Cerrar</button>
+        </div>
+      </div>
+    </div>
+  </div>
 </footer>
 
-<style>
-  .zk-footer {
-    background: var(--surface-section);
-    border-top: 1px solid var(--border-subtle);
-  }
-  .zk-footer__grid {
-    max-width: var(--container-max);
-    margin: 0 auto;
-    padding: 56px 24px 40px;
-    display: grid;
-    grid-template-columns: 1.2fr 1fr 1fr 1fr;
-    gap: 40px;
-  }
-  .zk-footer__grid h4 {
-    font-size: 16px;
-    margin: 0 0 12px;
-  }
-  .zk-footer__text {
-    font-size: 15px;
-    color: var(--text-body);
-    line-height: 1.8;
-  }
-  .zk-footer__bar {
-    background: var(--gradient-brand);
-    color: #fff;
-    text-align: center;
-    padding: 14px 24px;
-    font-size: 14px;
-  }
+<script>
+  const modal = document.getElementById('zk-priv');
+  const fondo = document.getElementById('zk-priv-fondo');
+  const caja = document.getElementById('zk-priv-caja');
 
-  @media (max-width: 760px) {
-    .zk-footer__grid {
-      grid-template-columns: 1fr 1fr;
-      gap: 32px 24px;
-    }
+  document.getElementById('zk-priv-abrir')?.addEventListener('click', () => modal?.removeAttribute('hidden'));
+  const cerrar = () => modal?.setAttribute('hidden', '');
+  document.getElementById('zk-priv-cerrar')?.addEventListener('click', cerrar);
+  fondo?.addEventListener('click', cerrar);
+  caja?.addEventListener('click', (e) => e.stopPropagation());
+</script>
+
+<style>
+  .zk-priv-btn {
+    justify-self: start;
+    padding: 0;
+    background: none;
+    border: none;
+    font-family: var(--font-sans);
+    font-size: 14.5px;
+    line-height: 1.7;
+    color: var(--color-primary);
+    cursor: pointer;
   }
-  @media (max-width: 480px) {
-    .zk-footer__grid {
-      grid-template-columns: 1fr;
-    }
+  .zk-priv-btn:hover {
+    color: var(--zk-teal-700);
+  }
+  .zk-priv-cerrar {
+    margin-left: auto;
+    padding: 11px 18px;
+    font-size: 14.5px;
+    font-family: var(--font-sans);
+    color: var(--text-body);
+    background: none;
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-md);
+    cursor: pointer;
   }
 </style>

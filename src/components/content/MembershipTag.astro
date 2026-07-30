@@ -1,29 +1,19 @@
 ---
-import { Image } from 'astro:assets';
-import isotipo from '../../assets/brand/isotipo.png';
+/* MembershipTag del design system: la tarjetita física de la membresía. */
+import { GRAD, type ClaveMembresia } from '../../data/membresias';
+import { isotipo } from '../../lib/imagenes';
 
 interface Props {
-  membership: 'anticipa' | 'familia' | 'seguimiento' | 'total';
+  membership: ClaveMembresia;
   name: string;
   motto?: string;
   size?: 'sm' | 'md';
 }
 
-const GRAD = {
-  anticipa:
-    'radial-gradient(130% 100% at 20% 8%, #63C6C0 0%, rgba(99,198,192,0) 52%), linear-gradient(158deg, #46B3AD 0%, #2E9A94 60%, #1E827D 100%)',
-  familia:
-    'radial-gradient(130% 100% at 20% 8%, #C8B0D4 0%, rgba(200,176,212,0) 52%), linear-gradient(158deg, #B094BF 0%, #916F9F 60%, #775A80 100%)',
-  seguimiento:
-    'radial-gradient(130% 100% at 20% 8%, #E2E3E4 0%, rgba(226,227,228,0) 52%), linear-gradient(158deg, #C6C8C9 0%, #ABADAF 55%, #909294 100%)',
-  total:
-    'radial-gradient(130% 100% at 20% 8%, #63676B 0%, rgba(99,103,107,0) 52%), linear-gradient(158deg, #4C5053 0%, #34383B 60%, #23262A 100%)',
-};
-
 const { membership, name, motto, size = 'md' } = Astro.props;
 
 const grad = GRAD[membership] ?? GRAD.anticipa;
-const parts = name.trim().split(/\s+/);
+const parts = String(name).trim().split(/\s+/);
 const brand = parts.length > 1 ? parts[0] : 'ZK';
 const label = parts.length > 1 ? parts.slice(1).join(' ') : name;
 
@@ -34,77 +24,36 @@ const dims =
 ---
 
 <div
-  class="zk-tag"
-  style={`width:${dims.width}px;border-radius:${dims.radius}px;background:${grad};padding:${dims.pad}px`}
+  style={`position: relative; width: ${dims.width}px; aspect-ratio: 1 / 1.36; border-radius: ${dims.radius}px; background: ${grad}; color: #fff; padding: ${dims.pad}px; box-sizing: border-box; display: flex; flex-direction: column; font-family: var(--font-sans); overflow: hidden; box-shadow: 0 22px 44px -18px rgba(0,0,0,.4); flex-shrink: 0;`}
 >
   <span
-    class="zk-tag__mark"
-    style={`top:${dims.pad - 4}px;right:${dims.pad - 4}px;width:${dims.logo}px;height:${dims.logo}px`}
+    aria-hidden="true"
+    style={`position: absolute; top: ${dims.pad - 4}px; right: ${dims.pad - 4}px; width: ${dims.logo}px; height: ${dims.logo}px; border-radius: 50%; background: #fff; display: inline-flex; align-items: center; justify-content: center;`}
   >
-    <Image src={isotipo} alt="" width={Math.round(dims.logo * 0.72)} height={Math.round(dims.logo * 0.72 * 1.02)} />
+    <img src={isotipo.src} alt="" style="width: 72%; height: 72%; object-fit: contain;" />
   </span>
-
   <div
-    class="zk-tag__brand"
-    style={`margin-top:${dims.top}px;font-size:${dims.nameSize}px`}
+    style={`margin-top: ${dims.top}px; font-size: ${dims.nameSize}px; font-weight: var(--fw-light); letter-spacing: .04em; line-height: 1.5; text-transform: uppercase;`}
   >
     <div>{brand}</div>
     <div>{label}</div>
   </div>
-
-  {motto && (
-    <div class="zk-tag__motto" style={`margin-top:${dims.mottoGap}px;font-size:${dims.mottoSize}px`}>
-      {motto}
-    </div>
-  )}
-
-  <svg viewBox="0 0 250 96" preserveAspectRatio="none" aria-hidden="true" class="zk-tag__wave">
+  {
+    motto && (
+      <div
+        style={`margin-top: ${dims.mottoGap}px; font-size: ${dims.mottoSize}px; font-weight: var(--fw-light); letter-spacing: .04em; text-transform: uppercase; line-height: 1.5; opacity: .95; max-width: 86%;`}
+      >
+        {motto}
+      </div>
+    )
+  }
+  <svg
+    viewBox="0 0 250 96"
+    preserveAspectRatio="none"
+    aria-hidden="true"
+    style="position: absolute; left: 0; right: 0; bottom: 0; width: 100%; height: 96px; opacity: .38;"
+  >
     <path d="M40 92 C 130 58, 190 60, 262 20" fill="none" stroke="#fff" stroke-width="1.2"></path>
     <path d="M96 96 C 160 74, 205 74, 262 46" fill="none" stroke="#fff" stroke-width="1" opacity=".7"></path>
   </svg>
 </div>
-
-<style>
-  .zk-tag {
-    position: relative;
-    aspect-ratio: 1 / 1.36;
-    color: #fff;
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    box-shadow: 0 22px 44px -18px rgba(0, 0, 0, 0.4);
-    flex-shrink: 0;
-  }
-  .zk-tag__mark {
-    position: absolute;
-    border-radius: 50%;
-    background: #fff;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .zk-tag__brand {
-    font-weight: var(--fw-light);
-    letter-spacing: 0.04em;
-    line-height: 1.5;
-    text-transform: uppercase;
-  }
-  .zk-tag__motto {
-    font-weight: var(--fw-light);
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-    line-height: 1.5;
-    opacity: 0.95;
-    max-width: 86%;
-  }
-  .zk-tag__wave {
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    width: 100%;
-    height: 96px;
-    opacity: 0.38;
-  }
-</style>

@@ -1,28 +1,708 @@
 ---
+/* Inicio (/) — hub del sitio v3. Siete bloques: hero, introducción, especialidades,
+   membresías, accesos, preguntas frecuentes y contacto. */
 import Layout from '../layouts/Layout.astro';
 import SiteHeader from '../components/site/SiteHeader.astro';
 import SiteFooter from '../components/site/SiteFooter.astro';
 import WhatsAppFab from '../components/site/WhatsAppFab.astro';
-import Hero from '../components/sections/Hero.astro';
-import Specialties from '../components/sections/Specialties.astro';
-import Memberships from '../components/sections/Memberships.astro';
-import Clinic from '../components/sections/Clinic.astro';
-import Faq from '../components/sections/Faq.astro';
-import Contact from '../components/sections/Contact.astro';
-import AficheModal from '../components/content/AficheModal.astro';
+import SectionHeader from '../components/core/SectionHeader.astro';
+import BranchSplit from '../components/content/BranchSplit.astro';
+import MembershipCard from '../components/content/MembershipCard.astro';
+import FaqItem from '../components/content/FaqItem.astro';
+import { ruta } from '../data/navegacion';
+import { wa, waConsultaSede, GRAD_LA, GRAD_PU } from '../data/contacto';
+import { ESPEC, QUICK_LINKS, colorOf, tagOf } from '../data/especialidades';
+import { MB_INICIO } from '../data/membresias';
+import { FAQ_INICIO } from '../data/faq';
+import { logoHorizontal } from '../lib/imagenes';
+
+const BTN =
+  'display: inline-flex; align-items: center; gap: 8px; padding: 11px 20px; font-size: 14.5px; font-weight: var(--fw-semibold); font-family: var(--font-sans); color: #fff; text-decoration: none; border: none; border-radius: var(--radius-md); cursor: pointer; box-shadow: 0 2px 10px rgba(47,63,66,.20), inset 0 0 0 1px rgba(255,255,255,.16); transition: filter .18s var(--ease-out), transform .18s var(--ease-out); background: ';
+
+const waPu = waConsultaSede('Pucón');
+
+/* Panel de cada especialidad: se renderizan los 14 y solo se muestra el activo. */
+const paneles = ESPEC.map((s) => {
+  const consultaEsp = (sede: 'Los Ángeles' | 'Pucón') =>
+    'Hola, quisiera consultar por atención de ' + s.title + ' en Clínica ZK ' + sede + '.';
+  const links: { label: string; href: string; style: string }[] = [];
+  if (s.sede !== 'pucon') {
+    links.push({
+      label: 'Consultar atención en Los Ángeles',
+      href: wa('Los Ángeles', consultaEsp('Los Ángeles')),
+      style: BTN + GRAD_LA + ';',
+    });
+  }
+  if (s.sede === 'agenda') {
+    links.push({
+      label: 'Consultar próxima fecha en Pucón',
+      href: wa(
+        'Pucón',
+        'Hola, quisiera consultar por la próxima fecha de atención de cirugía maxilofacial en Clínica ZK Pucón.'
+      ),
+      style: BTN + GRAD_PU + ';',
+    });
+  } else if (s.sede !== 'la') {
+    links.push({
+      label: 'Consultar atención en Pucón',
+      href: wa('Pucón', consultaEsp('Pucón')),
+      style: BTN + GRAD_PU + ';',
+    });
+  }
+  return { ...s, sedeLine: tagOf(s), sedeColor: colorOf(s), contactLinks: links };
+});
+
+const memberships = MB_INICIO.map((x) => ({
+  ...x,
+  cta: 'Conoce ' + x.name,
+  page: ruta('/familia-zk/afiche') + '?m=' + x.m,
+}));
+
+const agendaBtn =
+  'display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 12px 16px; font-size: 14.5px; font-weight: var(--fw-semibold); color: #fff; text-decoration: none; border-radius: var(--radius-md); transition: filter .18s var(--ease-out); background: ';
+
+const agendaOpciones = [
+  {
+    label: 'Los Ángeles',
+    href: wa('Los Ángeles', 'Hola, quisiera agendar una evaluación odontológica en Clínica ZK Los Ángeles.'),
+    style: agendaBtn + GRAD_LA + ';',
+  },
+  {
+    label: 'Pucón',
+    href: wa('Pucón', 'Hola, quisiera agendar una evaluación odontológica en Clínica ZK Pucón.'),
+    style: agendaBtn + GRAD_PU + ';',
+  },
+];
+
+const accesos = [
+  {
+    eyebrow: 'Quiénes somos',
+    color: 'var(--zk-teal-600)',
+    title: 'Una clínica que crece sin perder la cercanía.',
+    body: 'Cada sede tiene su propia realidad, pero las dos comparten una misma visión: cuidar con responsabilidad, cercanía y coordinación.',
+    cta: 'Conoce Clínica ZK',
+    href: ruta('/nosotros'),
+  },
+  {
+    eyebrow: 'Equipo clínico',
+    color: 'var(--color-secondary)',
+    title: 'Profesionales que acompañan tu cuidado.',
+    body: 'La confianza también se construye sabiendo quién te acompaña.',
+    cta: 'Conoce a nuestro equipo',
+    href: ruta('/equipo-clinico'),
+  },
+  {
+    eyebrow: 'Convenios y seguros',
+    color: 'var(--zk-teal-600)',
+    title: 'Más alternativas para acceder a tu atención dental.',
+    body: 'Antes de tu atención, revisa qué alternativas están disponibles para ti.',
+    cta: 'Ver convenios y seguros',
+    href: ruta('/convenios'),
+  },
+];
+
+const contactoWa = [
+  { label: 'Escribir a Clínica ZK Los Ángeles', phone: '+56 9 5790 6641', href: waConsultaSede('Los Ángeles') },
+  { label: 'Escribir a Clínica ZK Pucón', phone: '+56 9 5219 4952', href: waPu },
+];
+
+const quickLinks = QUICK_LINKS.map(([label, idx]) => ({
+  label,
+  href: idx === null ? ruta('/familia-zk') : '#especialidades',
+  idx,
+}));
 ---
 
-<Layout>
-  <SiteHeader />
-  <main>
-    <Hero />
-    <Specialties />
-    <Memberships />
-    <Clinic />
-    <Faq />
-    <Contact />
-  </main>
-  <SiteFooter />
-  <WhatsAppFab />
-  <AficheModal />
+<Layout
+  title="Clínica ZK | Odontología integral en Pucón y Los Ángeles"
+  description="Atención odontológica integral, especialidades, apoyo diagnóstico y membresías Familia ZK en Pucón y Los Ángeles."
+>
+  <div style="font-family: var(--font-sans); color: var(--text-body);">
+    <SiteHeader home />
+
+    <!-- ===================== HERO ===================== -->
+    <section id="inicio" style="padding: 60px 24px 0;">
+      <div style="max-width: var(--container-max); margin: 0 auto;">
+        <div style="max-width: 1080px; margin: 0 auto; text-align: center;">
+          <h1
+            style="font-size: clamp(42px, 5.2vw, 78px); font-weight: var(--fw-light); line-height: 1.06; color: var(--text-heading); margin: 0; letter-spacing: -0.01em;"
+          >
+            Tu salud dental, <span style="color: var(--color-primary); font-weight: var(--fw-regular);">en orden.</span>
+          </h1>
+          <p
+            style="font-size: clamp(16px, 1.25vw, 19px); line-height: var(--lh-body); color: var(--text-body); margin: 24px auto 0; max-width: 860px; text-wrap: pretty;"
+          >
+            Atención odontológica integral para niñas, niños, jóvenes y adultos, con distintas especialidades, apoyo
+            diagnóstico y un equipo que te acompaña con claridad y continuidad en Pucón y Los Ángeles.
+          </p>
+          <div
+            style="margin-top: 28px; display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; align-items: flex-start;"
+          >
+            <a href={ruta('/sucursales')} class="zk-btn-sec">Conoce nuestras sedes</a>
+            <div style="position: relative;">
+              <button type="button" id="zk-agenda-btn" aria-expanded="false" class="zk-btn-pri">
+                Agenda tu evaluación<svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"><path d="m6 9 6 6 6-6"></path></svg
+                >
+              </button>
+              <div
+                id="zk-agenda-pop"
+                hidden
+                style="position: absolute; z-index: 20; top: calc(100% + 10px); left: 50%; transform: translateX(-50%); width: 300px; background: var(--zk-white); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); box-shadow: var(--shadow-raised); padding: 16px; text-align: left; animation: zkfade .2s var(--ease-out);"
+              >
+                <div
+                  style="font-size: 13.5px; line-height: var(--lh-body); color: var(--text-muted); margin-bottom: 12px;"
+                >
+                  Elige la sucursal donde quieres atenderte. Continúas por WhatsApp con recepción.
+                </div>
+                <div style="display: grid; gap: 8px;">
+                  {
+                    agendaOpciones.map((a) => (
+                      <a href={a.href} target="_blank" rel="noopener" class="zk-brillo" style={a.style}>
+                        {a.label}
+                      </a>
+                    ))
+                  }
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-top: 40px;">
+          <BranchSplit height={680} />
+        </div>
+
+        <p
+          style="margin: 28px 0 0; font-size: clamp(20px, 1.8vw, 27px); font-weight: var(--fw-light); color: var(--text-heading); line-height: var(--lh-tight); border-top: 1px solid var(--border-subtle); padding-top: 28px; text-align: center;"
+        >
+          Dos sucursales. Un mismo compromiso con tu cuidado<span style="color: var(--zk-teal-600);">.</span>
+        </p>
+
+        <div
+          id="hero-etiquetas"
+          style="margin-top: 30px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--border-subtle); border: 1px solid var(--border-subtle);"
+        >
+          {
+            quickLinks.map((q) => (
+              <a href={q.href} data-espec-idx={q.idx ?? undefined} class="zk-quick">
+                {q.label}
+              </a>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== INTRODUCCIÓN ===================== -->
+    <section style="background: var(--surface-section); padding: var(--space-9) 24px; margin-top: var(--space-9);">
+      <div style="max-width: 1340px; margin: 0 auto; text-align: center;">
+        <h2
+          style="font-size: var(--fs-h1); font-weight: var(--fw-light); line-height: var(--lh-tight); color: var(--text-heading); margin: 0; text-wrap: pretty;"
+        >
+          Entender, cuidar y avanzar con una ruta clara.
+        </h2>
+        <div style="margin-top: 22px;">
+          <p style="font-size: 17px; line-height: 1.55; margin: 0; text-wrap: pretty;">
+            En Clínica ZK entendemos la salud dental como un proceso que necesita evaluación, diagnóstico, continuidad y
+            decisiones bien informadas. Reunimos distintas especialidades, apoyo diagnóstico y equipos coordinados en
+            Pucón y Los Ángeles, para acompañar a cada persona y familia de acuerdo con sus necesidades y etapa de vida.
+          </p>
+          <p style="font-size: 17px; line-height: 1.55; margin: 12px 0 0; text-wrap: pretty;">
+            No se trata solamente de atender cuando algo duele. Se trata de comprender qué está pasando, anticiparse
+            cuando sea posible y sostener el cuidado en el tiempo.
+          </p>
+          <p
+            style="font-size: clamp(18px, 1.5vw, 23px); font-weight: var(--fw-light); color: var(--text-heading); line-height: var(--lh-tight); margin: 26px auto 0; padding-top: 24px; border-top: 1px solid var(--border-subtle); max-width: 1100px; text-wrap: pretty;"
+          >
+            Cuando sabes qué necesitas y cómo continuar, cuidar tu salud dental se vuelve más simple.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== ESPECIALIDADES ===================== -->
+    <section id="especialidades" style="padding: var(--space-9) 24px;">
+      <div style="max-width: var(--container-max); margin: 0 auto;">
+        <SectionHeader align="left" title="Especialidades" />
+
+        <div style="margin-top: 44px; display: grid; grid-template-columns: 1fr 1fr; gap: 56px;">
+          <div role="tablist" aria-label="Especialidades" id="zk-espec-lista">
+            {
+              ESPEC.map((s, i) => (
+                <div>
+                  {s.g && (
+                    <div
+                      style={`font-size: 11.5px; font-weight: var(--fw-semibold); letter-spacing: var(--ls-eyebrow); text-transform: uppercase; color: ${colorOf(s)}; margin: 22px 0 4px; padding-left: 4px;`}
+                    >
+                      {s.g}
+                    </div>
+                  )}
+                  <button
+                    type="button"
+                    role="tab"
+                    aria-selected={i === 0 ? 'true' : 'false'}
+                    data-espec={i}
+                    class="zk-espec-row"
+                    data-activa={i === 0 ? '' : undefined}
+                  >
+                    <span class="zk-espec-nombre">{s.title}</span>
+                  </button>
+                </div>
+              ))
+            }
+          </div>
+
+          <div>
+            {
+              paneles.map((p, i) => (
+                <div
+                  data-panel={i}
+                  hidden={i !== 0}
+                  style="position: relative; display: flex; flex-direction: column; justify-content: space-between; padding: 44px 48px; overflow: hidden; background: var(--surface-section); animation: zkfade .4s var(--ease-out); height: 100%;"
+                >
+                  <div style="margin: auto 0; padding: 28px 0;">
+                    <p style={`font-size: 15px; color: ${p.sedeColor}; margin: 0;`}>{p.sedeLine}</p>
+                    <h3
+                      style="font-size: var(--fs-h1); font-weight: var(--fw-light); line-height: var(--lh-tight); margin: 8px 0 0; color: var(--text-heading);"
+                    >
+                      {p.title}
+                    </h3>
+                    <p
+                      style="font-size: clamp(17px, 1.35vw, 21px); font-weight: var(--fw-light); color: var(--text-heading); line-height: var(--lh-tight); margin: 18px 0 0; max-width: 520px; text-wrap: pretty;"
+                    >
+                      {p.gancho}
+                    </p>
+                    <p
+                      style="font-size: var(--fs-body-lg); line-height: var(--lh-body); margin: 18px 0 0; max-width: 520px; color: var(--text-body); text-wrap: pretty;"
+                    >
+                      {p.desc}
+                    </p>
+                    {p.extra && (
+                      <p style="font-size: 15.5px; line-height: var(--lh-body); margin: 14px 0 0; max-width: 520px; color: var(--text-muted); text-wrap: pretty;">
+                        {p.extra}
+                      </p>
+                    )}
+                  </div>
+                  <div style="border-top: 1px solid var(--border-subtle); padding-top: 20px; display: flex; align-items: center; justify-content: flex-end; gap: 10px; flex-wrap: wrap;">
+                    {p.contactLinks.map((w) => (
+                      <a href={w.href} target="_blank" rel="noopener" class="zk-brillo" style={w.style}>
+                        {w.label}
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              ))
+            }
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== MEMBRESÍAS ===================== -->
+    <section id="membresias" style="padding: var(--space-9) 24px;">
+      <div style="max-width: var(--container-max); margin: 0 auto;">
+        <div style="text-align: center;">
+          <h2
+            style="color: var(--text-heading); font-size: var(--fs-h1); font-weight: var(--fw-light); margin: 0; line-height: var(--lh-tight);"
+          >
+            Algunos reaccionan. <span style="font-weight: var(--fw-semibold); color: var(--zk-teal-600);"
+              >Otros se anticipan.</span
+            >
+          </h2>
+          <p
+            style="color: var(--text-body); font-size: var(--fs-body-lg); margin: 18px auto 0; max-width: 1180px; line-height: var(--lh-body); text-wrap: pretty;"
+          >
+            Familia ZK reúne cuatro membresías anuales pensadas para distintas formas de cuidar la salud dental. <br />
+            Todas parten de una misma idea: <b>No esperar a que aparezca un problema para ordenar los controles.</b>
+          </p>
+        </div>
+
+        <div
+          style="margin-top: 44px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; align-items: stretch;"
+        >
+          {
+            memberships.map((mb) => (
+              <MembershipCard
+                membership={mb.m}
+                name={mb.name}
+                motto={mb.motto}
+                headline={mb.headline}
+                tagline={mb.tag}
+                features={mb.feats}
+                ctaLabel={mb.cta}
+                ctaHref={mb.page}
+                abreModal
+                highlighted={mb.hl}
+              />
+            ))
+          }
+        </div>
+        <div style="margin-top: 30px; display: flex; justify-content: center; gap: 12px; flex-wrap: wrap;">
+          <a href={ruta('/familia-zk') + '#comparador'} class="zk-btn-sec zk-btn-sec--ancho">Comparar las membresías</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== ACCESOS ===================== -->
+    <section id="nosotros" style="background: var(--surface-section); padding: var(--space-9) 24px;">
+      <div
+        style="max-width: var(--container-max); margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1px; background: var(--border-subtle); border: 1px solid var(--border-subtle);"
+      >
+        {
+          accesos.map((a) => (
+            <div style="background: var(--zk-white); padding: 40px 42px; display: flex; flex-direction: column;">
+              <div
+                style={`font-size: 11.5px; font-weight: var(--fw-semibold); letter-spacing: var(--ls-eyebrow); text-transform: uppercase; color: ${a.color}; text-align: center;`}
+              >
+                {a.eyebrow}
+              </div>
+              <h2 style="font-size: clamp(20px, 1.7vw, 27px); font-weight: var(--fw-light); color: var(--text-heading); line-height: var(--lh-tight); margin: 16px 0 0; text-wrap: pretty;">
+                {a.title}
+              </h2>
+              <p style="font-size: 15.5px; line-height: var(--lh-body); margin: 16px 0 0; text-wrap: pretty;">{a.body}</p>
+              <div style="margin-top: auto; padding-top: 28px; display: flex; justify-content: center;">
+                <a href={a.href} class="zk-btn-sec zk-btn-sec--chico">
+                  {a.cta}
+                </a>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </section>
+
+    <!-- ===================== PREGUNTAS FRECUENTES ===================== -->
+    <section id="preguntas" style="background: var(--surface-section); padding: var(--space-9) 24px;">
+      <div style="max-width: var(--container-max); margin: 0 auto;">
+        <div style="text-align: center; padding-bottom: 26px; border-bottom: 1px solid var(--border-subtle);">
+          <h2 style="font-size: var(--fs-h2); font-weight: var(--fw-semibold); color: var(--text-heading); margin: 0;">
+            Preguntas frecuentes
+          </h2>
+          <p
+            style="font-size: 15.5px; color: var(--text-body); margin: 16px auto 0; max-width: 860px; line-height: var(--lh-body); text-wrap: pretty;"
+          >
+            Encontrar información clara también forma parte del cuidado. Aquí puedes conocer cómo funcionan nuestras
+            atenciones, servicios, sucursales y membresías antes de comunicarte con nuestro equipo.
+          </p>
+        </div>
+        <div
+          style="margin-top: 8px; display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 0 56px; align-items: start;"
+        >
+          {FAQ_INICIO.map((f) => <FaqItem question={f.q} answer={f.a} />)}
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== CONTACTO ===================== -->
+    <section id="contacto" style="padding: var(--space-9) 24px;">
+      <div style="max-width: var(--container-max); margin: 0 auto;">
+        <div
+          style="border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-raised); background: var(--gradient-brand); padding: 64px 48px; text-align: center;"
+        >
+          <img
+            src={logoHorizontal.src}
+            alt="Clínica ZK"
+            style="width: 210px; display: block; margin: 0 auto 40px; filter: brightness(0) invert(1);"
+          />
+          <h2
+            style="color: #fff; font-size: clamp(26px, 2.4vw, 40px); font-weight: var(--fw-light); margin: 0 auto; max-width: 940px; line-height: var(--lh-tight); text-wrap: pretty;"
+          >
+            Cuéntanos qué necesitas y te ayudaremos a identificar el siguiente paso.
+          </h2>
+          <p
+            style="color: rgba(255,255,255,.92); font-size: 16px; line-height: var(--lh-body); margin: 20px auto 0; max-width: 720px; text-wrap: pretty;"
+          >
+            No necesitas saber exactamente qué tratamiento corresponde antes de escribirnos. Podemos orientarte. Elige
+            la sucursal donde quieres atenderte.
+          </p>
+          <div style="margin-top: 34px; display: flex; gap: 14px; flex-wrap: wrap; justify-content: center;">
+            {
+              contactoWa.map((c) => (
+                <a href={c.href} target="_blank" rel="noopener" class="zk-contacto-btn">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" style="flex:none;">
+                    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.52.149-.174.198-.298.297-.497.1-.198.05-.371-.025-.52-.074-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.372-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.511-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.884 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z" />
+                  </svg>
+                  <span style="flex: 1 1 auto; min-width: 0; display: grid; gap: 2px;">
+                    <strong style="font-weight: var(--fw-semibold);">{c.label}</strong>
+                    <span style="font-variant-numeric: tabular-nums; color: var(--text-body);">{c.phone}</span>
+                  </span>
+                </a>
+              ))
+            }
+          </div>
+          <p
+            style="color: rgba(255,255,255,.82); font-size: 14px; line-height: var(--lh-body); margin: 26px auto 0; max-width: 720px; text-wrap: pretty;"
+          >
+            WhatsApp es nuestro canal de contacto. Recepción confirma profesionales, disponibilidad y horarios; la
+            página no realiza reservas automáticas.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <SiteFooter home />
+
+    <div id="zk-afiche" hidden>
+      <div id="zk-afiche-fondo">
+        <div id="zk-afiche-caja" style="position: relative; width: min(880px, 94vw); height: 100vh;">
+          <iframe
+            id="zk-afiche-iframe"
+            src=""
+            title="Detalle de membresía"
+            style="width: 100%; height: 100%; border: none; display: block; background: transparent;"></iframe>
+        </div>
+      </div>
+    </div>
+
+    <WhatsAppFab href={waPu} />
+  </div>
 </Layout>
+
+<script
+  define:vars={{
+    baseAfiche: ruta('/familia-zk/afiche'),
+    redirecciones: {
+      '#sucursales': ruta('/sucursales'),
+      '#convenios': ruta('/convenios'),
+      '#equipo': ruta('/equipo-clinico'),
+    },
+  }}
+>
+  /* Anclas de la v2 que ya no existen en Inicio: se redirigen a su página nueva.
+     #nosotros y #membresias siguen siendo anclas válidas de esta página. */
+  const destino = redirecciones[location.hash];
+  if (destino) location.replace(destino);
+
+  /* Popover «Agenda tu evaluación»: abre al click, cierra al click fuera o con Esc. */
+  const agendaBtn = document.getElementById('zk-agenda-btn');
+  const agendaPop = document.getElementById('zk-agenda-pop');
+  const cerrarAgenda = () => {
+    agendaPop?.setAttribute('hidden', '');
+    agendaBtn?.setAttribute('aria-expanded', 'false');
+  };
+  agendaBtn?.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const abierto = !agendaPop?.hasAttribute('hidden');
+    if (abierto) {
+      cerrarAgenda();
+    } else {
+      agendaPop?.removeAttribute('hidden');
+      agendaBtn.setAttribute('aria-expanded', 'true');
+    }
+  });
+  document.addEventListener('click', (e) => {
+    if (!agendaPop || agendaPop.hasAttribute('hidden')) return;
+    if (!agendaPop.contains(e.target) && e.target !== agendaBtn) cerrarAgenda();
+  });
+
+  /* Selector de especialidades: cambia el panel sin recargar. */
+  const filas = Array.from(document.querySelectorAll('[data-espec]'));
+  const paneles = Array.from(document.querySelectorAll('[data-panel]'));
+  const seleccionar = (i) => {
+    filas.forEach((f) => {
+      const activa = Number(f.dataset.espec) === i;
+      f.toggleAttribute('data-activa', activa);
+      f.setAttribute('aria-selected', activa ? 'true' : 'false');
+    });
+    paneles.forEach((p) => {
+      p.hidden = Number(p.dataset.panel) !== i;
+    });
+  };
+  filas.forEach((f) => f.addEventListener('click', () => seleccionar(Number(f.dataset.espec))));
+  document
+    .querySelectorAll('[data-espec-idx]')
+    .forEach((a) => a.addEventListener('click', () => seleccionar(Number(a.dataset.especIdx))));
+
+  /* Modal del afiche: abre desde «Conoce ZK …»; cierra con Esc, click fuera o postMessage. */
+  const modal = document.getElementById('zk-afiche');
+  const marco = document.getElementById('zk-afiche-iframe');
+  const cerrarAfiche = () => {
+    modal?.setAttribute('hidden', '');
+    if (marco) marco.src = '';
+  };
+  document.querySelectorAll('[data-afiche]').forEach((a) =>
+    a.addEventListener('click', (e) => {
+      e.preventDefault();
+      if (marco) marco.src = baseAfiche + '?m=' + a.dataset.afiche + '&embed=1';
+      modal?.removeAttribute('hidden');
+    })
+  );
+  document.getElementById('zk-afiche-fondo')?.addEventListener('click', cerrarAfiche);
+  document.getElementById('zk-afiche-caja')?.addEventListener('click', (e) => e.stopPropagation());
+  window.addEventListener('message', (e) => {
+    if (e.data === 'zk-close-afiche') cerrarAfiche();
+  });
+  window.addEventListener('keydown', (e) => {
+    if (e.key !== 'Escape') return;
+    cerrarAfiche();
+    cerrarAgenda();
+  });
+</script>
+
+<style>
+  /* Botones: el hover/active vive en la clase, nunca en el style inline. */
+  .zk-btn-sec {
+    display: inline-flex;
+    align-items: center;
+    padding: 13px 24px;
+    font-size: 15px;
+    color: var(--text-heading);
+    text-decoration: none;
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-md);
+    transition:
+      border-color 0.18s var(--ease-out),
+      color 0.18s var(--ease-out);
+  }
+  .zk-btn-sec--ancho {
+    padding: 13px 26px;
+    background: var(--zk-white);
+  }
+  .zk-btn-sec--chico {
+    padding: 12px 22px;
+  }
+  .zk-btn-sec:hover {
+    border-color: var(--zk-teal-500);
+    color: var(--zk-teal-700);
+    text-decoration: none;
+  }
+
+  .zk-btn-pri {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    padding: 13px 24px;
+    font-size: 15px;
+    line-height: 24px;
+    font-weight: var(--fw-semibold);
+    font-family: var(--font-sans);
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    border-radius: var(--radius-md);
+    background:
+      radial-gradient(130% 120% at 18% 0%, #63c6c0 0%, rgba(99, 198, 192, 0) 55%),
+      linear-gradient(105deg, #46b3ad 0%, #2e9a94 60%, #1e827d 100%);
+    box-shadow:
+      0 2px 10px rgba(47, 63, 66, 0.2),
+      inset 0 0 0 1px rgba(255, 255, 255, 0.16);
+    transition:
+      filter 0.18s var(--ease-out),
+      transform 0.18s var(--ease-out);
+  }
+  .zk-btn-pri:hover {
+    filter: brightness(1.07);
+  }
+  .zk-btn-pri:active {
+    filter: brightness(0.95);
+    transform: translateY(1px);
+  }
+
+  .zk-brillo:hover {
+    filter: brightness(1.07);
+    color: #fff;
+    text-decoration: none;
+  }
+  .zk-brillo:active {
+    filter: brightness(0.95);
+    transform: translateY(1px);
+    box-shadow:
+      0 1px 4px rgba(47, 63, 66, 0.16),
+      inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+  }
+
+  .zk-quick {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 16px 12px;
+    text-decoration: none;
+    color: var(--text-heading);
+    font-size: 15.5px;
+    background: var(--zk-white);
+    transition: color 0.18s var(--ease-out);
+  }
+  .zk-quick:hover {
+    color: var(--zk-teal-600);
+    text-decoration: none;
+  }
+
+  .zk-espec-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 14px;
+    width: 100%;
+    text-align: left;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 14px 4px;
+    border-bottom: 1px solid var(--border-subtle);
+    font-family: var(--font-sans);
+    transition: color 0.18s var(--ease-out);
+    color: var(--text-heading);
+  }
+  .zk-espec-row[data-activa] {
+    color: var(--zk-teal-600);
+  }
+  .zk-espec-row:hover {
+    color: var(--zk-teal-600);
+  }
+  .zk-espec-nombre {
+    font-size: 16.5px;
+    font-weight: var(--fw-regular);
+    flex: 1;
+  }
+  .zk-espec-row[data-activa] .zk-espec-nombre {
+    font-weight: var(--fw-semibold);
+  }
+
+  .zk-contacto-btn {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 24px;
+    min-width: 300px;
+    background: #fff;
+    border-radius: var(--radius-md);
+    color: var(--zk-teal-700);
+    text-decoration: none;
+    font-size: 15px;
+    line-height: 1.4;
+    text-align: left;
+    box-shadow: 0 2px 10px rgba(47, 63, 66, 0.18);
+    transition:
+      filter 0.18s var(--ease-out),
+      transform 0.18s var(--ease-out);
+  }
+  .zk-contacto-btn:hover {
+    filter: brightness(0.97);
+    text-decoration: none;
+  }
+  .zk-contacto-btn:active {
+    transform: translateY(1px);
+  }
+
+  #zk-afiche-fondo {
+    position: fixed;
+    inset: 0;
+    z-index: 90;
+    background: color-mix(in srgb, var(--zk-teal-900, #1e4744) 55%, transparent);
+    backdrop-filter: blur(3px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+    animation: zkfade 0.25s var(--ease-out);
+  }
+</style>

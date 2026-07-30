@@ -1,0 +1,260 @@
+---
+/* Afiche parametrizado (/familia-zk/afiche?m=…&embed=1).
+   No es página de navegación: es la pieza imprimible que abre desde las tarjetitas de
+   membresía. Se renderizan las cuatro variantes y el querystring decide cuál se muestra,
+   conservando el contrato ?m= / &embed=1 del diseño. */
+import Layout from '../../layouts/Layout.astro';
+import Afiche from '../../components/content/Afiche.astro';
+import { ruta } from '../../data/navegacion';
+import type { ClaveMembresia } from '../../data/membresias';
+import { logoHorizontal } from '../../lib/imagenes';
+
+const CLAVES: ClaveMembresia[] = ['anticipa', 'familia', 'seguimiento', 'total'];
+---
+
+<Layout
+  title="Membresías Familia ZK | Clínica ZK"
+  description="Folleto de la membresía Familia ZK: prestaciones, etapas de la ruta de cuidado y condiciones."
+>
+  <nav class="zk-bar">
+    <div class="in">
+      <a href={ruta('/')} style="display:flex;align-items:center;flex:none"
+        ><img src={logoHorizontal.src} alt="Clínica ZK" style="height:38px;display:block" /></a
+      >
+      <a href={ruta('/familia-zk')} style="margin-left:auto">Familia ZK</a>
+      <a href={ruta('/') + '#contacto'}>Contacto</a>
+    </div>
+  </nav>
+
+  {
+    CLAVES.map((m, i) => (
+      <div data-membresia={m} hidden={i !== 0}>
+        <Afiche membership={m} />
+      </div>
+    ))
+  }
+</Layout>
+
+<script define:vars={{ destinoFamilia: ruta('/familia-zk') }}>
+  const params = new URLSearchParams(location.search);
+  const m = params.get('m');
+  const embed = !!params.get('embed');
+
+  document.querySelectorAll('[data-membresia]').forEach((el) => {
+    el.hidden = el.dataset.membresia !== (m && document.querySelector(`[data-membresia="${m}"]`) ? m : 'anticipa');
+  });
+
+  // Modo embed (modal del sitio): el documento ES el modal — sin fondo de escritorio.
+  if (embed) {
+    document.body.classList.add('embed');
+    document.documentElement.style.background = 'transparent';
+  }
+
+  document.querySelectorAll('[data-volver]').forEach((b) =>
+    b.addEventListener('click', () => {
+      try {
+        window.parent.postMessage('zk-close-afiche', '*');
+      } catch (e) {
+        /* sin parent: navegación normal */
+      }
+      if (!embed) window.location.href = destinoFamilia;
+    })
+  );
+</script>
+
+<style is:global>
+  @page {
+    size: A4;
+    margin: 0;
+  }
+  /* El afiche tiene medida física (794px = A4): se exceptúa del zoom base del sitio,
+     que si no lo encogería otra vez dentro del iframe del modal. */
+  html {
+    zoom: 1;
+  }
+  body {
+    margin: 0;
+    background: #e7e9eb;
+  }
+  .desk {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 26px;
+    padding: 34px 20px;
+    font-family: var(--font-sans);
+  }
+  .face {
+    width: 794px;
+    height: 1123px;
+    background: var(--zk-white);
+    box-shadow: 0 20px 60px -24px rgba(47, 123, 119, 0.35);
+    border-radius: 6px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    padding: 46px 50px;
+  }
+  .m-anticipa {
+    --m: var(--zk-anticipa);
+    --mtint: var(--zk-teal-50);
+  }
+  .m-familia {
+    --m: var(--zk-familia);
+    --mtint: var(--zk-purple-50);
+  }
+  .m-seguimiento {
+    --m: var(--zk-seguimiento);
+    --mtint: var(--surface-section);
+  }
+  .m-total {
+    --m: var(--zk-total);
+    --mtint: var(--surface-section);
+  }
+  .tl-item:last-child .tl-line {
+    display: none;
+  }
+
+  /* El `display` de los pies impresos vive en la clase, no en el style inline: en modo
+     embed las reglas de abajo tienen que poder ocultarlos. */
+  .zk-pie-impreso {
+    display: flex;
+  }
+
+  .zk-bar {
+    position: sticky;
+    top: 0;
+    z-index: 40;
+    background: rgba(255, 255, 255, 0.96);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--border-subtle);
+    font-family: var(--font-sans);
+  }
+  .zk-bar .in {
+    max-width: 794px;
+    margin: 0 auto;
+    padding: 0 12px;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    gap: 18px;
+  }
+  .zk-bar a {
+    font-size: 14.5px;
+    text-decoration: none;
+    color: var(--text-body);
+    white-space: nowrap;
+  }
+  .zk-bar a:hover {
+    color: var(--zk-teal-700);
+    text-decoration: none;
+  }
+  @media print {
+    .zk-bar {
+      display: none;
+    }
+  }
+  body.embed .zk-bar {
+    display: none;
+  }
+  @media print {
+    body {
+      background: #fff;
+    }
+    .desk {
+      gap: 0;
+      padding: 0;
+    }
+    .face {
+      box-shadow: none;
+      border-radius: 0;
+      page-break-after: always;
+    }
+  }
+
+  /* Modo embed (modal del sitio): una sola hoja continua, sin footer repetido. */
+  body.embed {
+    background: transparent;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.4) transparent;
+  }
+  body.embed .desk {
+    gap: 0;
+    padding: 24px 0 48px;
+  }
+  body.embed .face {
+    height: auto;
+    min-height: 0;
+  }
+  body.embed .face:first-child {
+    border-radius: 6px 6px 0 0;
+    padding-bottom: 8px;
+  }
+  body.embed .face:last-child {
+    border-radius: 0 0 6px 6px;
+    padding-top: 10px;
+  }
+  body.embed .face:first-child footer {
+    display: none;
+  }
+  body.embed .face:last-child header {
+    display: none;
+  }
+  body.embed footer {
+    display: none;
+  }
+  body.embed::-webkit-scrollbar {
+    width: 8px;
+  }
+  body.embed::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  body.embed::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.35);
+    border-radius: 99px;
+  }
+  body.embed::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.55);
+  }
+
+  /* «Volver al sitio» solo existe dentro del modal; fuera, la salida es el botón del pie. */
+  .zk-volver-embed {
+    display: none;
+    align-self: flex-start;
+    align-items: center;
+    gap: 8px;
+    margin: 0 0 26px;
+    padding: 0;
+    border: none;
+    background: none;
+    font-family: var(--font-sans);
+    font-size: 14px;
+    color: var(--text-muted);
+    cursor: pointer;
+  }
+  body.embed .zk-volver-embed {
+    display: inline-flex;
+  }
+  .zk-volver-embed:hover {
+    color: var(--m);
+  }
+
+  .zk-volver {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 11px 22px;
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-md);
+    background: var(--zk-white);
+    font-family: var(--font-sans);
+    font-size: 14.5px;
+    color: var(--text-heading);
+    cursor: pointer;
+  }
+  .zk-volver:hover {
+    color: var(--m);
+    border-color: var(--m);
+  }
+</style>

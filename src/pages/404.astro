@@ -1,0 +1,109 @@
+---
+/* 404 — 404.dc.html.
+   Nota: el prototipo declara `<dc-import name="ZKHeader">` y `ZKFooter`, nombres que no
+   existen en el bundle (son ZKHeaderV3 / ZKFooterV3), así que ahí la página renderiza sin
+   header ni footer. Se implementa con el chrome compartido, que es lo que el archivo
+   declara y lo que pide el handoff. La diferencia queda reportada. */
+import Layout from '../layouts/Layout.astro';
+import SiteHeader from '../components/site/SiteHeader.astro';
+import SiteFooter from '../components/site/SiteFooter.astro';
+import { ruta } from '../data/navegacion';
+import { waConsultaSede, type Sede } from '../data/contacto';
+
+const wa = (['Los Ángeles', 'Pucón'] as Sede[]).map((s) => ({
+  label: 'Escribir a ' + s,
+  href: waConsultaSede(s),
+}));
+---
+
+<Layout title="Página no encontrada | Clínica ZK" description="La página que buscas no está disponible.">
+  <div
+    style="font-family: var(--font-sans); color: var(--text-body); min-height: 100vh; display: flex; flex-direction: column;"
+  >
+    <SiteHeader />
+
+    <section style="flex: 1; padding: 96px 24px; display: flex; align-items: center;">
+      <div style="max-width: 780px; margin: 0 auto; width: 100%;">
+        <h1
+          style="font-size: clamp(32px, 3.4vw, 52px); font-weight: var(--fw-light); line-height: 1.1; color: var(--text-heading); margin: 0; text-wrap: pretty;"
+        >
+          Parece que esta página no está donde esperábamos.
+        </h1>
+        <p style="font-size: var(--fs-body-lg); line-height: var(--lh-body); margin: 24px 0 0; text-wrap: pretty;">
+          La dirección que intentaste visitar puede haber cambiado, estar incompleta o ya no encontrarse disponible.
+          Puedes volver al inicio o comunicarte con la sucursal que prefieras.
+        </p>
+
+        <div style="margin-top: 32px; display: flex; gap: 10px; flex-wrap: wrap;">
+          <a href={ruta('/')} class="zk-btn-pri-link">Volver al inicio</a>
+          {
+            wa.map((w) => (
+              <a href={w.href} target="_blank" rel="noopener" class="zk-btn-sec">
+                {w.label}
+              </a>
+            ))
+          }
+        </div>
+
+        <p
+          style="margin: 48px 0 0; padding-top: 28px; border-top: 1px solid var(--border-subtle); font-size: clamp(19px, 1.6vw, 25px); font-weight: var(--fw-light); color: var(--text-heading); line-height: var(--lh-tight); text-wrap: pretty;"
+        >
+          Tu ruta de cuidado sigue aquí. Te ayudamos a encontrar el siguiente paso<span
+            style="color: var(--zk-teal-600);">.</span
+          >
+        </p>
+      </div>
+    </section>
+
+    <SiteFooter />
+  </div>
+</Layout>
+
+<style>
+  .zk-btn-pri-link {
+    display: inline-flex;
+    align-items: center;
+    padding: 13px 24px;
+    font-size: 15px;
+    font-weight: var(--fw-semibold);
+    color: #fff;
+    text-decoration: none;
+    border-radius: var(--radius-md);
+    background:
+      radial-gradient(130% 120% at 18% 0%, #63c6c0 0%, rgba(99, 198, 192, 0) 55%),
+      linear-gradient(105deg, #46b3ad 0%, #2e9a94 60%, #1e827d 100%);
+    box-shadow:
+      0 2px 10px rgba(47, 63, 66, 0.2),
+      inset 0 0 0 1px rgba(255, 255, 255, 0.16);
+    transition:
+      filter 0.18s var(--ease-out),
+      transform 0.18s var(--ease-out);
+  }
+  .zk-btn-pri-link:hover {
+    filter: brightness(1.07);
+    color: #fff;
+    text-decoration: none;
+  }
+  .zk-btn-pri-link:active {
+    filter: brightness(0.95);
+    transform: translateY(1px);
+  }
+  .zk-btn-sec {
+    display: inline-flex;
+    align-items: center;
+    padding: 13px 24px;
+    font-size: 15px;
+    color: var(--text-heading);
+    text-decoration: none;
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-md);
+    transition:
+      border-color 0.18s var(--ease-out),
+      color 0.18s var(--ease-out);
+  }
+  .zk-btn-sec:hover {
+    border-color: var(--zk-teal-500);
+    color: var(--zk-teal-700);
+    text-decoration: none;
+  }
+</style>

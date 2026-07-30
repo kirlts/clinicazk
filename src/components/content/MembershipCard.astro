@@ -1,205 +1,145 @@
 ---
-import { Image } from 'astro:assets';
-import isotipo from '../../assets/brand/isotipo.png';
+/* MembershipCardV2.jsx — tarjeta de membresía de la grilla de 4.
+   `onCta` (Inicio) abre el modal del afiche; sin él, el CTA navega a la página. */
+import { ACCENTS, GRAD, type ClaveMembresia } from '../../data/membresias';
+import { isotipo } from '../../lib/imagenes';
 
 interface Props {
-  membership: 'anticipa' | 'familia' | 'seguimiento' | 'total';
+  membership: ClaveMembresia;
   name: string;
-  motto: string;
-  headline: string;
-  tagline: string;
-  features: readonly string[];
-  ctaLabel: string;
+  motto?: string;
+  headline?: string;
+  tagline?: string;
+  features?: string[];
+  ctaLabel?: string;
   ctaHref: string;
+  /** Inicio intercepta el clic para abrir el modal en vez de navegar. */
+  abreModal?: boolean;
   highlighted?: boolean;
 }
 
-const ACCENTS = {
-  anticipa: 'var(--zk-anticipa)',
-  familia: 'var(--zk-familia)',
-  seguimiento: 'var(--zk-seguimiento)',
-  total: 'var(--zk-total)',
-};
-
-const GRAD = {
-  anticipa:
-    'radial-gradient(130% 120% at 18% 0%, #63C6C0 0%, rgba(99,198,192,0) 55%), linear-gradient(105deg, #46B3AD 0%, #2E9A94 60%, #1E827D 100%)',
-  familia:
-    'radial-gradient(130% 120% at 18% 0%, #C8B0D4 0%, rgba(200,176,212,0) 55%), linear-gradient(105deg, #B094BF 0%, #916F9F 60%, #775A80 100%)',
-  seguimiento:
-    'radial-gradient(130% 120% at 18% 0%, #E2E3E4 0%, rgba(226,227,228,0) 55%), linear-gradient(105deg, #C6C8C9 0%, #ABADAF 55%, #909294 100%)',
-  total:
-    'radial-gradient(130% 120% at 18% 0%, #63676B 0%, rgba(99,103,107,0) 55%), linear-gradient(105deg, #4C5053 0%, #34383B 60%, #23262A 100%)',
-};
-
-const { membership, name, motto, headline, tagline, features, ctaLabel, ctaHref, highlighted = false } =
-  Astro.props;
+const {
+  membership,
+  name,
+  motto,
+  headline,
+  tagline,
+  features = [],
+  ctaLabel = 'Ver más',
+  ctaHref,
+  abreModal = false,
+  highlighted = false,
+} = Astro.props;
 
 const accent = ACCENTS[membership] ?? ACCENTS.anticipa;
 const grad = GRAD[membership] ?? GRAD.anticipa;
-const parts = name.trim().split(/\s+/);
+const parts = String(name ?? '').trim().split(/\s+/);
 const brand = parts.length > 1 ? parts[0] : 'ZK';
 const label = parts.length > 1 ? parts.slice(1).join(' ') : name;
 ---
 
-<div class="zk-mcard" data-highlighted={highlighted ? '' : undefined}>
-  <div class="zk-mcard__banner" style={`background:${grad}`}>
-    <span class="zk-mcard__mark">
-      <Image src={isotipo} alt="" width={27} height={28} />
-    </span>
-    <div class="zk-mcard__head">
-      <div class="zk-mcard__brand">
-        <span class="zk-mcard__brand-zk">{brand}</span>
-        <span class="zk-mcard__brand-label">{label}</span>
+<div class="zk-mc" data-hl={highlighted ? '' : undefined}>
+  <div class="zk-mc__top" style={`background: ${grad};`}>
+    <div style="position: relative; z-index: 1;">
+      <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px;">
+        <span
+          style="font-size: 27px; font-weight: var(--fw-light); letter-spacing: .02em; text-transform: uppercase; line-height: 1.1;"
+          >{brand}</span
+        >
+        <span
+          aria-hidden="true"
+          style="flex: 0 0 auto; width: 38px; height: 38px; border-radius: 50%; background: #fff; display: inline-flex; align-items: center; justify-content: center;"
+        >
+          <img src={isotipo.src} alt="" style="width: 72%; height: 72%; object-fit: contain;" />
+        </span>
       </div>
-      {motto && <div class="zk-mcard__motto">{motto}</div>}
+      <div
+        style={`margin-top: 2px; font-size: ${String(label).length > 9 ? 20 : 23}px; font-weight: var(--fw-light); letter-spacing: .02em; text-transform: uppercase; line-height: 27px; height: 27px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;`}
+      >
+        {label}
+      </div>
+      <div
+        style="margin-top: 12px; font-size: 17.5px; font-weight: var(--fw-light); line-height: 25px; height: 50px; overflow: hidden; opacity: .96; max-width: 82%;"
+      >
+        {motto ?? ''}
+      </div>
     </div>
-    <svg viewBox="0 0 320 60" preserveAspectRatio="none" aria-hidden="true" class="zk-mcard__wave">
+    <svg
+      viewBox="0 0 320 60"
+      preserveAspectRatio="none"
+      aria-hidden="true"
+      style="position: absolute; left: 0; right: 0; bottom: 0; width: 100%; height: 60px; opacity: .34;"
+    >
       <path d="M120 58 C 200 34, 250 36, 340 8" fill="none" stroke="#fff" stroke-width="1.1"></path>
     </svg>
   </div>
 
-  <div class="zk-mcard__body">
-    <p class="zk-mcard__headline">{headline}</p>
-    <p class="zk-mcard__tagline">{tagline}</p>
-    <ul class="zk-mcard__feats">
-      {features.map((feat) => (
-        <li>
-          <span style={`color:${accent}`}>✓</span>
-          {feat}
-        </li>
-      ))}
-    </ul>
-    <div class="zk-mcard__cta">
-      <a href={ctaHref} data-afiche-open={membership} class="zk-mcard__btn" style={`background:${grad}`}>{ctaLabel}</a>
+  <div style="padding: 20px 24px 24px; display: flex; flex-direction: column; gap: 14px; flex: 1;">
+    {
+      headline && (
+        <p style="margin: 0; font-size: 17px; font-weight: var(--fw-semibold); color: var(--text-heading); line-height: 1.3;">
+          {headline}
+        </p>
+      )
+    }
+    {
+      tagline && (
+        <p style="margin: 0; font-size: 15px; color: var(--text-body); line-height: var(--lh-body, 1.55);">{tagline}</p>
+      )
+    }
+    {
+      features.length > 0 && (
+        <ul style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 8px;">
+          {features.map((feat) => (
+            <li style="display: flex; gap: 10px; font-size: 15px; color: var(--text-body);">
+              <span style={`color: ${accent}; font-weight: var(--fw-bold); line-height: 1.5;`}>✓</span>
+              {feat}
+            </li>
+          ))}
+        </ul>
+      )
+    }
+    <div style="margin-top: auto; padding-top: 8px; display: flex; justify-content: center;">
+      <a
+        href={ctaHref}
+        class="zk-mc__cta"
+        data-afiche={abreModal ? membership : undefined}
+        style={`background: ${grad};`}>{ctaLabel}</a
+      >
     </div>
   </div>
 </div>
 
 <style>
-  .zk-mcard {
-    display: flex;
-    flex-direction: column;
+  .zk-mc {
     background: var(--zk-white);
     border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-card);
     overflow: hidden;
+    font-family: var(--font-sans);
+    display: flex;
+    flex-direction: column;
     border: 1px solid var(--border-subtle);
-    height: 100%;
-    box-sizing: border-box;
-    transition: box-shadow 0.2s var(--ease-out), filter 0.2s var(--ease-out);
+    box-shadow: var(--shadow-card);
+    transition:
+      box-shadow 0.2s var(--ease-out),
+      filter 0.2s var(--ease-out);
   }
-  .zk-mcard[data-highlighted],
-  .zk-mcard:hover {
+  .zk-mc[data-hl],
+  .zk-mc:hover {
     box-shadow: var(--shadow-raised);
   }
-  .zk-mcard:hover {
+  .zk-mc:hover {
     filter: brightness(1.02);
   }
-  .zk-mcard__banner {
+  .zk-mc__top {
     position: relative;
     color: #fff;
     padding: 24px 24px 26px;
     overflow: hidden;
-    min-height: 150px;
+    height: 180px;
     box-sizing: border-box;
   }
-  .zk-mcard__mark {
-    position: absolute;
-    top: 16px;
-    right: 18px;
-    width: 38px;
-    height: 38px;
-    border-radius: 50%;
-    background: #fff;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .zk-mcard__head {
-    position: relative;
-    z-index: 1;
-  }
-  .zk-mcard__brand {
-    display: flex;
-    align-items: baseline;
-    gap: 9px;
-    line-height: 1.2;
-    text-transform: uppercase;
-    flex-wrap: wrap;
-  }
-  .zk-mcard__brand-zk {
-    font-size: 30px;
-    font-weight: var(--fw-light);
-    letter-spacing: 0.02em;
-  }
-  .zk-mcard__brand-label {
-    font-size: 23px;
-    font-weight: var(--fw-light);
-    letter-spacing: 0.02em;
-  }
-  .zk-mcard__motto {
-    margin-top: 12px;
-    font-size: 17.5px;
-    font-weight: var(--fw-light);
-    line-height: 1.45;
-    opacity: 0.96;
-    max-width: 82%;
-  }
-  .zk-mcard__wave {
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    width: 100%;
-    height: 60px;
-    opacity: 0.34;
-  }
-  .zk-mcard__body {
-    padding: 20px 24px 24px;
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-    flex: 1;
-  }
-  .zk-mcard__headline {
-    margin: 0;
-    font-size: 17px;
-    font-weight: var(--fw-semibold);
-    color: var(--text-heading);
-    line-height: 1.3;
-  }
-  .zk-mcard__tagline {
-    margin: 0;
-    font-size: 15px;
-    color: var(--text-body);
-    line-height: var(--lh-body);
-  }
-  .zk-mcard__feats {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-  }
-  .zk-mcard__feats li {
-    display: flex;
-    gap: 10px;
-    font-size: 15px;
-    color: var(--text-body);
-  }
-  .zk-mcard__feats li span {
-    font-weight: var(--fw-bold);
-    line-height: 1.5;
-  }
-  .zk-mcard__cta {
-    margin-top: auto;
-    padding-top: 8px;
-    display: flex;
-    justify-content: center;
-  }
-  .zk-mcard__btn {
+  .zk-mc__cta {
     display: inline-flex;
     align-items: center;
     gap: 8px;
@@ -211,16 +151,24 @@ const label = parts.length > 1 ? parts.slice(1).join(' ') : name;
     text-decoration: none;
     border: none;
     color: #fff;
-    box-shadow: 0 2px 10px rgba(47, 63, 66, 0.2), inset 0 0 0 1px rgba(255, 255, 255, 0.16);
-    transition: filter 0.18s var(--ease-out), transform 0.12s var(--ease-out);
+    box-shadow:
+      0 2px 10px rgba(47, 63, 66, 0.2),
+      inset 0 0 0 1px rgba(255, 255, 255, 0.16);
+    transition:
+      filter 0.18s var(--ease-out),
+      transform 0.12s var(--ease-out),
+      box-shadow 0.18s var(--ease-out);
   }
-  .zk-mcard__btn:hover {
+  .zk-mc__cta:hover {
+    filter: brightness(1.07);
     color: #fff;
     text-decoration: none;
-    filter: brightness(1.07);
   }
-  .zk-mcard__btn:active {
+  .zk-mc__cta:active {
     filter: brightness(0.95);
     transform: translateY(1px);
+    box-shadow:
+      0 1px 4px rgba(47, 63, 66, 0.16),
+      inset 0 0 0 1px rgba(255, 255, 255, 0.1);
   }
 </style>

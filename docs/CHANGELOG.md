@@ -8,15 +8,51 @@ y este proyecto adhiere a [Versionado Semántico](https://semver.org/spec/v2.0.0
 ## [Sin publicar]
 
 ### Pendiente
-- Textos reales del sitio y descripciones por especialidad (Clínica ZK).
-- Listado de convenios vigentes (Clínica ZK).
-- Contenido de la sección Equipo: fotos y nómina de especialistas (Clínica ZK).
-- Texto identitario de la sección Nosotros (Clínica ZK).
-- Definición de si se agregan más fotos (Clínica ZK).
-- Conexión del formulario de contacto a un servicio de email (hoy usa mailto:).
-- Iteración de la versión mobile (tras la reunión del 22-07).
+- Horarios oficiales de ambas sedes: hoy dicen "Pendiente de confirmación" (Clínica ZK).
+- Listado de convenios vigentes y sus logos: los 6 slots son placeholders marcados (Clínica ZK).
+- WhatsApp de Dirección Clínica: por confirmar (Clínica ZK).
+- Imágenes por especialidad: el panel de especialidades aún no lleva foto.
+- Contenido de la sección Privacidad: el modal muestra un aviso de sección en preparación.
+- Versión móvil detallada de las cuatro páginas nuevas (Sucursales, Nosotros, Convenios, Equipo); el header móvil todavía no tiene patrón de menú definido con diseño.
+- Difuminar patentes en algunas tomas de fachada de las galerías.
 - Dominio clinicazk.cl (pendiente de trámite).
 - Widgets de Google Maps: diferidos por complejidad con dos sedes (reevaluar).
+
+## [3.0.0] - 2026-07-29
+
+> Rediseño completo alineado 1:1 con el design handoff "Clínica ZK v3". La v3 reemplaza a la v2: el sitio pasa de una página larga a seis páginas navegables.
+
+### Añadido
+- Seis páginas: Inicio (`/`), Familia ZK (`/familia-zk`), Sucursales (`/sucursales`), Equipo clínico (`/equipo-clinico`), Nosotros (`/nosotros`) y Convenios y seguros (`/convenios`).
+- Página 404 con salida a Inicio y a ambas sedes.
+- Afiche parametrizado en `/familia-zk/afiche?m=…`, con `&embed=1` para verse como hoja continua dentro del modal. Se exceptúa del zoom base porque tiene medida física (794px = A4).
+- Header sticky con los 6 links en orden y estado activo (semibold teal con subrayado de 2px), más CTA de contacto.
+- Footer de cuatro columnas con datos de ambas sedes, índice del sitio, disclaimer clínico y modal de Privacidad.
+- Popover "Agenda tu evaluación" en el hero, con las dos sedes hacia WhatsApp.
+- Página de Equipo clínico con las 13 fichas reales, Dirección Clínica destacada, filtro por sede y contador de profesionales (`?sede=` preselecciona el filtro).
+- Galerías por sede con 10 fotos en Los Ángeles y 7 en Pucón, con flechas, contador, miniaturas y caption.
+- Marca de agua del isotipo, una por página, salvo en Inicio.
+- FAB de WhatsApp que aparece al salir de la portada (IntersectionObserver).
+- Retratos del equipo y fotos nuevas de ambas sedes (`src/assets/equipo/`, `src/assets/fotos/`).
+
+### Cambiado
+- Especialidades: de 13 a 14, con gancho, descripción y disponibilidad por sede ("Solo Los Ángeles", "En Pucón, consultar agenda").
+- Membresías: copy actualizado del Banco Textual; los porcentajes de descuento se retiraron salvo el 20% de ZK Total.
+- Preguntas frecuentes: 9 en Inicio y un banco de 25 agrupado por tema para el bloque reutilizable.
+- Datos de Los Ángeles: Avenida Gabriela Mistral **79** (antes 74) y teléfono (43) 223 0298.
+- El contenido se reorganizó en un módulo por dominio dentro de `src/data/`.
+- Las anclas de la v2 siguen resolviendo: `#nosotros` y `#membresias` son anclas de Inicio; `#sucursales`, `#convenios` y `#equipo` redirigen a su página nueva.
+
+### Eliminado
+- Formulario de contacto y toda referencia a correo electrónico: WhatsApp queda como único canal.
+- La página única de la v2 y sus componentes de sección (`Hero`, `Specialties`, `Memberships`, `Clinic`, `Faq`, `Contact`), junto con `Button`, `Icon`, `AficheModal`, `AficheEmbed`, `Gallery`, `src/data/site.ts`, `src/data/membershipDetails.ts` y `src/lib/fotos.ts`.
+- Siete fotos del handoff que ninguna vista referencia: el glob eager las copiaba al build sin usarse.
+
+### Verificado
+- `innerText` idéntico carácter por carácter entre prototipo y sitio en 15 de 16 escenarios (las 6 páginas, los 4 afiches, el modo embed, el popover de agenda, el cambio de especialidad y los dos filtros de equipo).
+- La excepción es el 404: el prototipo lo renderiza sin header ni footer porque importa `ZKHeader`/`ZKFooter`, nombres que no existen en el bundle (son `ZKHeaderV3`/`ZKFooterV3`). El sitio lo implementa con el chrome compartido, que es lo que el archivo declara y lo que pide el handoff; el cuerpo de la página sí coincide carácter por carácter.
+- Interacciones equivalentes en ambos lados: galerías, modal-afiche (Escape, clic fuera, `postMessage`), modal de Privacidad, aparición del FAB al salir de la portada.
+- Toda diferencia de tamaño observada corresponde al factor 0.8 del zoom base del sitio.
 
 ## [2.0.0] - 2026-07-22
 

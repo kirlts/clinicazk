@@ -1,0 +1,235 @@
+---
+/* Familia ZK (/familia-zk) — Familia ZK v3.dc.html. */
+import Layout from '../../layouts/Layout.astro';
+import SiteHeader from '../../components/site/SiteHeader.astro';
+import SiteFooter from '../../components/site/SiteFooter.astro';
+import WhatsAppFab from '../../components/site/WhatsAppFab.astro';
+import MembershipCard from '../../components/content/MembershipCard.astro';
+import FaqBloque from '../../components/content/FaqBloque.astro';
+import { ruta } from '../../data/navegacion';
+import { wa, GRAD_LA, GRAD_PU, type Sede } from '../../data/contacto';
+import { MB_FAMILIA, PASOS_INCORPORACION, MSG_ORIENTACION } from '../../data/membresias';
+import { isotipo } from '../../lib/imagenes';
+
+const BTN =
+  'display: inline-flex; align-items: center; gap: 8px; padding: 12px 22px; font-size: 15px; font-weight: var(--fw-semibold); font-family: var(--font-sans); color: #fff; text-decoration: none; border: none; border-radius: var(--radius-md); cursor: pointer; box-shadow: 0 2px 10px rgba(47,63,66,.20), inset 0 0 0 1px rgba(255,255,255,.16); transition: filter .18s var(--ease-out), transform .18s var(--ease-out); background: ';
+
+const memberships = MB_FAMILIA.map((x) => ({
+  ...x,
+  page: ruta('/familia-zk/afiche') + '?m=' + x.m,
+  ctaLabel: 'Conoce ' + x.name,
+}));
+
+const comparador = MB_FAMILIA.map((x) => ({ name: x.name, para: x.para, color: x.color }));
+const pasos = PASOS_INCORPORACION.map((t, i) => ({ n: i + 1, t }));
+
+const orientacionWa = (['Los Ángeles', 'Pucón'] as Sede[]).map((s) => ({
+  label: 'Quiero saber cuál va conmigo · ' + s,
+  href: wa(s, MSG_ORIENTACION),
+  style: BTN + (s === 'Pucón' ? GRAD_PU : GRAD_LA) + ';',
+}));
+---
+
+<Layout
+  title="Membresías Dentales Familia ZK | Clínica ZK"
+  description="Conoce las membresías ZK Anticipa, ZK Familia, ZK Seguimiento y ZK Total para organizar tu cuidado dental durante el año."
+>
+  <div style="font-family: var(--font-sans); color: var(--text-body);">
+    <SiteHeader active="Familia ZK" />
+
+    <section style="position: relative; overflow: hidden; padding: 104px 24px 0;">
+      <div
+        aria-hidden="true"
+        style={`position: absolute; top: -170px; left: 50%; transform: translateX(-50%); width: 700px; height: 716px; background: url(${isotipo.src}) center / contain no-repeat; opacity: .055; pointer-events: none;`}
+      >
+      </div>
+      <div style="position: relative; max-width: var(--container-max); margin: 0 auto;">
+        <div style="text-align: center;">
+          <h1
+            style="color: var(--text-heading); font-size: clamp(38px, 4.4vw, 66px); font-weight: var(--fw-light); margin: 0; line-height: 1.06;"
+          >
+            Algunos reaccionan. <span style="font-weight: var(--fw-semibold); color: var(--zk-teal-600);"
+              >Otros se anticipan.</span
+            >
+          </h1>
+          <p
+            style="color: var(--text-body); font-size: var(--fs-body-lg); margin: 32px auto 0; max-width: 900px; line-height: var(--lh-body); text-wrap: pretty;"
+          >
+            Familia ZK reúne cuatro membresías anuales pensadas para distintas formas de cuidar la salud dental. <br />
+            Todas parten de una misma idea:&nbsp;<b
+              >No esperar a que aparezca un problema para ordenar los controles, mantener la prevención y dar
+              continuidad al cuidado durante el año.</b
+            >
+          </p>
+          <p
+            style="color: var(--text-body); font-size: var(--fs-body-lg); margin: 20px auto 0; max-width: 900px; line-height: var(--lh-body); text-wrap: pretty;"
+          >
+            Cada membresía ofrece una ruta diferente, con prestaciones y beneficios definidos para personas, familias y
+            pacientes que necesitan distintos niveles de acompañamiento.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section style="padding: 88px 24px 112px;">
+      <div style="max-width: var(--container-max); margin: 0 auto;">
+        <div
+          style="display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 18px; align-items: stretch;"
+        >
+          {
+            memberships.map((mb) => (
+              <MembershipCard
+                membership={mb.m}
+                name={mb.name}
+                motto={mb.motto}
+                headline={mb.headline}
+                tagline={mb.tag}
+                features={mb.feats}
+                ctaLabel={mb.ctaLabel}
+                ctaHref={mb.page}
+                highlighted={mb.hl}
+              />
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <section id="comparador" style="background: var(--surface-section); padding: 112px 24px 120px;">
+      <div
+        style="max-width: var(--container-max); margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); gap: 72px; align-items: start;"
+      >
+        <div>
+          <h2
+            style="font-size: clamp(20px, 1.7vw, 26px); font-weight: var(--fw-light); color: var(--text-heading); line-height: var(--lh-tight); margin: 0 0 22px; text-wrap: pretty;"
+          >
+            No todas las personas necesitan lo mismo. <br />Lo importante es encontrar una forma de cuidado que se
+            adapte a ti<span style="color: var(--zk-teal-600);">.</span>
+          </h2>
+          {
+            comparador.map((c) => (
+              <div style="display: grid; grid-template-columns: 200px 1fr; gap: 20px; align-items: baseline; padding: 16px 0; border-bottom: 1px solid var(--border-subtle);">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                  <span style={`width: 22px; height: 14px; border-radius: 4px; flex: none; background: ${c.color};`} />
+                  <span style="font-size: 16.5px; font-weight: var(--fw-semibold); color: var(--text-heading);">
+                    {c.name}
+                  </span>
+                </div>
+                <span style="font-size: 15.5px; line-height: var(--lh-body);">{c.para}</span>
+              </div>
+            ))
+          }
+        </div>
+
+        <div style="border: 1px solid var(--border-subtle); background: var(--zk-white); padding: 40px 38px 44px;">
+          <h2
+            style="font-size: var(--fs-h3); font-weight: var(--fw-semibold); color: var(--text-heading); margin: 0; text-align: center;"
+          >
+            ¿Cómo comenzar?
+          </h2>
+          <ol style="margin: 20px 0 0; padding: 0; list-style: none; display: grid; gap: 13px;">
+            {
+              pasos.map((p) => (
+                <li style="display: grid; grid-template-columns: 24px 1fr; gap: 12px; align-items: start; font-size: 15.5px; line-height: var(--lh-body);">
+                  <span style="font-size: 13px; font-weight: var(--fw-semibold); color: var(--zk-teal-600); font-variant-numeric: tabular-nums; padding-top: 3px;">
+                    {p.n}
+                  </span>
+                  <span>{p.t}</span>
+                </li>
+              ))
+            }
+          </ol>
+          <p
+            style="font-size: 14.5px; line-height: var(--lh-body); color: var(--text-muted); margin: 22px 0 0; padding-top: 20px; border-top: 1px solid var(--border-subtle);"
+          >
+            Al activar tu membresía, recibirás tu kit de incorporación Familia ZK con la información necesaria para
+            comenzar tu ruta de cuidado.
+          </p>
+        </div>
+      </div>
+
+      <div
+        style="max-width: 900px; margin: 88px auto 0; padding-top: 56px; border-top: 1px solid var(--border-subtle); text-align: center;"
+      >
+        <p style="font-size: 16.5px; line-height: var(--lh-body); margin: 0; text-wrap: pretty;">
+          Selecciona tu sucursal y conversa con una encargada de Familia ZK. Te ayudará a conocer las alternativas y
+          revisar cuál se ajusta mejor a tu forma de cuidarte.
+        </p>
+        <div style="margin-top: 24px; display: flex; gap: 12px; flex-wrap: wrap; justify-content: center;">
+          {
+            orientacionWa.map((w) => (
+              <a href={w.href} target="_blank" rel="noopener" class="zk-brillo" style={w.style}>
+                {w.label}
+              </a>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <section style="background: var(--gradient-brand); padding: 64px 24px;">
+      <p
+        style="max-width: 1000px; margin: 0 auto; text-align: center; font-size: clamp(22px, 2vw, 32px); font-weight: var(--fw-light); color: #fff; line-height: var(--lh-tight); text-wrap: pretty;"
+      >
+        Familia ZK no busca que vengas más. Busca que no tengas que empezar siempre desde una urgencia.
+      </p>
+    </section>
+
+    <section style="padding: 112px 24px 120px;">
+      <div
+        style="max-width: 1240px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 40px 72px;"
+      >
+        <div>
+          <h2 style="font-size: var(--fs-h2); font-weight: var(--fw-semibold); color: var(--text-heading); margin: 0;">
+            Vigencia y modalidades de pago
+          </h2>
+          <p style="font-size: 16px; line-height: var(--lh-body); margin: 16px 0 0; text-wrap: pretty;">
+            Todas las membresías Familia ZK tienen una duración anual. Para facilitar su incorporación, existen
+            modalidades de pago asociadas a 3, 6 o 12 meses. Estas modalidades corresponden a formas de pago del
+            compromiso anual y no a membresías de menor duración.
+          </p>
+          <p style="font-size: 16px; line-height: var(--lh-body); margin: 12px 0 0; text-wrap: pretty;">
+            El pago total anual realizado en un solo acto comercial puede acceder a un 5% de descuento, de acuerdo con
+            las condiciones comerciales vigentes.
+          </p>
+          <p style="font-size: 16px; line-height: var(--lh-body); margin: 12px 0 0; text-wrap: pretty;">
+            Los valores, prestaciones habilitadas y condiciones de pago serán informados y confirmados por la encargada
+            de cada sucursal antes de la activación.
+          </p>
+        </div>
+        <div>
+          <h2 style="font-size: var(--fs-h2); font-weight: var(--fw-semibold); color: var(--text-heading); margin: 0;">
+            Información importante
+          </h2>
+          <p style="font-size: 16px; line-height: var(--lh-body); margin: 16px 0 0; text-wrap: pretty;">
+            Las membresías Familia ZK no reemplazan la evaluación ni el diagnóstico profesional.
+          </p>
+          <p style="font-size: 16px; line-height: var(--lh-body); margin: 12px 0 0; text-wrap: pretty;">
+            Las prestaciones, exámenes, controles, tratamientos, urgencias y beneficios deberán utilizarse de acuerdo
+            con la indicación clínica y las condiciones establecidas para cada membresía.
+          </p>
+          <p style="font-size: 16px; line-height: var(--lh-body); margin: 12px 0 0; text-wrap: pretty;">
+            La activación de una membresía no implica cobertura total de tratamientos ni reemplaza las decisiones del
+            equipo tratante.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <FaqBloque tema="Familia ZK" />
+    <SiteFooter />
+    <WhatsAppFab href={wa('Pucón', MSG_ORIENTACION)} />
+  </div>
+</Layout>
+
+<style>
+  .zk-brillo:hover {
+    filter: brightness(1.07);
+    color: #fff;
+    text-decoration: none;
+  }
+  .zk-brillo:active {
+    filter: brightness(0.95);
+    transform: translateY(1px);
+  }
+</style>

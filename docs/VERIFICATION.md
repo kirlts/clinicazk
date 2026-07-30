@@ -1,4 +1,4 @@
-# VERIFICATION: Clínica ZK v2.0.0
+# VERIFICATION: Clínica ZK v3.0.0
 
 > Verdad canónica de todas las verificaciones formales de promesas y de los límites de testing.
 > Generado y mantenido exclusivamente por el algoritmo `/derive`.
@@ -76,3 +76,22 @@ OPS/OAS: Operaciones
 -->
 🧑 `OPS.AV.025.HUM` Dominio clinicazk.cl configurado y apuntando al sitio.
 🤖 `OAS.AV.026.LLM` GitHub Pages deploy automático funciona correctamente.
+
+---
+
+## Verificación del rediseño v3 (2026-07-29)
+
+> La paridad con el handoff no se declaró leyendo código: se demostró ejecutando el prototipo
+> (`.dc.html` sobre su design system) y el sitio Astro lado a lado y comparando el resultado.
+
+🤖 `DES.V3.001.LLM` `innerText` idéntico carácter por carácter entre prototipo y sitio en 15 de 16 escenarios: las 6 páginas, los 4 afiches, el afiche en modo embed, el popover de agenda, el cambio de especialidad y los dos filtros de equipo. ✅
+🤖 `DES.V3.002.LLM` 404: el cuerpo de la página coincide carácter por carácter. La diferencia total es el header y el footer, que el prototipo no renderiza por un error de referencia propio (`ZKHeader`/`ZKFooter` en vez de `ZKHeaderV3`/`ZKFooterV3`) y que el sitio sí implementa, como declara el archivo y pide el handoff. ✅ (desviación consciente)
+🤖 `DES.V3.003.LLM` Estilos computados del h1, del header sticky y del CTA equivalentes; las únicas diferencias numéricas corresponden al factor 0.8 del zoom base (por ejemplo, borde de 1px que computa 1.25px). ✅
+🤖 `DES.V3.004.LLM` Galerías: contador, caption y miniaturas se comportan igual en ambos lados al avanzar dos fotos. ✅
+🤖 `DES.V3.005.LLM` Modal-afiche: abre desde la tarjeta, carga `?m=…&embed=1`, aplica `body.embed`, la cara mide 794px dentro del iframe de 880px y cierra con Escape. ✅
+🤖 `DES.V3.006.LLM` Modal de Privacidad del footer: abre y cierra. ✅
+🤖 `DES.V3.007.LLM` FAB de WhatsApp: opacidad 0 en la portada y 1 tras salir de ella, igual que el prototipo. ✅
+🤖 `DES.V3.008.LLM` Marca de agua del isotipo: ninguna en Inicio; una en Sucursales, Convenios y Familia ZK; dos en Nosotros y Equipo (portada + sello de cierre), según el handoff. ✅
+🤖 `DES.V3.009.LLM` `astro check` sin errores y `npm run build` local en verde (8 páginas). ✅
+🧑 `DES.V3.010.HUM` Revisión visual del director sobre el sitio desplegado. 🔲
+🧑 `DES.V3.011.HUM` Confirmación de horarios, convenios y WhatsApp de Dirección Clínica. 🔲

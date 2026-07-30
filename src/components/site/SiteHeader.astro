@@ -1,155 +1,84 @@
 ---
-import { Image } from 'astro:assets';
-import logoHorizontal from '../../assets/brand/logo-zk-horizontal.png';
-import Button from '../core/Button.astro';
-import { navLinks } from '../../data/site';
+/* Header sticky de la v3 — ZKHeaderV3.dc.html.
+   `home` marca "Inicio" como activo y convierte sus links en anclas de la misma página. */
+import { NAV, ruta } from '../../data/navegacion';
+import { logoHorizontal } from '../../lib/imagenes';
+
+interface Props {
+  active?: '' | 'Familia ZK' | 'Sucursales' | 'Equipo' | 'Nosotros' | 'Convenios';
+  home?: boolean;
+}
+
+const { active: activeProp = '', home = false } = Astro.props;
+const active = activeProp || (home ? 'Inicio' : '');
+
+const base =
+  'padding: 10px 2px; font-size: 15px; text-decoration: none; white-space: nowrap; transition: color .18s var(--ease-out); ';
+const on =
+  'font-weight: var(--fw-semibold); color: var(--zk-teal-700); border-bottom: 2px solid var(--color-primary);';
+const off = 'font-weight: var(--fw-regular); color: var(--text-body); border-bottom: 2px solid transparent;';
+
+const links = NAV.map((n) => ({
+  label: n.label,
+  href: n.anchor ? (home ? n.anchor : ruta(n.page) + n.anchor) : ruta(n.page),
+  style: base + (n.label === active ? on : off),
+}));
+
+const homeHref = home ? '#inicio' : ruta('/');
+const contactoHref = home ? '#contacto' : ruta('/') + '#contacto';
 ---
 
-<header class="zk-header">
-  <div class="zk-header__bar">
-    <a href={`${import.meta.env.BASE_URL}#`} class="zk-header__logo">
-      <Image src={logoHorizontal} alt="Clínica ZK" width={168} height={52} />
+<header
+  style="position: sticky; top: 0; z-index: 50; background: rgba(255,255,255,0.95); backdrop-filter: blur(8px); border-bottom: 1px solid var(--border-subtle); font-family: var(--font-sans);"
+>
+  <div
+    style="max-width: var(--container-max, min(1520px, 94vw)); margin: 0 auto; padding: 12px 24px; min-height: 76px; box-sizing: border-box; display: flex; align-items: center; gap: 16px; flex-wrap: nowrap;"
+  >
+    <a href={homeHref} style="display: flex; align-items: center; flex: none;">
+      <img src={logoHorizontal.src} alt="Clínica ZK" style="height: 44px; display: block;" />
     </a>
-
-    <nav id="zk-nav" class="zk-header__nav">
-      {navLinks.map((link) => (
-        <a href={`#${link.id}`}>{link.label}</a>
-      ))}
-    </nav>
-
-    <Button size="sm" href="#contacto" class="zk-header__cta">Contacto</Button>
-
-    <button
-      type="button"
-      class="zk-header__toggle"
-      aria-expanded="false"
-      aria-controls="zk-nav"
-      aria-label="Abrir menú"
-      id="zk-nav-toggle"
+    <nav
+      style="display: flex; gap: 8px 18px; margin-left: auto; align-items: center; flex-wrap: wrap; justify-content: flex-end; flex: 1 1 auto; min-width: 0;"
     >
-      <span></span>
-      <span></span>
-      <span></span>
-    </button>
+      {links.map((l) => <a href={l.href} class="zk-nav-link" style={l.style}>{l.label}</a>)}
+    </nav>
+    <a href={contactoHref} class="zk-header-cta">Contacto</a>
   </div>
 </header>
 
-<script>
-  const toggle = document.getElementById('zk-nav-toggle');
-  const nav = document.getElementById('zk-nav');
-  toggle?.addEventListener('click', () => {
-    const open = nav?.classList.toggle('is-open');
-    toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
-  });
-  nav?.querySelectorAll('a').forEach((a) =>
-    a.addEventListener('click', () => {
-      nav.classList.remove('is-open');
-      toggle?.setAttribute('aria-expanded', 'false');
-    })
-  );
-</script>
-
 <style>
-  .zk-header {
-    position: sticky;
-    top: 0;
-    z-index: 50;
-    background: rgba(255, 255, 255, 0.94);
-    backdrop-filter: blur(8px);
-    border-bottom: 1px solid var(--border-subtle);
-  }
-  .zk-header__bar {
-    max-width: var(--container-max);
-    margin: 0 auto;
-    padding: 0 24px;
-    height: 76px;
-    display: flex;
-    align-items: center;
-    gap: 32px;
-  }
-  .zk-header__logo {
-    display: flex;
-    align-items: center;
-    flex-shrink: 0;
-  }
-  .zk-header__logo :global(img) {
-    height: 48px;
-    width: auto;
-    display: block;
-  }
-  .zk-header__nav {
-    display: flex;
-    gap: 22px;
-    margin-left: auto;
-  }
-  .zk-header__nav a {
-    padding: 10px 2px;
-    font-size: 16px;
-    text-decoration: none;
-    font-weight: var(--fw-regular);
-    color: var(--text-body);
-    border-bottom: 2px solid transparent;
-  }
-  .zk-header__nav a:hover {
+  /* El hover sale del style inline: lo inline gana siempre sobre la clase. */
+  .zk-nav-link:hover {
     color: var(--zk-teal-700);
     text-decoration: none;
   }
-  .zk-header__toggle {
-    display: none;
-    flex-direction: column;
-    justify-content: center;
-    gap: 5px;
-    width: 40px;
-    height: 40px;
-    border: none;
-    background: transparent;
-    cursor: pointer;
-    padding: 0;
-    flex-shrink: 0;
+  .zk-header-cta {
+    display: inline-flex;
+    align-items: center;
+    flex: none;
+    padding: 10px 20px;
+    font-size: 14.5px;
+    font-weight: var(--fw-semibold);
+    color: #fff;
+    text-decoration: none;
+    border-radius: var(--radius-md);
+    background:
+      radial-gradient(130% 120% at 18% 0%, #63c6c0 0%, rgba(99, 198, 192, 0) 55%),
+      linear-gradient(105deg, #46b3ad 0%, #2e9a94 60%, #1e827d 100%);
+    box-shadow:
+      0 2px 10px rgba(47, 63, 66, 0.2),
+      inset 0 0 0 1px rgba(255, 255, 255, 0.16);
+    transition:
+      filter 0.18s var(--ease-out),
+      transform 0.18s var(--ease-out);
   }
-  .zk-header__toggle span {
-    display: block;
-    height: 2px;
-    background: var(--text-heading);
-    border-radius: 1px;
+  .zk-header-cta:hover {
+    filter: brightness(1.07);
+    color: #fff;
+    text-decoration: none;
   }
-
-  @media (max-width: 860px) {
-    .zk-header__bar {
-      height: 64px;
-      gap: 16px;
-    }
-    .zk-header__logo :global(img) {
-      height: 38px;
-    }
-    .zk-header__toggle {
-      display: flex;
-      margin-left: auto;
-    }
-    .zk-header__cta {
-      display: none;
-    }
-    .zk-header__nav {
-      position: absolute;
-      top: 64px;
-      left: 0;
-      right: 0;
-      margin-left: 0;
-      flex-direction: column;
-      gap: 0;
-      background: var(--zk-white);
-      border-bottom: 1px solid var(--border-subtle);
-      box-shadow: var(--shadow-card);
-      max-height: 0;
-      overflow: hidden;
-      transition: max-height var(--duration-base) var(--ease-out);
-    }
-    .zk-header__nav.is-open {
-      max-height: 400px;
-    }
-    .zk-header__nav a {
-      padding: 16px 24px;
-      border-bottom: 1px solid var(--border-subtle);
-    }
+  .zk-header-cta:active {
+    filter: brightness(0.95);
+    transform: translateY(1px);
   }
 </style>

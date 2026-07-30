@@ -314,6 +314,43 @@
 
 ---
 
+## [EPIC-008] Rediseño v3 (sitio de seis páginas)
+
+> Ref: design handoff "Clínica ZK v3" (2026-07-29) · CHANGELOG 3.0.0 · USER-DECISIONS UD-010, UD-011
+
+### [TASK-028] Portar las seis páginas y el chrome compartido
+
+**Checks cubiertos:** `DES.V3.001.LLM`, `DES.V3.003.LLM`, `DES.V3.009.LLM`
+
+- [x] Contenido extraído a un módulo por dominio en `src/data/`
+- [x] Header, footer, FAB y bloque de preguntas frecuentes compartidos
+- [x] Inicio, Familia ZK, Sucursales, Equipo clínico, Nosotros y Convenios
+- [x] Afiche parametrizado (`?m=…`, `&embed=1`) y página 404
+- [x] Código de la v2 eliminado (UD-011)
+
+### [TASK-029] Verificar la paridad ejecutando prototipo y sitio
+
+**Checks cubiertos:** `DES.V3.001.LLM` a `DES.V3.008.LLM`
+
+- [x] `innerText` idéntico en 15 de 16 escenarios; el 404 es desviación consciente y declarada
+- [x] Interacciones equivalentes: galerías, modales, popover, filtro de equipo, FAB
+- [x] Diferencias de tamaño explicadas por el zoom base 0.8
+- [ ] **PENDIENTE (humano):** revisión visual del director sobre el sitio desplegado (`DES.V3.010.HUM`)
+
+### [TASK-030] Insumos que faltan para completar la v3
+
+**Checks cubiertos:** `DES.V3.011.HUM`
+
+- [ ] **PENDIENTE (Clínica ZK):** horarios oficiales de ambas sedes
+- [ ] **PENDIENTE (Clínica ZK):** listado de convenios y sus logos (6 slots con placeholder)
+- [ ] **PENDIENTE (Clínica ZK):** WhatsApp de Dirección Clínica
+- [ ] **PENDIENTE (Clínica ZK):** contenido de la sección Privacidad
+- [ ] **PENDIENTE (diseño):** patrón de menú móvil del header y versión móvil de las cuatro páginas nuevas
+- [ ] **PENDIENTE (diseño):** imágenes por especialidad
+- [ ] **PENDIENTE (Clínica ZK):** difuminar patentes en algunas tomas de fachada
+
+---
+
 ## Resumen general de cobertura
 
 | Épica | Tareas | Estado | 🤖 .LLM | 🧑 .HUM | 🤖🧑 .MIX | Total checks |
@@ -325,3 +362,4 @@
 | EPIC-005 | TASK-016 a 017 | ⏳ 1/2 (deploy ok; dominio pendiente) | 1 | 1 | 0 | 2 |
 | EPIC-006 | TASK-018 a 024 | ✅ 7/7 | 8 | 4 | 0 | 12 |
 | EPIC-007 | TASK-025 a 027 | 🔲 0/3 (esperan insumos y reunión) | 0 | 2 | 0 | 2 |
+| EPIC-008 | TASK-028 a 030 | ⏳ 2/3 (port y verificación listos; faltan insumos) | 9 | 2 | 0 | 11 |

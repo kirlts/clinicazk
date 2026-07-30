@@ -1,54 +1,68 @@
 ---
+/* FaqItem del design system (components/content/FaqItem.jsx): acordeón de una
+   pregunta, con el "+" que rota 45° al abrir. */
 interface Props {
   question: string;
   answer: string;
+  defaultOpen?: boolean;
 }
 
-const { question, answer } = Astro.props;
+const { question, answer, defaultOpen = false } = Astro.props;
 ---
 
-<details class="zk-faq">
-  <summary class="zk-faq__q">
-    <span>{question}</span>
-    <span class="zk-faq__icon" aria-hidden="true">+</span>
-  </summary>
-  <div class="zk-faq__a">{answer}</div>
-</details>
+<div class="zk-faq" data-open={defaultOpen ? '' : undefined}>
+  <button type="button" class="zk-faq__btn" aria-expanded={defaultOpen ? 'true' : 'false'}>
+    {question}
+    <span class="zk-faq__mas" aria-hidden="true">+</span>
+  </button>
+  <div class="zk-faq__resp" hidden={!defaultOpen}>{answer}</div>
+</div>
+
+<script>
+  document.querySelectorAll<HTMLElement>('.zk-faq').forEach((item) => {
+    const btn = item.querySelector<HTMLButtonElement>('.zk-faq__btn');
+    const resp = item.querySelector<HTMLElement>('.zk-faq__resp');
+    btn?.addEventListener('click', () => {
+      const abierto = item.hasAttribute('data-open');
+      item.toggleAttribute('data-open', !abierto);
+      btn.setAttribute('aria-expanded', abierto ? 'false' : 'true');
+      if (resp) resp.hidden = abierto;
+    });
+  });
+</script>
 
 <style>
   .zk-faq {
     border-bottom: 1px solid var(--border-subtle);
+    font-family: var(--font-sans);
   }
-  .zk-faq__q {
-    list-style: none;
+  .zk-faq__btn {
+    width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
     gap: 16px;
+    background: none;
+    border: none;
     cursor: pointer;
     padding: 18px 4px;
+    text-align: left;
+    font-family: inherit;
     font-size: 17px;
     font-weight: var(--fw-semibold);
     color: var(--text-heading);
   }
-  .zk-faq__q::-webkit-details-marker {
-    display: none;
-  }
-  .zk-faq__q:focus-visible {
-    outline: 2px solid var(--color-primary);
-    outline-offset: 2px;
-  }
-  .zk-faq__icon {
+  .zk-faq__mas {
     color: var(--color-primary);
     font-size: 22px;
     font-weight: 300;
-    flex-shrink: 0;
     transition: transform 0.2s ease;
+    flex-shrink: 0;
   }
-  .zk-faq[open] .zk-faq__icon {
+  .zk-faq[data-open] .zk-faq__mas {
     transform: rotate(45deg);
   }
-  .zk-faq__a {
+  .zk-faq__resp {
     padding: 0 4px 20px;
     font-size: 16px;
     color: var(--text-body);
