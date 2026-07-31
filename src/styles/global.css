@@ -16,6 +16,22 @@
   display: none !important;
 }
 
+/* Acceso a una sección que existe pero todavía no se puede ofrecer (ver
+   `RUTAS_PENDIENTES` en `src/data/navegacion.ts`). Se marca en vez de esconderse: la
+   sección sigue anunciada y se ve que viene, sin prometer algo que hoy no está.
+   Se renderiza como <span>, no como <a>, así que no hay destino que bloquear; lo que
+   queda por resolver aquí es sólo el aspecto y el cursor. */
+.zk-pendiente {
+  opacity: 0.45 !important;
+  cursor: not-allowed !important;
+  text-decoration: none !important;
+  filter: grayscale(1);
+}
+.zk-pendiente:hover {
+  opacity: 0.45 !important;
+  text-decoration: none !important;
+}
+
 html {
   scroll-behavior: smooth;
   /* Zoom base del sitio: "100% por defecto" equivale a ~80% de zoom del navegador. */

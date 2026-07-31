@@ -164,6 +164,7 @@
    -------------------------------------------------------------------------- */
 @media screen and (max-width: 1024px) {
   .zk-footer-indice a,
+  .zk-footer-indice .zk-pendiente,
   .zk-footer-indice .zk-priv-btn {
     min-height: 44px !important;
     display: flex !important;

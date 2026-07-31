@@ -1,7 +1,7 @@
 ---
 /* Footer de la v3 — ZKFooterV3.dc.html. Cuatro columnas + disclaimer clínico +
    franja de copyright, y el modal de Privacidad (contenido institucional pendiente). */
-import { FOOTER_LINKS, ruta } from '../../data/navegacion';
+import { FOOTER_LINKS, ruta, estaPendiente } from '../../data/navegacion';
 import { sedes, waConsultaSede } from '../../data/contacto';
 import { logoVertical } from '../../lib/imagenes';
 
@@ -13,7 +13,11 @@ const { home = false } = Astro.props;
 const links = FOOTER_LINKS.map((l) => ({
   label: l.label,
   href: l.anchor ? (home ? l.anchor : ruta(l.page) + l.anchor) : ruta(l.page),
+  pendiente: estaPendiente(l.page),
 }));
+
+/* Ver `RUTAS_PENDIENTES` en `src/data/navegacion.ts`. */
+const TITULO_PENDIENTE = 'Estamos preparando esta sección';
 
 const waLa = waConsultaSede('Los Ángeles');
 const waPu = waConsultaSede('Pucón');
@@ -70,7 +74,17 @@ const waPu = waConsultaSede('Pucón');
         Clínica ZK
       </h3>
       <div class="zk-footer-indice" style="display: grid; gap: 2px; font-size: 14.5px; line-height: 1.7;">
-        {links.map((l) => <a href={l.href} style="text-decoration: none;">{l.label}</a>)}
+        {
+          links.map((l) =>
+            l.pendiente ? (
+              <span class="zk-pendiente" style="text-decoration: none;" aria-disabled="true" title={TITULO_PENDIENTE}>
+                {l.label}
+              </span>
+            ) : (
+              <a href={l.href} style="text-decoration: none;">{l.label}</a>
+            )
+          )
+        }
         <button type="button" id="zk-priv-abrir" class="zk-priv-btn">Privacidad</button>
       </div>
     </div>

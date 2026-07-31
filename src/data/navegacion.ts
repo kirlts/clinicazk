@@ -10,6 +10,20 @@ export const ruta = (p: string) => {
 /** Entrada de navegación: `anchor` marca los enlaces que son anclas dentro de Inicio. */
 export type NavEntry = { label: string; page: string; anchor?: string };
 
+/* Secciones que existen pero todavía no se pueden ofrecer, porque falta contenido que
+   entrega la clínica. Sus accesos se muestran deshabilitados en vez de desaparecer: la
+   sección sigue anunciada, pero sin prometer algo que hoy no está.
+
+   Convenios espera el listado de instituciones y sus logos (la página tiene seis marcos
+   con la marca "Logo" como placeholder honesto).
+
+   Para volver a habilitar una sección basta con sacarla de este conjunto: los accesos del
+   header, del menú móvil, del footer y de Inicio lo leen todos de acá. */
+export const RUTAS_PENDIENTES: ReadonlySet<string> = new Set(['/convenios']);
+
+/** ¿El acceso a esta ruta debe mostrarse deshabilitado? */
+export const estaPendiente = (page: string) => RUTAS_PENDIENTES.has(page);
+
 /** Links del header. `anchor` se usa cuando la página actual es Inicio. */
 export const NAV: NavEntry[] = [
   { label: 'Inicio', anchor: '#inicio', page: '/' },

@@ -7,6 +7,7 @@ import WhatsAppFab from '../components/site/WhatsAppFab.astro';
 import SectionHeader from '../components/core/SectionHeader.astro';
 import { wa, type Sede } from '../data/contacto';
 import { isotipo } from '../lib/imagenes';
+import { estaPendiente } from '../data/navegacion';
 
 const waConvenio = (sede: Sede) =>
   wa(sede, 'Hola, quisiera consultar si mi convenio o seguro complementario aplica en Clínica ZK ' + sede + '.');
@@ -22,6 +23,7 @@ const contactos = [
 <Layout
   title="Convenios y Seguros Dentales | Clínica ZK"
   description="Conoce los convenios institucionales y modalidades de reembolso de seguros complementarios disponibles en Clínica ZK."
+  noindex={estaPendiente('/convenios')}
 >
   <div style="font-family: var(--font-sans); color: var(--text-body);">
     <SiteHeader active="Convenios" />

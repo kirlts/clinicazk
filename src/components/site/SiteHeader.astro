@@ -6,7 +6,7 @@
    patrón que el handoff dejó explícitamente "a definir con diseño". El CTA de contacto
    se mantiene siempre visible: es el canal principal del sitio y esconderlo tras un
    menú lo dejaría a dos toques. El estilo del menú vive en `styles/responsive/chrome.css`. */
-import { NAV, ruta } from '../../data/navegacion';
+import { NAV, ruta, estaPendiente } from '../../data/navegacion';
 import { logoHorizontal } from '../../lib/imagenes';
 import { sedes, waConsultaSede } from '../../data/contacto';
 
@@ -29,7 +29,13 @@ const links = NAV.map((n) => ({
   href: n.anchor ? (home ? n.anchor : ruta(n.page) + n.anchor) : ruta(n.page),
   style: base + (n.label === active ? on : off),
   activo: n.label === active,
+  pendiente: estaPendiente(n.page),
 }));
+
+/* Los accesos a una sección pendiente se renderizan como <span>: sin destino que seguir,
+   sin foco de teclado que lleve a ninguna parte, y anunciados como deshabilitados a los
+   lectores de pantalla. Ver `RUTAS_PENDIENTES` en `src/data/navegacion.ts`. */
+const TITULO_PENDIENTE = 'Estamos preparando esta sección';
 
 const homeHref = home ? '#inicio' : ruta('/');
 const contactoHref = home ? '#contacto' : ruta('/') + '#contacto';
@@ -56,7 +62,19 @@ const menuSedes = [
       class="zk-nav"
       style="display: flex; gap: 8px 18px; margin-left: auto; align-items: center; flex-wrap: wrap; justify-content: flex-end; flex: 1 1 auto; min-width: 0;"
     >
-      {links.map((l) => <a href={l.href} class="zk-nav-link" style={l.style}>{l.label}</a>)}
+      {
+        links.map((l) =>
+          l.pendiente ? (
+            <span class="zk-nav-link zk-pendiente" style={l.style} aria-disabled="true" title={TITULO_PENDIENTE}>
+              {l.label}
+            </span>
+          ) : (
+            <a href={l.href} class="zk-nav-link" style={l.style}>
+              {l.label}
+            </a>
+          )
+        )
+      }
     </nav>
     <a href={contactoHref} class="zk-header-cta">Contacto</a>
 
@@ -100,11 +118,17 @@ const menuSedes = [
   <div id="zk-menu" class="zk-menu" hidden>
     <nav class="zk-menu-lista" aria-label="Navegación principal">
       {
-        links.map((l) => (
-          <a href={l.href} class="zk-menu-link" data-activo={l.activo ? '' : undefined} aria-current={l.activo ? 'page' : undefined}>
-            {l.label}
-          </a>
-        ))
+        links.map((l) =>
+          l.pendiente ? (
+            <span class="zk-menu-link zk-pendiente" aria-disabled="true" title={TITULO_PENDIENTE}>
+              {l.label}
+            </span>
+          ) : (
+            <a href={l.href} class="zk-menu-link" data-activo={l.activo ? '' : undefined} aria-current={l.activo ? 'page' : undefined}>
+              {l.label}
+            </a>
+          )
+        )
       }
     </nav>
     <div class="zk-menu-sedes">

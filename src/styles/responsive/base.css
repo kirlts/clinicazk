@@ -86,6 +86,7 @@
      un enlace de prosa rompe el interlineado del texto que lo contiene. */
   a[class*='zk-btn'],
   button[class*='zk-btn'],
+  span[class*='zk-btn'],
   .zk-brillo,
   .zk-contacto-btn,
   .zk-header-logo,
