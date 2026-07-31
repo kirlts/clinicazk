@@ -13,11 +13,28 @@ y este proyecto adhiere a [Versionado Semántico](https://semver.org/spec/v2.0.0
 - WhatsApp de Dirección Clínica: por confirmar (Clínica ZK).
 - Imágenes por especialidad: el panel de especialidades aún no lleva foto.
 - Contenido de la sección Privacidad: el modal muestra un aviso de sección en preparación.
-- Difuminar patentes en el resto de las tomas de fachada: la de Los Ángeles ya está.
 - Dominio clinicazk.cl (pendiente de trámite).
 - Widgets de Google Maps: diferidos por complejidad con dos sedes (reevaluar).
 - Revisión de la versión móvil por el director en un teléfono real.
 - Decisión sobre justificar párrafos: la comparativa está hecha y medida, falta que el director elija.
+
+## [3.2.3] - 2026-07-31
+
+> Redacción de datos de terceros en las fotografías, y un salto del popover de agenda.
+
+### Cambiado
+- **Todas las fotografías del sitio se revisaron una por una** (19 de sede y 13 retratos) buscando patentes, carteles de terceros y datos personales. Se difuminaron **13 zonas en 8 fotografías**: las 4 patentes que quedaban, el cartel "Hostal Graciela Hospedaje" del vecino de Pucón, los dos afiches de "Tecnorex Servicio Técnico", la placa de Transbank de la fachada de Los Ángeles y los logos de Masvida y Banmédica del pendón de recepción. Es un desenfoque gaussiano sobre rectángulos acotados, nunca un repintado generativo.
+- El manifiesto de lo redactado vive en `tools/difuminar-fotos.py`, con las coordenadas, el motivo de cada zona y lo que se decidió **no** tapar. Permite reaplicarlo si una foto se reimporta desde el handoff, que las trae sin tratar.
+
+### Corregido
+- **Dos caras de pacientes en la sala de espera de Los Ángeles**, una de ellas de un niño, estaban publicadas y reconocibles. No formaban parte de lo pedido; aparecieron al revisar foto por foto. Difuminadas.
+- El popover "Agenda tu evaluación" saltaba 150px hacia la izquierda al abrirse. La animación `zkfade` termina en `transform: none`, que mientras corre le gana al `translateX(-50%)` con que el popover se centra: durante 0.2s quedaba corrido a la derecha y luego saltaba a su lugar. En un teléfono eso lo dejaba medio fuera de pantalla. Se le dio una animación propia, `zkfade-centrado`, que lleva el centrado dentro de los keyframes. Medido antes y después: el salto pasó de 150px a 0.
+
+### Verificado
+- Cada zona tratada se revisó ampliada tras aplicar el desenfoque: no queda nada legible.
+- El radio del desenfoque tiene techo a propósito. Sin él, un afiche grande de color plano quedaba como un rectángulo gris uniforme que se leía como bloque de censura en vez de vidrio esmerilado.
+- La señalética de Clínica ZK, los diplomas del Dr. Vyhmeister y la radiografía en pantalla quedaron intactos: sí tienen que ver con la clínica o no exponen a nadie.
+- `astro check`: 0 errores, 0 advertencias. Build en verde.
 
 ## [3.2.1] - 2026-07-31
 

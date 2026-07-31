@@ -347,8 +347,7 @@
 - [ ] **PENDIENTE (Clínica ZK):** contenido de la sección Privacidad
 - [x] **Resuelto por EPIC-009:** patrón de menú móvil definido (UD-013) y versión móvil de las cuatro páginas nuevas `2026-07-30`
 - [ ] **PENDIENTE (diseño):** imágenes por especialidad
-- [x] Patentes difuminadas en la fachada de Los Ángeles `2026-07-31`
-- [ ] **PENDIENTE (Clínica ZK):** revisar si queda alguna patente legible en el resto de las tomas
+- [x] Las 32 fotografías del sitio revisadas una por una; 13 zonas difuminadas en 8 de ellas: patentes, carteles de terceros y dos caras de pacientes. Manifiesto en `tools/difuminar-fotos.py` `2026-07-31`
 
 ---
 

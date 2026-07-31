@@ -85,3 +85,20 @@ body {
     transform: none;
   }
 }
+
+/* Variante de zkfade para elementos que se centran con `translateX(-50%)`.
+   `zkfade` termina en `transform: none`, y mientras la animación corre ese valor
+   le gana al transform propio del elemento: el popover de agenda quedaba 150px
+   corrido a la derecha durante 0.2s y saltaba a su lugar al terminar. En un
+   teléfono eso lo dejaba medio fuera de pantalla. Aquí el centrado viaja dentro
+   de los keyframes, así que nunca se pierde. */
+@keyframes zkfade-centrado {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%);
+  }
+}
