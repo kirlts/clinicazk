@@ -81,6 +81,23 @@
     padding: 28px 22px !important;
   }
 
+  /* Los dos botones de consulta vienen con `justify-content: flex-end`, que en
+     una columna ancha de escritorio ancla la acción al borde derecho del panel.
+     Apilados en un teléfono producen lo contrario de lo que buscan: dos botones
+     de distinto largo alineados a la derecha dejan los bordes izquierdos
+     escalonados, y encima el texto del panel está alineado a la izquierda. A
+     ancho completo la acción queda pareja y se lee como el resto de las
+     llamadas del sitio, que ya son de borde a borde en teléfono. */
+  #especialidades .zk-espec-acciones {
+    justify-content: stretch !important;
+    gap: 10px !important;
+  }
+  #especialidades .zk-espec-acciones > a {
+    flex: 1 1 100% !important;
+    justify-content: center !important;
+    text-align: center !important;
+  }
+
   /* ===== MEMBRESÍAS =======================================================
      4 tarjetas en `repeat(4, 1fr)` quedan de ~85px: el nombre de la
      membresía y la lista de beneficios caen en una letra por línea. Se

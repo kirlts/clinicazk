@@ -86,9 +86,21 @@ const panels = await Promise.all(
       container.style.setProperty('--zk-center', key === 'la' ? '58' : key === 'pucon' ? '42' : '50');
       panels.forEach((p) => p.classList.toggle('is-active', p.dataset.key === key));
     };
+    /* En una pantalla táctil el navegador sintetiza `mouseenter` y `focus` antes del
+       `click` del mismo toque. Con los tres escuchando, el toque abría la ficha por
+       hover y el click la encontraba abierta y la volvía a cerrar: nunca quedaba
+       abierta. El hover se ata sólo donde existe de verdad, y el foco sólo cuando
+       viene del teclado. En un dispositivo con mouse el comportamiento no cambia:
+       `mouseenter` sigue llegando primero y `click` sigue alternando sobre él. */
+    const puedeHover = window.matchMedia('(hover: hover)').matches;
+
     panels.forEach((p) => {
-      p.addEventListener('mouseenter', () => setActive(p.dataset.key ?? null));
-      p.addEventListener('focus', () => setActive(p.dataset.key ?? null));
+      if (puedeHover) {
+        p.addEventListener('mouseenter', () => setActive(p.dataset.key ?? null));
+      }
+      p.addEventListener('focus', () => {
+        if (p.matches(':focus-visible')) setActive(p.dataset.key ?? null);
+      });
       p.addEventListener('click', (e) => {
         if ((e.target as HTMLElement).closest('a')) return;
         const isActive = p.classList.contains('is-active');
@@ -102,7 +114,9 @@ const panels = await Promise.all(
         }
       });
     });
-    container.addEventListener('mouseleave', () => setActive(null));
+    if (puedeHover) {
+      container.addEventListener('mouseleave', () => setActive(null));
+    }
   }
 </script>
 
@@ -274,11 +288,18 @@ const panels = await Promise.all(
       display: flex;
       flex-direction: column;
     }
+    /* Alto mínimo, no fijo. Con `height: 264px` el panel no crecía al abrirse la
+       ficha de contacto y el `clip-path` recortaba el botón de WhatsApp: quedaba
+       entre 13 y 29px fuera del recorte según el ancho. Con `min-height` el panel
+       sigue el alto de su contenido, y como el contenido pasa a estar en flujo
+       (ver `.zk-branch__content`), la apertura además se anima sola: la altura del
+       panel acompaña la transición de `max-height` de la ficha. */
     .zk-branch {
       position: relative;
       inset: auto;
       width: 100%;
-      height: 264px;
+      height: auto;
+      min-height: 264px;
       flex-shrink: 0;
       transition: none;
     }
@@ -297,7 +318,11 @@ const panels = await Promise.all(
       top: 0;
       bottom: 0;
     }
+    /* En flujo, no absoluto: es lo que le permite al panel crecer con la ficha
+       abierta. El fondo, la foto y el tinte siguen absolutos por detrás. */
     .zk-branch__content {
+      position: relative;
+      inset: auto;
       padding: 30px 28px 36px;
       align-items: flex-start;
       text-align: left;
@@ -335,14 +360,17 @@ const panels = await Promise.all(
       margin-top: 10px;
       box-sizing: border-box;
     }
+    /* Holgado a propósito: ya no es lo que limita el alto visible (el panel crece),
+       sólo la distancia que recorre la animación. Con 96px la dirección de dos
+       renglones más el botón de 44px no alcanzaban a entrar. */
     .zk-branch.is-active .zk-branch__detail {
-      max-height: 96px;
+      max-height: 160px;
     }
   }
 
   @media screen and (max-width: 380px) {
     .zk-branch {
-      height: 244px;
+      min-height: 244px;
     }
     .zk-branch__city {
       font-size: 27px;
