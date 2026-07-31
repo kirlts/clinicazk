@@ -71,24 +71,98 @@ const items = await Promise.all(
     const contador = raiz.querySelector<HTMLElement>('[data-contador]')!;
     const caption = raiz.querySelector<HTMLElement>('[data-caption]')!;
     const minis = Array.from(raiz.querySelectorAll<HTMLElement>('[data-mini]'));
-    let i = 0;
+    /* `pedido` es el índice que el visitante ya solicitó, y avanza en el mismo
+       instante del toque aunque la foto todavía se esté descargando. Las flechas
+       navegan desde ahí: si navegaran desde el índice que está en pantalla,
+       cinco toques seguidos avanzarían dos fotos en vez de cinco, porque los
+       toques intermedios leerían un índice que aún no se ha movido. */
+    let pedido = 0;
+    // Identifica cada cambio en curso: si el visitante toca la flecha otra vez
+    // mientras una foto todavía se descarga, la primera ya no debe pintarse.
+    let turno = 0;
+    // Hay una foto descargándose en este momento.
+    let enVuelo = false;
 
-    const mostrar = (n: number) => {
-      i = (n + datos.length) % datos.length;
-      principal.src = datos[i].grande;
-      principal.alt = datos[i].alt;
+    /** Deja una foto descargada y decodificada en el navegador, sin mostrarla. */
+    const precargar = (n: number) => {
+      const im = new Image();
+      im.src = datos[(n + datos.length) % datos.length].grande;
+      return im;
+    };
+
+    const mostrar = async (n: number) => {
+      const idx = (n + datos.length) % datos.length;
+      pedido = idx;
+      const mio = ++turno;
+
+      /* La miniatura activa se marca de inmediato, antes de esperar la descarga:
+         es el acuse de recibo del toque. Con una conexión lenta la foto puede
+         tardar medio segundo en estar lista, y sin esta señal el control parece
+         no haber respondido. El contador y el pie viajan junto con la foto para
+         que nunca describan una imagen que todavía no está en pantalla. */
+      minis.forEach((m, j) => m.toggleAttribute('data-activa', j === idx));
+
+      /* Si ya hay una foto descargándose, se deja pasar un respiro antes de
+         pedir esta. Con una conexión lenta, tocar la flecha cinco veces seguidas
+         lanzaba cinco descargas peleando el mismo ancho de banda y la última
+         llegaba mucho más tarde. Con el respiro sólo se descarga aquella en la
+         que el visitante se detiene. Un toque aislado no paga nada: la condición
+         sólo se cumple si hay algo en vuelo. */
+      if (enVuelo) {
+        await new Promise((r) => setTimeout(r, 90));
+        if (mio !== turno) return;
+      }
+
+      /* Se espera a que la foto esté lista ANTES de tocar el <img>.
+         Antes se asignaba `src` y se reiniciaba el fundido en el mismo gesto:
+         como la foto nueva todavía no había llegado, el navegador seguía
+         pintando la anterior, así que lo que se desvanecía y volvía era la foto
+         que salía, y recién después aparecía la nueva. Eso era el parpadeo.
+         Ahora el fundido acompaña a la foto que entra, que es lo que el diseño
+         pide. */
+      const previa = new Image();
+      previa.src = datos[idx].grande;
+      enVuelo = true;
+      try {
+        await previa.decode();
+      } catch {
+        /* Si la descarga falla se sigue igual: el <img> mostrará lo que pueda. */
+      }
+      if (mio !== turno) return;
+      enVuelo = false;
+
+      principal.src = datos[idx].grande;
+      principal.alt = datos[idx].alt;
       // Reinicia el fade de entrada de la foto.
       principal.style.animation = 'none';
       void principal.offsetWidth;
       principal.style.animation = 'zkfade .3s var(--ease-out)';
-      contador.textContent = String(i + 1);
-      caption.textContent = datos[i].alt;
-      minis.forEach((m, j) => m.toggleAttribute('data-activa', j === i));
+      contador.textContent = String(idx + 1);
+      caption.textContent = datos[idx].alt;
+
+      // Las vecinas quedan listas para que el clic siguiente no espere nada.
+      precargar(idx + 1);
+      precargar(idx - 1);
     };
 
-    raiz.querySelector('[data-gal="prev"]')?.addEventListener('click', () => mostrar(i - 1));
-    raiz.querySelector('[data-gal="next"]')?.addEventListener('click', () => mostrar(i + 1));
+    raiz.querySelector('[data-gal="prev"]')?.addEventListener('click', () => mostrar(pedido - 1));
+    raiz.querySelector('[data-gal="next"]')?.addEventListener('click', () => mostrar(pedido + 1));
     minis.forEach((m, j) => m.addEventListener('click', () => mostrar(j)));
+
+    /* Las vecinas de la primera foto se precargan recién cuando la galería
+       entra en pantalla, no al cargar la página: en Sucursales las dos galerías
+       están bien abajo y adelantar cuatro fotos encarecería la primera carga
+       para quien nunca llega a verlas. */
+    const obs = new IntersectionObserver(
+      (entradas) => {
+        if (!entradas[0].isIntersecting) return;
+        obs.disconnect();
+        precargar(1);
+        precargar(-1);
+      },
+      { rootMargin: '200px' }
+    );
+    obs.observe(raiz);
   });
 </script>
 

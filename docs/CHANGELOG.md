@@ -18,6 +18,17 @@ y este proyecto adhiere a [Versionado Semántico](https://semver.org/spec/v2.0.0
 - Revisión de la versión móvil por el director en un teléfono real.
 - Decisión sobre justificar párrafos: la comparativa está hecha y medida, falta que el director elija.
 
+## [3.2.4] - 2026-07-31
+
+### Corregido
+- Las galerías de sucursales parpadeaban al cambiar de foto. El componente asignaba el nuevo `src` y reiniciaba el fundido en el mismo gesto, pero la foto todavía no había llegado: el navegador seguía pintando la anterior, así que **lo que se desvanecía y volvía era la foto que salía**, y sólo después aparecía la nueva. Ahora se espera a que la imagen esté descargada y decodificada antes de tocar el `<img>`, de modo que el fundido acompañe a la foto que entra, que es lo que pide el diseño. Medido: la opacidad de la foto saliente pasó de bajar a 0 a mantenerse en 1.
+- Efectos del mismo arreglo, resueltos en el camino: las fotos vecinas se precargan cuando la galería entra en pantalla (no al cargar la página, para no encarecer la primera carga de Sucursales); la miniatura activa se marca al instante como acuse del toque, mientras el contador y el pie viajan con la foto para no describir nunca una imagen que no está en pantalla; las flechas navegan desde el índice ya solicitado, así cinco toques seguidos avanzan cinco fotos y no dos; y una ráfaga de toques deja de lanzar descargas que compiten entre sí.
+
+### Verificado
+- Con red normal y con red limitada a 400 KB/s: la miniatura responde en 1ms, la foto cambia en menos de 60ms y la saliente nunca se desvanece.
+- Cinco toques rápidos avanzan exactamente cinco fotos, en las dos galerías, en escritorio y en teléfono. Contador, pie y miniatura quedan coherentes; el salto de la primera a la última funciona en ambos sentidos.
+- `astro check`: 0 errores, 0 advertencias. Build en verde.
+
 ## [3.2.3] - 2026-07-31
 
 > Redacción de datos de terceros en las fotografías, y un salto del popover de agenda.
