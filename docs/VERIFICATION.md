@@ -1,4 +1,4 @@
-# VERIFICATION: Clínica ZK v3.2.0
+# VERIFICATION: Clínica ZK v3.2.4
 
 > Verdad canónica de todas las verificaciones formales de promesas y de los límites de testing.
 > Generado y mantenido exclusivamente por el algoritmo `/derive`.
@@ -154,6 +154,28 @@ que un tilde signifique que la comprobación se corrió, no que se esperaba que 
 🤖 `NAV.FN.004.LLM` La página pendiente sigue existiendo y respondiendo por URL directa, para poder revisarla antes de habilitarla. ✅ (🤖 Verificado por herramienta; 2026-07-30 20:52)
 🧑 `NAV.AV.001.HUM` El estado deshabilitado se lee como "sección en preparación" y no como un error del sitio. 🔲
 
+
+---
+
+## Verificación de las correcciones del 2026-07-31
+
+> Añadida por `/document` y no por `/derive`: son promesas ya verificadas en esta sesión
+> que quedaban sin check que las reclamara. Se reutilizan los actores existentes; no se
+> introduce taxonomía nueva. Ref: USER-DECISIONS UD-016 y UD-017.
+
+🤖 `CONT.IN.001.LLM` Ninguna fotografía publicada muestra una patente de vehículo legible. Las 32 fotos del sitio (19 de sede y 13 retratos) se revisaron una por una; las 4 patentes visibles quedaron difuminadas, más las 3 ya tratadas. ✅ (🤖 Verificado por herramienta; 2026-07-31 14:45)
+🤖 `CONT.IN.002.LLM` Ninguna fotografía publicada muestra carteles ni marcas de terceros ajenos a Clínica ZK: cartel del hostal vecino, dos afiches de servicio técnico, una placa de medio de pago y dos logos de isapre. La señalética de ZK y los diplomas del propio equipo quedan intactos. ✅ (🤖 Verificado por herramienta; 2026-07-31 14:45)
+🤖 `CONT.IN.003.LLM` Ninguna fotografía publicada muestra la cara de una persona que no sea del equipo clínico. ✅ (🤖 Verificado por herramienta; 2026-07-31 14:45)
+🤖 `CONT.IN.004.LLM` La redacción de las fotografías es reproducible: `tools/difuminar-fotos.py` declara cada zona, su motivo y lo que se decidió no tapar, y permite reaplicarla si una foto se reimporta desde el handoff. ✅ (🤖 Verificado por herramienta; 2026-07-31 15:35)
+🤖 `CONT.CR.025.LLM` La fachada de Los Ángeles publicada es la fotografía real del local, no la versión retocada con IA que traía el handoff. Verificado comparando el recurso servido en producción contra el generado por el build. ✅ (🤖 Verificado por herramienta; 2026-07-31 14:05)
+
+🤖 `UIX.FN.005.LLM` El acceso flotante de WhatsApp deja elegir sucursal en lugar de llevar a un solo número. Los dos enlaces apuntan a números distintos, conservan el mensaje prellenado de cada página y salen con `target="_blank" rel="noopener"`. Verificado en las 6 páginas que lo llevan, a 320, 375 y 1440px. ✅ (🤖 Verificado por herramienta; 2026-07-31 13:58)
+🤖 `UIX.FN.006.LLM` Al cambiar de foto en una galería, la foto que sale no se desvanece: el fundido acompaña a la que entra. Medido con la red limitada a 400 KB/s, la opacidad de la saliente se mantiene en 1.00 y la nueva aparece en menos de 65ms. ✅ (🤖 Verificado por herramienta; 2026-07-31 15:22)
+🤖 `UIX.FN.007.LLM` Una ráfaga de toques en la galería avanza tantas fotos como toques, sin descoordinar contador, pie y miniatura, y el salto de la primera a la última funciona en ambos sentidos. Verificado en las dos galerías, en escritorio y teléfono. ✅ (🤖 Verificado por herramienta; 2026-07-31 15:22)
+🤖 `UIX.FN.008.LLM` El popover de agenda no se desplaza al abrirse. La animación de entrada conserva el centrado del elemento; el salto medido pasó de 150px a 0, en escritorio y en teléfono. ✅ (🤖 Verificado por herramienta; 2026-07-31 14:33)
+
+🧑 `CONT.IN.005.HUM` La clínica confirma si existe consentimiento de las personas retratadas en la sala de espera, y si los convenios cuyos logos aparecen en el pendón siguen vigentes. De ello depende si esas zonas siguen difuminadas. 🔲
+
 ### Límites declarados de esta verificación
 
 - `RSP.FN.014` y `RSP.FN.015` se comprobaron en emulación táctil de Chromium, no en hardware.
@@ -161,3 +183,9 @@ que un tilde signifique que la comprobación se corrió, no que se esperaba que 
   navegador de escritorio con pantalla táctil no se probó.
 - `NAV.FN.001` cuenta enlaces en el HTML compilado. Un enlace construido en tiempo de
   ejecución por JavaScript no sería detectado por esa cuenta; hoy no existe ninguno.
+- `CONT.IN.001` a `CONT.IN.003` se apoyan en una revisión visual de las 32 fotografías hecha
+  por el agente, ampliando cada zona sospechosa. No hubo detección automática de patentes ni
+  de rostros: si una foto nueva entra al repositorio sin pasar por el manifiesto, ningún
+  control la detendría.
+- `CONT.CR.025` verifica que la fotografía publicada es la original del local. No verifica que
+  ninguna otra imagen del sitio venga retocada: eso sigue siendo juicio humano.

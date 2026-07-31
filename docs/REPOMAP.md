@@ -1,6 +1,6 @@
 # REPOMAP: Clínica ZK
 
-> Generado: 2026-07-30 (sincronizado por `/document`)
+> Generado: 2026-07-31 (sincronizado por `/document`)
 > Propósito: Matriz de enrutamiento. Define cuándo la IA está autorizada a leer cada directorio o archivo.
 
 ## Matriz de enrutamiento
@@ -20,8 +20,10 @@
 | `src/lib/` | **[Utilidades]** Helpers de build (`imagenes.ts`: mapas de fotos, retratos y marca para astro:assets). | Al ajustar la optimización de imágenes o helpers compartidos. |
 | `src/assets/`, `src/icons/` | **[Recursos estáticos]** Logos de marca (`brand/`), fotos de sedes (`fotos/`), retratos del equipo (`equipo/`) e íconos. El glob es eager: una imagen sin uso igual se copia al build. | Al actualizar recursos de marca o imágenes. |
 | `public/` | **[Archivos estáticos]** Servidos tal cual: favicon, `robots.txt` y `CNAME` del dominio. | Al agregar archivos de raíz o cambiar el dominio. |
+| `tools/` | **[Utilidades de mantenimiento]** Scripts que no forman parte del build. Hoy: `difuminar-fotos.py`, manifiesto de qué se difumina en cada fotografía y por qué. Ver MASTER-SPEC §7.3. | Al reimportar una foto desde el handoff, o al revisar qué datos de terceros se taparon y cuáles no. |
 | `.github/workflows/` | **[Entrega continua]** Build y publicación en GitHub Pages al hacer push a `main`. | Al cambiar el proceso de despliegue o actualizar las acciones. |
 | `astro.config.mjs`, `package.json`, `tsconfig.json` | **[Configuración]** Sitio, sitemap con exclusión de rutas pendientes, dependencias y TypeScript. | Al cambiar dependencias, rutas excluidas del sitemap o configuración del build. |
 | `PROGRESO.md` | **[Bitácora de sesión]** Registro de continuidad de la sesión del 2026-07-30, creado a pedido del usuario. Su contenido permanente ya está en el eje documental. | Nunca como fuente de verdad. Candidato a eliminación. |
 | `dist/`, `.astro/` | **[Salida de build]** Sitio estático generado y caché de Astro. | Nunca. Se regeneran en cada build. |
+| `README.md` | **[Presentación del repositorio]** Descripción breve del proyecto y cómo levantarlo. | Al preparar la entrega o cambiar cómo se ejecuta el proyecto. |
 | `*.zip` en la raíz, `propuestas/` | **[Ruido]** Bundles de diseño originales y documentos comerciales. Ignorados por git salvo un ZIP histórico. | Sólo al necesitar el handoff original como fuente de verdad de un diseño. |

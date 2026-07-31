@@ -1,4 +1,4 @@
-# TODO: Clínica ZK v3.2.0
+# TODO: Clínica ZK v3.2.4
 
 > Trazabilidad directa: cada tarea referencia checks de `VERIFICATION.md`.
 
@@ -441,6 +441,45 @@
 
 ---
 
+## [EPIC-011] Correcciones pedidas por el director tras la publicación
+
+> Ref: USER-DECISIONS UD-016, UD-017 · CHANGELOG 3.2.1 a 3.2.3
+
+### [TASK-040] Reemplazar la fachada retocada por la fotografía real
+
+> Ref: USER-DECISIONS UD-016; MASTER-SPEC §7.3
+
+**Checks cubiertos:** `CONT.CR.025.LLM`
+
+- [x] Fotografía original instalada en el hero de Inicio y en la galería de Los Ángeles `2026-07-31`
+- [x] Comprobado contra producción que el recurso servido cambió (hash de imagen distinto) `2026-07-31`
+- [x] No se intentó quitar los cables: repintar reintroduce el defecto que motivó el rechazo `2026-07-31`
+
+### [TASK-041] Redactar los datos de terceros en las fotografías
+
+> Ref: USER-DECISIONS UD-017; MASTER-SPEC §7.3
+
+**Checks cubiertos:** `CONT.IN.001.LLM`, `CONT.IN.002.LLM`, `CONT.IN.003.LLM`, `CONT.IN.004.LLM`, `CONT.IN.005.HUM`
+
+- [x] Las 32 fotografías del sitio revisadas una por una, ampliando cada zona sospechosa `2026-07-31`
+- [x] 13 zonas difuminadas en 8 fotografías: 4 patentes, 7 carteles o logos de terceros y 2 caras de pacientes `2026-07-31`
+- [x] Manifiesto reproducible en `tools/difuminar-fotos.py`, con lo que se decidió no tapar `2026-07-31`
+- [x] Radio del desenfoque acotado: sin techo, un afiche plano queda como bloque de censura `2026-07-31`
+- [ ] **PENDIENTE (Clínica ZK):** confirmar consentimiento de las personas de la sala de espera y vigencia de los convenios cuyos logos aparecen (`CONT.IN.005.HUM`)
+
+### [TASK-042] Corregir el acceso de contacto y las galerías
+
+> Ref: MASTER-SPEC §6
+
+**Checks cubiertos:** `UIX.FN.005.LLM`, `UIX.FN.006.LLM`, `UIX.FN.007.LLM`, `UIX.FN.008.LLM`
+
+- [x] El acceso flotante de WhatsApp deja elegir sucursal en vez de llevar siempre a Pucón `2026-07-31`
+- [x] Las galerías dejaron de parpadear: se espera la foto antes de mostrarla, y el fundido acompaña a la que entra `2026-07-31`
+- [x] Una ráfaga de toques avanza tantas fotos como toques, sin descoordinar contador, pie ni miniatura `2026-07-31`
+- [x] El popover de agenda dejó de saltar 150px al abrirse `2026-07-31`
+
+---
+
 ## Resumen general de cobertura
 
 | Épica | Tareas | Estado | 🤖 .LLM | 🧑 .HUM | 🤖🧑 .MIX | Total checks |
@@ -455,8 +494,16 @@
 | EPIC-008 | TASK-028 a TASK-030 | ⏳ 9 hechas, 7 pendientes | 9 | 2 | 0 | 11 |
 | EPIC-009 | TASK-031 a TASK-035 | ⏳ 18 hechas, 1 pendiente | 13 | 2 | 0 | 15 |
 | EPIC-010 | TASK-036 a TASK-039 | ⏳ 11 hechas, 3 pendientes | 7 | 1 | 0 | 8 |
-| **Total (checks únicos)** | 39 tareas | | **50** | **22** | **0** | **72** |
+| EPIC-011 | TASK-040 a TASK-042 | ⏳ 11 hechas, 1 pendiente | 9 | 1 | 0 | 10 |
+| **Total (checks únicos)** | 42 tareas | | **50** | **21** | **0** | **71** |
 
 > El total es el conjunto único de checks, no la suma de la columna: 6 checks aparecen en más de una épica porque una misma promesa se sostiene desde varias tareas.
 
-> VERIFICATION declara 72 checks únicos y las tareas referencian 72. No queda ningún check sin tarea que lo reclame.
+> VERIFICATION declara 71 checks únicos y las 42 tareas referencian esos mismos 71: ningún
+> check queda sin tarea que lo reclame, y ninguna tarea apunta a un check inexistente.
+> Contado por herramienta el 2026-07-31.
+
+> **Corrección de un conteo heredado.** Hasta esta auditoría la fila de totales declaraba 72
+> checks únicos (50 `.LLM`, 22 `.HUM`) cuando VERIFICATION contenía 61 (41 y 20). El número
+> venía de sumar la columna por épica, que cuenta varias veces los checks compartidos. Ahora
+> se cuenta el conjunto único.

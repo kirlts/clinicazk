@@ -44,7 +44,7 @@ const CLAVES: ClaveMembresia[] = ['anticipa', 'familia', 'seguimiento', 'total']
     el.hidden = el.dataset.membresia !== (m && document.querySelector(`[data-membresia="${m}"]`) ? m : 'anticipa');
   });
 
-  // Modo embed (modal del sitio): el documento ES el modal — sin fondo de escritorio.
+  // Modo embed (modal del sitio): el documento ES el modal, sin fondo de escritorio.
   if (embed) {
     document.body.classList.add('embed');
     document.documentElement.style.background = 'transparent';

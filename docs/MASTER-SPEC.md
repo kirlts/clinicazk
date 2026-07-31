@@ -1,4 +1,4 @@
-# MASTER-SPEC: Clínica ZK v3.2.0
+# MASTER-SPEC: Clínica ZK v3.2.4
 
 > Sitio web institucional para Clínica ZK. Clínica dental con sucursales en Los Ángeles y Pucón.
 
@@ -135,13 +135,13 @@
 | --- | --- | --- |
 | SiteHeader | Header sticky con 6 links + CTA de contacto y estado activo | `src/components/site/SiteHeader.astro` |
 | SiteFooter | Pie de 4 columnas + modal de Privacidad | `src/components/site/SiteFooter.astro` |
-| WhatsAppFab | Píldora fija que aparece al salir de la portada | `src/components/site/WhatsAppFab.astro` |
+| WhatsAppFab | Píldora fija que aparece al salir de la portada; abre un selector con las dos sedes | `src/components/site/WhatsAppFab.astro` |
 | SectionHeader | Titular de sección del design system | `src/components/core/SectionHeader.astro` |
 | BranchSplit | Split diagonal de sedes con foto por sede | `src/components/content/BranchSplit.astro` |
 | MembershipCard | Tarjeta de membresía (abre modal o navega al afiche) | `src/components/content/MembershipCard.astro` |
 | MembershipTag | Tarjetita física de la membresía (folleto) | `src/components/content/MembershipTag.astro` |
 | Afiche | Folleto de 2 caras de una membresía | `src/components/content/Afiche.astro` |
-| Galeria | Galería por sede (flechas, contador, miniaturas, caption) | `src/components/content/Galeria.astro` |
+| Galeria | Galería por sede (flechas, contador, miniaturas, caption); precarga y espera la foto antes de mostrarla | `src/components/content/Galeria.astro` |
 | FaqItem | Item de acordeón | `src/components/content/FaqItem.astro` |
 | FaqBloque | Acordeón por tema (usado en Familia ZK) | `src/components/content/FaqBloque.astro` |
 
@@ -232,6 +232,8 @@
 - `BranchSplit` y `Galeria` usan `getImage()` de `astro:assets` para generar webp por tamaño (principal ~1200px, miniatura ~220px).
 - Los retratos del equipo se sirven como `background-image` con URL ya optimizada: así conservan el encuadre del diseño (`background-position: center 22%` en tarjetas, `38%` en Dirección Clínica).
 - El glob es `eager`: cualquier imagen que quede en `src/assets/` se copia al build aunque ninguna vista la use. Las fotos del handoff que el diseño no referencia no se incorporan al repositorio.
+
+**Redacción de datos de terceros:** las fotografías del handoff llegan sin tratar. Antes de publicarse se difuminan las patentes de vehículos, los carteles de negocios vecinos y las caras de personas que no son del equipo. El manifiesto de qué se tapó, dónde y por qué vive en `tools/difuminar-fotos.py`, junto con lo que se decidió deliberadamente no tapar. Es un desenfoque local sobre rectángulos acotados, nunca un repintado generativo: la distinción importa porque una fotografía de fachada ya se descartó por venir retocada con IA. El script permite reaplicar la redacción si una foto se reimporta desde el handoff.
 
 ### 7.4. Datos del sitio
 

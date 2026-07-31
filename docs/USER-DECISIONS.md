@@ -250,6 +250,39 @@
 
 ---
 
+## [UD-016] La fotografía real de la fachada gana sobre la retocada del handoff
+
+**Fecha:** 2026-07-31
+**Contexto:** La fotografía de la fachada de Los Ángeles que traía el handoff v3 estaba retocada con IA: cables borrados, autos borrados, cielo idealizado, la marca de agua del editor en una esquina, y el letrero circular de la torre con un "ZK" genérico en vez del logo real. El director la objetó por escrito: *"está muy IA y además no tiene el logo correcto, por lo que prefiero la anterior. Si no es posible sacar los cables la dejamos con cables."*
+**Decisión:** Se reemplaza por la fotografía original, con cables y con los autos. No se intenta quitar los cables: hacerlo exige repintar la imagen, que es exactamente lo que produjo el problema objetado.
+**Alternativas descartadas:**
+- Conservar la del handoff: contradice el juicio explícito del director sobre su propia fachada.
+- Quitarle los cables a la original con edición generativa: reintroduce el defecto que motivó el rechazo. El director además autorizó dejarla con cables.
+**Consecuencias:**
+- (+) La fachada de Los Ángeles vuelve a ser una fotografía verificable del local, con su señalética real.
+- (+) Las dos mitades del split del hero quedan parejas en carácter: antes una era real y la otra retocada.
+- (-) **Acota UD-006 (fidelidad 1:1 con el handoff):** el handoff deja de ser fuente de verdad para el material fotográfico cuando el cliente reconoce que no representa su local. Sigue siéndolo para layout, copy y color.
+**Condiciones de reversión:** Si la clínica produce una fotografía nueva de la fachada, tomada y no generada.
+
+## [UD-017] Ninguna foto del sitio muestra datos de terceros
+
+**Fecha:** 2026-07-31
+**Contexto:** El director pidió *"difumina todas las patentes que se muestran en el sitio, sin excepción"* y *"los carteles o información que no tengan que ver con clínica ZK como el cartel que dice Hostal Graciela Hospedaje"*. Al revisar las 32 fotografías una por una apareció además algo que no estaba en el encargo: la foto de la sala de espera de Los Ángeles mostraba dos caras reconocibles, una de ellas de un niño. En una sala de espera son pacientes.
+**Decisión:** Ninguna fotografía publicada muestra patentes de vehículos, carteles o marcas de terceros ajenos a Clínica ZK, ni caras de personas que no son del equipo. Se aplica desenfoque local sobre rectángulos acotados, nunca repintado generativo. El manifiesto de qué se tapó y qué se decidió no tapar vive en `tools/difuminar-fotos.py`.
+**Alternativas descartadas:**
+- Tapar sólo lo que ya es ilegible a simple vista: el encargo fue "sin excepción", y una patente borrosa hoy puede no serlo en una pantalla mejor.
+- Reemplazar las fotos afectadas: se perdería material real de las sedes por un problema que se resuelve en una zona pequeña de cada imagen.
+**Consecuencias:**
+- (+) El sitio deja de publicar patentes, negocios vecinos y caras de pacientes.
+- (+) Cada foto reimportada desde el handoff puede volver a tratarse con un comando, en vez de depender de que alguien recuerde qué había que tapar.
+- (-) Cuatro fotografías muestran zonas visiblemente desenfocadas.
+- (-) Quedan por confirmar con la clínica dos criterios: si los logos de Masvida y Banmédica del pendón de recepción deben seguir tapados, y si existe consentimiento firmado de las personas de la sala de espera.
+**Condiciones de reversión:** Si la clínica acredita consentimiento de las personas retratadas, o confirma como vigentes los convenios cuyos logos aparecen. Revertir cualquier zona es quitar su entrada del manifiesto y reimportar esa foto.
+
+---
+
 ## Anotación de auditoría documental (2026-07-30)
 
 `UD-010` y `UD-011` fueron escritas con cuatro de los cinco campos del formato ADR: declaran fecha, contexto, decisión, alternativas y razón, pero **no declaran consecuencias ni condiciones de reversión**. No se completan aquí porque hacerlo sería atribuirle al usuario un razonamiento que no consta en el registro de la conversación. Quedan marcadas como incompletas para que él las cierre cuando quiera.
+
+**Revisada el 2026-07-31.** La auditoría de esa fecha llegó a redactarles los dos campos faltantes y luego se echó atrás: aunque el contenido era derivable de lo que las propias entradas ya dicen, completarlas por cuenta propia convierte una decisión del usuario en una redacción del agente. Este documento es el registro de su soberanía. Siguen incompletas, a la espera de que él las cierre.

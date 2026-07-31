@@ -21,6 +21,16 @@ y este proyecto adhiere a [Versionado Semántico](https://semver.org/spec/v2.0.0
 ## [3.2.4] - 2026-07-31
 
 ### Corregido
+- El título por defecto del layout contenía un em dash, carácter con tolerancia cero en este proyecto (MASTER-SPEC §4.7). No llegaba a publicarse porque las 8 páginas declaran el suyo, pero la próxima página que se agregara sin título lo habría llevado al sitio. Sustituido por el separador que ya usan los títulos de página.
+- **Tres em dash sí estaban publicados**, en el HTML del afiche: dos comentarios HTML de `Afiche.astro` y un comentario dentro de un `<script>` inline. Astro conserva los comentarios HTML y los de scripts inline en la salida, a diferencia de los de código. La primera revisión los dio por ausentes porque el `grep` no recorría subdirectorios; el barrido correcto sobre `dist/` completo los encontró. Corregidos: el build no contiene ni un em dash.
+
+### Documentación
+- Eje documental sincronizado con `/document`: MASTER-SPEC refleja el selector de sede del acceso flotante, la nueva mecánica de las galerías y la redacción de datos de terceros en las fotografías; TODO incorpora EPIC-011 con las tres tareas de las correcciones pedidas por el director; VERIFICATION suma 10 checks para promesas que estaban verificadas pero sin check que las reclamara; USER-DECISIONS registra UD-016 y UD-017; REPOMAP mapea `tools/` y `README.md`, que faltaban.
+- Corregido un conteo heredado: la tabla de cobertura de TODO declaraba 72 checks únicos cuando VERIFICATION contenía 61. El número salía de sumar la columna por épica, que cuenta dos veces los checks compartidos.
+
+## [3.2.3] - 2026-07-31
+
+### Corregido
 - Las galerías de sucursales parpadeaban al cambiar de foto. El componente asignaba el nuevo `src` y reiniciaba el fundido en el mismo gesto, pero la foto todavía no había llegado: el navegador seguía pintando la anterior, así que **lo que se desvanecía y volvía era la foto que salía**, y sólo después aparecía la nueva. Ahora se espera a que la imagen esté descargada y decodificada antes de tocar el `<img>`, de modo que el fundido acompañe a la foto que entra, que es lo que pide el diseño. Medido: la opacidad de la foto saliente pasó de bajar a 0 a mantenerse en 1.
 - Efectos del mismo arreglo, resueltos en el camino: las fotos vecinas se precargan cuando la galería entra en pantalla (no al cargar la página, para no encarecer la primera carga de Sucursales); la miniatura activa se marca al instante como acuse del toque, mientras el contador y el pie viajan con la foto para no describir nunca una imagen que no está en pantalla; las flechas navegan desde el índice ya solicitado, así cinco toques seguidos avanzan cinco fotos y no dos; y una ráfaga de toques deja de lanzar descargas que compiten entre sí.
 
@@ -29,7 +39,7 @@ y este proyecto adhiere a [Versionado Semántico](https://semver.org/spec/v2.0.0
 - Cinco toques rápidos avanzan exactamente cinco fotos, en las dos galerías, en escritorio y en teléfono. Contador, pie y miniatura quedan coherentes; el salto de la primera a la última funciona en ambos sentidos.
 - `astro check`: 0 errores, 0 advertencias. Build en verde.
 
-## [3.2.3] - 2026-07-31
+## [3.2.2] - 2026-07-31
 
 > Redacción de datos de terceros en las fotografías, y un salto del popover de agenda.
 
