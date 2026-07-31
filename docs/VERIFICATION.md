@@ -1,4 +1,4 @@
-# VERIFICATION: Clínica ZK v3.2.5
+# VERIFICATION: Clínica ZK v3.2.6
 
 > Verdad canónica de todas las verificaciones formales de promesas y de los límites de testing.
 > Generado y mantenido exclusivamente por el algoritmo `/derive`.
@@ -174,7 +174,9 @@ que un tilde signifique que la comprobación se corrió, no que se esperaba que 
 🤖 `UIX.FN.007.LLM` Una ráfaga de toques en la galería avanza tantas fotos como toques, sin descoordinar contador, pie y miniatura, y el salto de la primera a la última funciona en ambos sentidos. Verificado en las dos galerías, en escritorio y teléfono. ✅ (🤖 Verificado por herramienta; 2026-07-31 15:22)
 🤖 `UIX.FN.008.LLM` El popover de agenda no se desplaza al abrirse. La animación de entrada conserva el centrado del elemento; el salto medido pasó de 150px a 0, en escritorio y en teléfono. ✅ (🤖 Verificado por herramienta; 2026-07-31 14:33)
 
-🧑 `CONT.IN.005.HUM` La clínica confirma si existe consentimiento de las personas retratadas en la sala de espera, y si los convenios cuyos logos aparecen en el pendón siguen vigentes. De ello depende si esas zonas siguen difuminadas. 🔲
+🧑 `CONT.IN.005.HUM` La clínica confirma si existe consentimiento de las personas retratadas en la sala de espera. **Respondido el 2026-07-31: no lo tiene.** La redacción de esas caras queda como obligatoria y no reversible. ✅ (🧑 Confirmado por el usuario; 2026-07-31 20:05)
+🧑 `CONT.IN.006.HUM` La clínica confirma si los convenios cuyos logos aparecen en el pendón de recepción siguen vigentes. De ello depende si esas dos zonas siguen difuminadas. 🔲
+🤖 `CONT.IN.007.LLM` El historial del repositorio no sirve ninguna fotografía sin redactar. Verificado clonando de nuevo desde GitHub: ninguna de las 8 fotos tiene en ningún commit una versión distinta a la publicada, y el bundle de diseño no es alcanzable desde ninguno. ✅ (🤖 Verificado por herramienta; 2026-07-31 20:18)
 
 ### Límites declarados de esta verificación
 
@@ -189,3 +191,7 @@ que un tilde signifique que la comprobación se corrió, no que se esperaba que 
   control la detendría.
 - `CONT.CR.025` verifica que la fotografía publicada es la original del local. No verifica que
   ninguna otra imagen del sitio venga retocada: eso sigue siendo juicio humano.
+- `CONT.IN.007` alcanza al historial del repositorio, no a lo que GitHub conserve fuera de él.
+  Comprobado que `api.github.com/.../git/blobs/<sha>` todavía entrega los blobs viejos: quedan
+  inalcanzables desde cualquier commit, pero recuperables por quien ya conozca su SHA, hasta
+  que GitHub recolecte. Cerrar eso exige un ticket a GitHub Support desde la cuenta dueña.

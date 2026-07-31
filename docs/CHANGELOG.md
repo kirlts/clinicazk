@@ -18,6 +18,18 @@ y este proyecto adhiere a [Versionado Semántico](https://semver.org/spec/v2.0.0
 - Revisión de la versión móvil por el director en un teléfono real.
 - Decisión sobre justificar párrafos: la comparativa está hecha y medida, falta que el director elija.
 
+## [3.2.6] - 2026-07-31
+
+> Purga del historial. La clínica confirmó que **no tiene consentimiento** de las personas retratadas en la sala de espera, así que la redacción dejó de ser higiene y pasó a ser obligatoria también hacia atrás.
+
+### Seguridad
+- **Historial reescrito.** Difuminar una fotografía en el estado actual no borra sus versiones anteriores: en un repositorio público cualquiera podía pedir el commit previo y obtener los originales. Se reemplazó cada blob histórico de las 8 fotografías por su versión ya redactada, **sin borrar la ruta**, para no perder la trazabilidad que UD-011 declara necesaria. El bundle de diseño se eliminó de todos los commits.
+- Verificado clonando de nuevo desde GitHub, no sobre la copia local: 24 commits, ninguna fotografía con una versión distinta a la publicada, y ningún `.zip` alcanzable desde ningún commit. La foto de la sala de espera extraída del commit más antiguo es idéntica a la redactada.
+
+### Pendiente
+- **Los objetos viejos siguen sirviéndose por la API de GitHub.** Comprobado: la ruta normal devuelve 404, pero `api.github.com/.../git/blobs/<sha>` todavía entrega los 256 KB de la fotografía sin redactar. GitHub conserva los objetos inalcanzables hasta que recolecta. Hay que **pedir la recolección a GitHub Support**; sólo puede hacerlo el dueño de la cuenta.
+- La fotografía estuvo publicada en el sitio entre la subida de la v3 y la redacción. Lo que un tercero haya guardado en ese lapso no se puede revertir.
+
 ## [3.2.5] - 2026-07-31
 
 > Auditoría del repositorio como paquete de entrega. Este repositorio es **público**.

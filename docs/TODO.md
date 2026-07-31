@@ -1,4 +1,4 @@
-# TODO: Clínica ZK v3.2.5
+# TODO: Clínica ZK v3.2.6
 
 > Trazabilidad directa: cada tarea referencia checks de `VERIFICATION.md`.
 
@@ -465,7 +465,10 @@
 - [x] 13 zonas difuminadas en 8 fotografías: 4 patentes, 7 carteles o logos de terceros y 2 caras de pacientes `2026-07-31`
 - [x] Manifiesto reproducible en `tools/difuminar-fotos.py`, con lo que se decidió no tapar `2026-07-31`
 - [x] Radio del desenfoque acotado: sin techo, un afiche plano queda como bloque de censura `2026-07-31`
-- [ ] **PENDIENTE (Clínica ZK):** confirmar consentimiento de las personas de la sala de espera y vigencia de los convenios cuyos logos aparecen (`CONT.IN.005.HUM`)
+- [x] Consentimiento consultado a la clínica: **no lo tiene**. La redacción de esas caras queda obligatoria `2026-07-31`
+- [x] Historial del repositorio purgado: ninguna versión sin redactar sobrevive en ningún commit (`CONT.IN.007.LLM`) `2026-07-31`
+- [ ] **PENDIENTE (dueño de la cuenta):** pedir a GitHub Support la recolección de objetos del repositorio. La API todavía sirve los blobs viejos por SHA
+- [ ] **PENDIENTE (Clínica ZK):** confirmar vigencia de los convenios cuyos logos aparecen en el pendón (`CONT.IN.006.HUM`)
 
 ### [TASK-042] Corregir el acceso de contacto y las galerías
 
