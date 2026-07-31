@@ -10,7 +10,8 @@ import { ruta } from '../data/navegacion';
 import { waConsultaSede } from '../data/contacto';
 import { fotos, isotipo } from '../lib/imagenes';
 
-const fabHref = waConsultaSede('Pucón');
+const fabLa = waConsultaSede('Los Ángeles');
+const fabPu = waConsultaSede('Pucón');
 
 const principios = [
   {
@@ -254,7 +255,7 @@ const kit = await getImage({ src: fotos['pu-dra-romina-kit-familia-zk.jpg'], wid
     </section>
 
     <SiteFooter />
-    <WhatsAppFab href={fabHref} />
+    <WhatsAppFab hrefLa={fabLa} hrefPu={fabPu} />
   </div>
 </Layout>
 

@@ -1,28 +1,72 @@
 ---
 /* FAB de WhatsApp (WhatsAppFab del design system) envuelto en el contenedor #zk-fab
    que las páginas interiores usan: aparece recién al salir de la portada, vía
-   IntersectionObserver sobre la primera <section>. */
-import { waConsultaSede } from '../../data/contacto';
+   IntersectionObserver sobre la primera <section>.
+
+   El FAB llevaba directo al WhatsApp de Pucón, sin que el visitante pudiera elegir
+   sede: en un sitio de dos sucursales eso manda a la mitad de las visitas al número
+   equivocado. Ahora abre un selector con las dos, igual que el popover de agenda, el
+   bloque de contacto de Inicio y el menú móvil.
+
+   Cada página pasa sus dos enlaces ya construidos, porque el mensaje prellenado es
+   distinto en cada una (consulta general, orientación de membresías, convenios). */
+import { sedes, type Sede } from '../../data/contacto';
 
 interface Props {
-  href?: string;
+  /** Enlace de WhatsApp a Los Ángeles, con el mensaje prellenado de la página. */
+  hrefLa: string;
+  /** Enlace de WhatsApp a Pucón, con el mensaje prellenado de la página. */
+  hrefPu: string;
   label?: string;
   /** Inicio también lo oculta hasta salir del hero. */
   observarPortada?: boolean;
 }
 
-const { href = waConsultaSede('Pucón'), label = 'Escríbenos', observarPortada = true } = Astro.props;
+const { hrefLa, hrefPu, label = 'Escríbenos', observarPortada = true } = Astro.props;
+
+/* Mismos rótulos que el bloque de contacto de Inicio y el menú móvil: no se
+   inventa copy nuevo para este control. */
+const opciones: { sede: Sede; label: string; phone: string; href: string }[] = [
+  { sede: 'Los Ángeles', label: 'Escribir a Clínica ZK Los Ángeles', phone: sedes.la.whatsapp, href: hrefLa },
+  { sede: 'Pucón', label: 'Escribir a Clínica ZK Pucón', phone: sedes.pucon.whatsapp, href: hrefPu },
+];
+
+const ICONO =
+  'M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z';
 ---
 
 <div id="zk-fab" data-observar={observarPortada ? '' : undefined}>
-  <a href={href} aria-label={`WhatsApp: ${label}`} class="zk-fab-link">
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-      <path
-        d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"
-      ></path>
-    </svg>
-    <span>{label}</span>
-  </a>
+  <div class="zk-fab-caja">
+    <div id="zk-fab-sedes" class="zk-fab-sedes" hidden>
+      {
+        opciones.map((o) => (
+          <a href={o.href} target="_blank" rel="noopener" class="zk-fab-sede">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d={ICONO} />
+            </svg>
+            <span class="zk-fab-sede-texto">
+              <strong>{o.label}</strong>
+              <span class="zk-fab-sede-fono">{o.phone}</span>
+            </span>
+          </a>
+        ))
+      }
+    </div>
+
+    <button
+      type="button"
+      id="zk-fab-btn"
+      class="zk-fab-link"
+      aria-expanded="false"
+      aria-controls="zk-fab-sedes"
+      aria-label={`${label} por WhatsApp: elegir sucursal`}
+    >
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+        <path d={ICONO}></path>
+      </svg>
+      <span>{label}</span>
+    </button>
+  </div>
 </div>
 
 <script>
@@ -44,6 +88,42 @@ const { href = waConsultaSede('Pucón'), label = 'Escríbenos', observarPortada 
       obs.observe(primera);
     }
   }
+
+  // Selector de sede: abre al click, cierra al click fuera, con Escape o al elegir.
+  const btn = document.getElementById('zk-fab-btn');
+  const panel = document.getElementById('zk-fab-sedes');
+
+  if (btn && panel) {
+    const cerrar = () => {
+      panel.setAttribute('hidden', '');
+      btn.setAttribute('aria-expanded', 'false');
+    };
+    const abrir = () => {
+      panel.removeAttribute('hidden');
+      btn.setAttribute('aria-expanded', 'true');
+      panel.querySelector<HTMLAnchorElement>('a')?.focus();
+    };
+
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (btn.getAttribute('aria-expanded') === 'true') cerrar();
+      else abrir();
+    });
+
+    panel.querySelectorAll('a').forEach((a) => a.addEventListener('click', cerrar));
+
+    document.addEventListener('click', (e) => {
+      if (panel.hasAttribute('hidden')) return;
+      if (!panel.contains(e.target as Node)) cerrar();
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && btn.getAttribute('aria-expanded') === 'true') {
+        cerrar();
+        btn.focus();
+      }
+    });
+  }
 </script>
 
 <style>
@@ -52,16 +132,28 @@ const { href = waConsultaSede('Pucón'), label = 'Escríbenos', observarPortada 
     visibility: hidden;
     transition: opacity 0.2s var(--ease-out);
   }
-  .zk-fab-link {
+
+  /* La posición fija pasó del botón a la caja para que el selector se apile
+     encima de él y ambos se muevan juntos. */
+  .zk-fab-caja {
     position: fixed;
     right: 24px;
     bottom: 24px;
     z-index: 60;
     display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 10px;
+  }
+
+  .zk-fab-link {
+    display: flex;
     align-items: center;
     gap: 10px;
     background: var(--zk-whatsapp);
     color: #fff;
+    border: none;
+    cursor: pointer;
     text-decoration: none;
     font-family: var(--font-sans);
     font-weight: var(--fw-semibold);
@@ -69,9 +161,61 @@ const { href = waConsultaSede('Pucón'), label = 'Escríbenos', observarPortada 
     padding: 13px 20px;
     border-radius: var(--radius-pill);
     box-shadow: 0 6px 20px rgba(37, 211, 102, 0.4);
+    transition: filter 0.18s var(--ease-out);
   }
   .zk-fab-link:hover {
     color: #fff;
     text-decoration: none;
+    filter: brightness(1.05);
+  }
+  .zk-fab-link:active {
+    filter: brightness(0.95);
+  }
+
+  .zk-fab-sedes {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 300px;
+    max-width: calc(100vw - 32px);
+    padding: 10px;
+    background: var(--zk-white);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-raised);
+    animation: zkfade 0.18s var(--ease-out);
+  }
+
+  .zk-fab-sede {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-height: 48px;
+    padding: 10px 12px;
+    border-radius: var(--radius-md);
+    background: var(--surface-section);
+    color: var(--zk-teal-700);
+    text-decoration: none;
+    font-size: 14.5px;
+    line-height: 1.35;
+    transition: background 0.18s var(--ease-out);
+  }
+  .zk-fab-sede:hover {
+    background: var(--surface-tint);
+    text-decoration: none;
+  }
+  .zk-fab-sede svg {
+    flex: none;
+    color: var(--zk-whatsapp);
+  }
+  .zk-fab-sede-texto {
+    display: grid;
+    gap: 2px;
+    min-width: 0;
+  }
+  .zk-fab-sede-fono {
+    font-variant-numeric: tabular-nums;
+    color: var(--text-body);
+    font-size: 13.5px;
   }
 </style>

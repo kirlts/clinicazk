@@ -87,7 +87,10 @@ const direccion = {
   })),
 };
 
-const fabHref = wa('Pucón', 'Hola, visité la página web de Clínica ZK y quisiera realizar una consulta.');
+/* El FAB deja elegir sucursal: el mensaje es el mismo para las dos. */
+const MSG_FAB = 'Hola, visité la página web de Clínica ZK y quisiera realizar una consulta.';
+const fabLa = wa('Los Ángeles', MSG_FAB);
+const fabPu = wa('Pucón', MSG_FAB);
 const totalInicial = visible.length + 1;
 ---
 
@@ -242,7 +245,7 @@ const totalInicial = visible.length + 1;
     </section>
 
     <SiteFooter />
-    <WhatsAppFab href={fabHref} />
+    <WhatsAppFab hrefLa={fabLa} hrefPu={fabPu} />
   </div>
 </Layout>
 

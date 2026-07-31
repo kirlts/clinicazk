@@ -230,16 +230,21 @@
    FAB de WhatsApp
    -------------------------------------------------------------------------- */
 @media screen and (max-width: 767px) {
-  .zk-fab-link {
+  /* La posición fija vive en la caja, no en el botón: el selector de sede se
+     apila encima y los dos tienen que moverse juntos. */
+  .zk-fab-caja {
     right: 16px !important;
     bottom: 16px !important;
+  }
+  .zk-fab-link {
     padding: 12px 18px !important;
     font-size: 15px !important;
   }
 }
 
 /* En teléfono angosto el FAB compite con el ancho del contenido: queda como
-   botón circular, con el rótulo accesible sólo para lectores de pantalla. */
+   botón circular, con el rótulo accesible sólo para lectores de pantalla.
+   El selector de sede sí conserva su texto: es donde se decide a quién escribir. */
 @media screen and (max-width: 380px) {
   .zk-fab-link {
     width: 52px !important;
@@ -247,7 +252,7 @@
     padding: 0 !important;
     justify-content: center !important;
   }
-  .zk-fab-link span {
+  .zk-fab-link > span {
     position: absolute !important;
     width: 1px !important;
     height: 1px !important;

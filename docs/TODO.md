@@ -347,7 +347,8 @@
 - [ ] **PENDIENTE (Clínica ZK):** contenido de la sección Privacidad
 - [x] **Resuelto por EPIC-009:** patrón de menú móvil definido (UD-013) y versión móvil de las cuatro páginas nuevas `2026-07-30`
 - [ ] **PENDIENTE (diseño):** imágenes por especialidad
-- [ ] **PENDIENTE (Clínica ZK):** difuminar patentes en algunas tomas de fachada
+- [x] Patentes difuminadas en la fachada de Los Ángeles `2026-07-31`
+- [ ] **PENDIENTE (Clínica ZK):** revisar si queda alguna patente legible en el resto de las tomas
 
 ---
 

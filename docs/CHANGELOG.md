@@ -13,11 +13,29 @@ y este proyecto adhiere a [Versionado Semántico](https://semver.org/spec/v2.0.0
 - WhatsApp de Dirección Clínica: por confirmar (Clínica ZK).
 - Imágenes por especialidad: el panel de especialidades aún no lleva foto.
 - Contenido de la sección Privacidad: el modal muestra un aviso de sección en preparación.
-- Difuminar patentes en algunas tomas de fachada de las galerías.
+- Difuminar patentes en el resto de las tomas de fachada: la de Los Ángeles ya está.
 - Dominio clinicazk.cl (pendiente de trámite).
 - Widgets de Google Maps: diferidos por complejidad con dos sedes (reevaluar).
 - Revisión de la versión móvil por el director en un teléfono real.
 - Decisión sobre justificar párrafos: la comparativa está hecha y medida, falta que el director elija.
+
+## [3.2.1] - 2026-07-31
+
+> Dos correcciones pedidas por el director de marketing.
+
+### Cambiado
+- **Foto de fachada de Los Ángeles**: se reemplazó por la fotografía original. La que traía el handoff v3 estaba retocada con IA (cables borrados, autos borrados, cielo idealizado, la marca de agua del editor en la esquina) y el letrero circular de la torre mostraba un "ZK" genérico en vez del logo real. El director la objetó por eso y pidió volver a la anterior, autorizando dejarla con cables. No se intentó quitar los cables: hacerlo exige repintar la imagen, que es exactamente lo que produjo el problema. La foto se usa en el split del hero de Inicio y como primera imagen de la galería de Los Ángeles; ambas quedaron con la versión real.
+- **FAB de WhatsApp**: dejó de ir directo al número de Pucón. Ahora abre un selector con las dos sucursales, igual que el popover de agenda, el bloque de contacto de Inicio y el menú móvil. Cada página conserva su propio mensaje prellenado (consulta general, orientación de membresías, convenios) y ahora lo aplica a ambas sedes. `WhatsAppFab` cambió su prop `href` por `hrefLa` y `hrefPu`.
+
+### Corregido
+- Las tres patentes visibles en la fotografía de Los Ángeles quedaron difuminadas. Es un desenfoque local sobre rectángulos acotados, no un repintado: no altera el carácter de la foto. Resuelve para esa toma el pendiente que ya estaba declarado.
+
+### Verificado
+- Comparación de página completa a 1440px contra el commit anterior: 5 de 7 páginas idénticas píxel a píxel, y las dos que difieren lo hacen **sólo** en la región de esa fotografía (el hero de Inicio y la galería de Los Ángeles). Ningún otro cambio se coló.
+- El selector de sede abre en las 6 páginas que llevan FAB, a 320, 375 y 1440px: los dos enlaces apuntan a números distintos, conservan el mensaje de cada página, salen con `target="_blank" rel="noopener"`, cierran con Escape y el panel nunca se sale del viewport.
+- Controles del FAB sobre el mínimo táctil de 44px en los cuatro anchos medidos (48 a 52px).
+- Cero scroll horizontal, hit targets y texto en regla en las 7 páginas a 320, 375, 768 y 1024px.
+- `astro check`: 0 errores, 0 advertencias. Build en verde.
 
 ## [3.2.0] - 2026-07-30
 
