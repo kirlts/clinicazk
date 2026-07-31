@@ -1,0 +1,157 @@
+/* =============================================================================
+   Capa responsiva — inicio
+   Convenciones y motivo del `!important`: ver `base.css`.
+   ============================================================================= */
+
+/* -----------------------------------------------------------------------------
+   Tablet vertical (hasta 1024px, más angosto que 767px se trata aparte)
+   -------------------------------------------------------------------------- */
+@media screen and (max-width: 1024px) {
+  /* Las 4 tarjetas de membresía quedan de ~200px: la lista de beneficios se
+     parte en líneas de una o dos palabras. A 2 columnas cada tarjeta recupera
+     el ancho que necesita su texto. */
+  #membresias .zk-membresias-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+
+  /* El bloque de accesos tiene 3 celdas con `auto-fit, minmax(300px, 1fr)`:
+     a este ancho caben 2, así que la tercera queda sola en una fila nueva y
+     dela celda vecina vacía (se ve como un recuadro suelto, del color del
+     separador). Se fija en 2 columnas y la tercera ocupa la fila completa. */
+  #nosotros .zk-accesos-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+  #nosotros .zk-accesos-grid > *:nth-child(3):last-child {
+    grid-column: 1 / -1;
+  }
+
+  /* El ajuste global de eyebrows (`--ls-eyebrow` a 13px, en base.css) sólo
+     corre en ≤767px. Entre 768 y 1024px estas dos instancias (índice de
+     especialidades, accesos) siguen en el 11.5px de escritorio: versalitas
+     con tracking a ese tamaño son ilegibles a distancia de teléfono/tablet. */
+  #especialidades [style*='--ls-eyebrow'],
+  #nosotros [style*='--ls-eyebrow'] {
+    font-size: 13px !important;
+  }
+}
+
+/* -----------------------------------------------------------------------------
+   Teléfono
+   -------------------------------------------------------------------------- */
+@media screen and (max-width: 767px) {
+  /* ===== HERO ============================================================ */
+
+  /* clamp(42px, 5.2vw, 78px): a este ancho 5.2vw nunca alcanza el piso de
+     42px, así que el h1 siempre renderiza al piso. 42px para "Tu salud
+     dental, en orden." en una columna de ~330px fuerza un corte de línea feo
+     ("en" solo al final del primer renglón). Se baja el piso y el techo. */
+  #inicio h1 {
+    font-size: clamp(30px, 9vw, 40px) !important;
+  }
+
+  /* 8 etiquetas rápidas en `repeat(4, 1fr)`: cada celda queda del ancho de
+     una palabra y "Higiene dental integral" desborda por su ancho mínimo de
+     contenido. Dos columnas le dan a cada etiqueta lugar para envolver sin
+     desbordar. */
+  #hero-etiquetas {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+
+  /* ===== ESPECIALIDADES ==================================================
+     Maestro-detalle a `1fr 1fr` es el peor bloque a este ancho: el panel
+     queda con ~140px de ancho y su texto se parte en columnas de una o dos
+     palabras. Se apila: índice de especialidades arriba, panel debajo. El JS
+     de la página ya sincroniza [data-espec] con [data-panel] (y las
+     etiquetas rápidas del hero); se le agregó un scrollIntoView propio para
+     que, en este layout apilado, elegir una especialidad lleve el panel a la
+     vista. */
+  #especialidades .zk-espec-grid {
+    display: block !important;
+  }
+  #especialidades .zk-espec-panels {
+    margin-top: 32px;
+  }
+  /* Los paneles traían `height: 100%` para igualar la altura de la columna
+     del índice (56px de gap entre columnas en desktop). Apilados, esa altura
+     no tiene sentido: la caja debe medir lo que mide su contenido. El padding
+     de 44px 48px también se pensó para una columna de ~500px, no para los
+     ~280-330px de un teléfono. */
+  #especialidades [data-panel] {
+    height: auto !important;
+    padding: 28px 22px !important;
+  }
+
+  /* ===== MEMBRESÍAS =======================================================
+     4 tarjetas en `repeat(4, 1fr)` quedan de ~85px: el nombre de la
+     membresía y la lista de beneficios caen en una letra por línea. Se
+     cambia a carrusel horizontal con scroll-snap; siguen siendo las mismas 4
+     tarjetas, en el mismo orden. Cada tarjeta ocupa el 82% del ancho, así
+     que la siguiente se asoma cortada en el borde derecho: ese es el
+     indicador de que hay más contenido, sin agregar copy. */
+  #membresias .zk-membresias-grid {
+    display: flex !important;
+    grid-template-columns: none !important;
+    overflow-x: auto !important;
+    scroll-snap-type: x mandatory !important;
+    scroll-padding-left: 24px !important;
+    /* Sangría negativa: la tarjeta sale hasta el borde del viewport (bleed),
+       cancelando el padding de 24px de la sección, y el padding propio de la
+       fila vuelve a dejar la primera tarjeta alineada con el resto de la
+       página. */
+    margin: 44px -24px 0 !important;
+    padding: 4px 24px 14px !important;
+    gap: 14px !important;
+    scrollbar-width: none;
+  }
+  #membresias .zk-membresias-grid::-webkit-scrollbar {
+    display: none;
+  }
+  /* .zk-mc es de MembershipCard (otro componente): se ancla siempre al
+     contenedor propio de esta página, nunca se estila a secas. */
+  #membresias .zk-mc {
+    flex: 0 0 82% !important;
+    scroll-snap-align: start !important;
+  }
+  /* El CTA de la tarjeta (componente ajeno) queda en 42px de alto: 2px bajo
+     el mínimo táctil. */
+  #membresias .zk-mc__cta {
+    min-height: 44px !important;
+  }
+
+  /* ===== ACCESOS ========================================================== */
+  #nosotros .zk-accesos-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* ===== PREGUNTAS FRECUENTES ============================================= */
+  #preguntas .zk-faq-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* ===== CONTACTO =========================================================
+     `.zk-contacto-btn` tiene `min-width: 300px` dentro de una fila que a este
+     ancho mide ~176px: el botón se sale de la tarjeta (no del viewport, pero
+     sí de su propio contenedor visual). A una columna, a lo ancho de la
+     tarjeta. La tarjeta en sí trae `padding: 64px 48px`, pensado para el
+     ancho de escritorio; en teléfono deja muy poco aire para el contenido. */
+  .zk-contacto-btn {
+    min-width: 0 !important;
+    width: 100% !important;
+  }
+  .zk-contacto-card {
+    padding: 40px 24px !important;
+  }
+
+  /* ===== MODAL DEL AFICHE =================================================
+     El fondo trae `padding: 40px` y la caja `height: 100vh`: la caja mide más
+     que el alto disponible del fondo, así que se centra y se recorta arriba
+     y abajo por igual (el contenido del afiche, que arregla otro agente,
+     queda cortado). Se reduce el padding del fondo y se descuenta del alto
+     de la caja para que quepa entera. */
+  #zk-afiche-fondo {
+    padding: 16px !important;
+  }
+  #zk-afiche-caja {
+    height: calc(100vh - 32px) !important;
+  }
+}

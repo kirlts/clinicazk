@@ -1,0 +1,138 @@
+/* =============================================================================
+   Capa responsiva — componentes compartidos
+   Convenciones y motivo del `!important`: ver `base.css`.
+
+   BranchSplit resuelve su propio móvil dentro de su `<style>`: sus media queries
+   ya venían del port y son suyas, no del handoff de escritorio.
+   ============================================================================= */
+
+/* -----------------------------------------------------------------------------
+   Split diagonal de sedes
+   El componente resuelve su propio apilado bajo 767px. Lo que queda fuera de ahí
+   es el rótulo "CLÍNICA ZK" sobre la foto: 12px en versalitas con tracking, que
+   en la franja de tablet sigue bajo el mínimo legible.
+   -------------------------------------------------------------------------- */
+@media screen and (max-width: 1024px) {
+  #zk-branchsplit .zk-branch__eyebrow span:last-child {
+    font-size: 13px !important;
+  }
+}
+
+/* -----------------------------------------------------------------------------
+   Galería de sede
+   -------------------------------------------------------------------------- */
+@media screen and (max-width: 1024px) {
+  /* El handoff exige que la galería conserve la proporción 4:3 en móvil y
+     reduzca las miniaturas. El 4:3 lo da `aspect-ratio` en el componente y se
+     mantiene solo; lo que no sobrevive es la tira de miniaturas. */
+
+  /* Las flechas viven en `.zk-nav`, el mismo nombre que la navegación del
+     header: se anclan a la galería para que no se crucen. En táctil el
+     componente ya las deja visibles (`@media (hover: none)`), pero 40px queda
+     bajo el mínimo de 44px. */
+  [data-galeria] .zk-nav {
+    width: 44px !important;
+    height: 44px !important;
+  }
+  [data-galeria] .zk-nav--prev {
+    left: 8px !important;
+  }
+  [data-galeria] .zk-nav--next {
+    right: 8px !important;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  /* La tira reparte `repeat(N, 1fr)` entre 10 fotos en Los Ángeles: a 327px de
+     ancho útil cada miniatura queda en 32px, por debajo del mínimo táctil y
+     demasiado chica para reconocer la foto. Pasa a ser una tira deslizable con
+     miniaturas de tamaño fijo: se ven, se pueden tocar, y sigue cabiendo la
+     galería completa. */
+  [data-galeria] > div:nth-of-type(2) {
+    grid-template-columns: none !important;
+    grid-auto-flow: column !important;
+    grid-auto-columns: 64px !important;
+    overflow-x: auto !important;
+    overscroll-behavior-x: contain !important;
+    scroll-snap-type: x proximity !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
+  [data-galeria] .zk-mini {
+    scroll-snap-align: start;
+    min-height: 48px !important;
+  }
+  [data-galeria] .zk-mini img {
+    height: 48px !important;
+  }
+
+  /* El caption es el alt de la foto activa: en teléfono compite con la tira si
+     queda pegado a ella. */
+  [data-galeria] [data-caption] {
+    margin-top: 12px !important;
+    font-size: 14px !important;
+  }
+}
+
+/* -----------------------------------------------------------------------------
+   Acordeón de preguntas frecuentes
+   -------------------------------------------------------------------------- */
+@media screen and (max-width: 1024px) {
+  /* `repeat(auto-fit, minmax(380px, 1fr))` no cabe en 375px: la pista mínima de
+     380px gana y cada pregunta desborda. Una sola columna hasta que haya ancho
+     de sobra para dos. */
+  .zk-faqbloque-grid {
+    grid-template-columns: 1fr !important;
+    gap: 0 !important;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .zk-faqbloque {
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+  }
+  /* La cabecera de cada pregunta ya supera los 44px por su padding de 18px, pero
+     el signo "+" necesita separación del enunciado cuando este ocupa dos o tres
+     renglones. */
+  .zk-faq__btn {
+    gap: 14px !important;
+    font-size: 16.5px !important;
+    align-items: flex-start !important;
+  }
+  .zk-faq__mas {
+    line-height: 1.1 !important;
+    margin-top: 1px !important;
+  }
+  .zk-faq__resp {
+    font-size: 15.5px !important;
+  }
+}
+
+/* -----------------------------------------------------------------------------
+   Tarjeta de membresía
+   Las páginas que la usan (Inicio y Familia ZK) fijan su ancho y su disposición
+   desde sus propios archivos. Aquí sólo va lo que la tarjeta necesita para
+   sostenerse a sí misma a cualquier ancho.
+   -------------------------------------------------------------------------- */
+@media screen and (max-width: 767px) {
+  .zk-mc__cta {
+    min-height: 48px !important;
+    justify-content: center !important;
+    text-align: center !important;
+  }
+}
+
+/* -----------------------------------------------------------------------------
+   Página 404
+   -------------------------------------------------------------------------- */
+@media screen and (max-width: 767px) {
+  .zk-404 section {
+    padding: 56px 24px !important;
+  }
+  .zk-404 .zk-btn-sec,
+  .zk-404 .zk-btn-pri-link {
+    width: 100% !important;
+    justify-content: center !important;
+    min-height: 48px !important;
+  }
+}

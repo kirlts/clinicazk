@@ -233,7 +233,7 @@ const quickLinks = QUICK_LINKS.map(([label, idx]) => ({
       <div style="max-width: var(--container-max); margin: 0 auto;">
         <SectionHeader align="left" title="Especialidades" />
 
-        <div style="margin-top: 44px; display: grid; grid-template-columns: 1fr 1fr; gap: 56px;">
+        <div class="zk-espec-grid" style="margin-top: 44px; display: grid; grid-template-columns: 1fr 1fr; gap: 56px;">
           <div role="tablist" aria-label="Especialidades" id="zk-espec-lista">
             {
               ESPEC.map((s, i) => (
@@ -260,7 +260,7 @@ const quickLinks = QUICK_LINKS.map(([label, idx]) => ({
             }
           </div>
 
-          <div>
+          <div class="zk-espec-panels">
             {
               paneles.map((p, i) => (
                 <div
@@ -326,6 +326,7 @@ const quickLinks = QUICK_LINKS.map(([label, idx]) => ({
         </div>
 
         <div
+          class="zk-membresias-grid"
           style="margin-top: 44px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; align-items: stretch;"
         >
           {
@@ -354,6 +355,7 @@ const quickLinks = QUICK_LINKS.map(([label, idx]) => ({
     <!-- ===================== ACCESOS ===================== -->
     <section id="nosotros" style="background: var(--surface-section); padding: var(--space-9) 24px;">
       <div
+        class="zk-accesos-grid"
         style="max-width: var(--container-max); margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1px; background: var(--border-subtle); border: 1px solid var(--border-subtle);"
       >
         {
@@ -394,6 +396,7 @@ const quickLinks = QUICK_LINKS.map(([label, idx]) => ({
           </p>
         </div>
         <div
+          class="zk-faq-grid"
           style="margin-top: 8px; display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 0 56px; align-items: start;"
         >
           {FAQ_INICIO.map((f) => <FaqItem question={f.q} answer={f.a} />)}
@@ -405,6 +408,7 @@ const quickLinks = QUICK_LINKS.map(([label, idx]) => ({
     <section id="contacto" style="padding: var(--space-9) 24px;">
       <div style="max-width: var(--container-max); margin: 0 auto;">
         <div
+          class="zk-contacto-card"
           style="border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-raised); background: var(--gradient-brand); padding: 64px 48px; text-align: center;"
         >
           <img
@@ -506,6 +510,18 @@ const quickLinks = QUICK_LINKS.map(([label, idx]) => ({
   /* Selector de especialidades: cambia el panel sin recargar. */
   const filas = Array.from(document.querySelectorAll('[data-espec]'));
   const paneles = Array.from(document.querySelectorAll('[data-panel]'));
+  /* En teléfono el panel queda apilado debajo del índice (ver inicio.css):
+     tras elegir una especialidad hay que bajar hasta el panel, descontando
+     el alto del header sticky (62px, fijado en chrome.css). matchMedia evita
+     tocar el scroll de escritorio, donde índice y panel ya conviven. */
+  const zkMovil = window.matchMedia('(max-width: 767px)');
+  const verPanelActivo = () => {
+    if (!zkMovil.matches) return;
+    const panelActivo = paneles.find((p) => !p.hidden);
+    if (!panelActivo) return;
+    const y = panelActivo.getBoundingClientRect().top + window.scrollY - 62 - 12;
+    window.scrollTo({ top: y, behavior: 'smooth' });
+  };
   const seleccionar = (i) => {
     filas.forEach((f) => {
       const activa = Number(f.dataset.espec) === i;
@@ -515,6 +531,7 @@ const quickLinks = QUICK_LINKS.map(([label, idx]) => ({
     paneles.forEach((p) => {
       p.hidden = Number(p.dataset.panel) !== i;
     });
+    verPanelActivo();
   };
   filas.forEach((f) => f.addEventListener('click', () => seleccionar(Number(f.dataset.espec))));
   document

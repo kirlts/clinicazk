@@ -1,8 +1,14 @@
 ---
 /* Header sticky de la v3 — ZKHeaderV3.dc.html.
-   `home` marca "Inicio" como activo y convierte sus links en anclas de la misma página. */
+   `home` marca "Inicio" como activo y convierte sus links en anclas de la misma página.
+
+   Bajo 900px la fila de links se reemplaza por un menú desplegable (botón hamburguesa),
+   patrón que el handoff dejó explícitamente "a definir con diseño". El CTA de contacto
+   se mantiene siempre visible: es el canal principal del sitio y esconderlo tras un
+   menú lo dejaría a dos toques. El estilo del menú vive en `styles/responsive/chrome.css`. */
 import { NAV, ruta } from '../../data/navegacion';
 import { logoHorizontal } from '../../lib/imagenes';
+import { sedes, waConsultaSede } from '../../data/contacto';
 
 interface Props {
   active?: '' | 'Familia ZK' | 'Sucursales' | 'Equipo' | 'Nosotros' | 'Convenios';
@@ -22,29 +28,146 @@ const links = NAV.map((n) => ({
   label: n.label,
   href: n.anchor ? (home ? n.anchor : ruta(n.page) + n.anchor) : ruta(n.page),
   style: base + (n.label === active ? on : off),
+  activo: n.label === active,
 }));
 
 const homeHref = home ? '#inicio' : ruta('/');
 const contactoHref = home ? '#contacto' : ruta('/') + '#contacto';
+
+/* Accesos directos del panel: mismos destinos y mismos rótulos que el bloque de
+   contacto de Inicio. No se inventa copy nuevo para el menú. */
+const menuSedes = [
+  { label: 'Escribir a Clínica ZK Los Ángeles', phone: sedes.la.whatsapp, href: waConsultaSede('Los Ángeles') },
+  { label: 'Escribir a Clínica ZK Pucón', phone: sedes.pucon.whatsapp, href: waConsultaSede('Pucón') },
+];
 ---
 
 <header
   style="position: sticky; top: 0; z-index: 50; background: rgba(255,255,255,0.95); backdrop-filter: blur(8px); border-bottom: 1px solid var(--border-subtle); font-family: var(--font-sans);"
 >
   <div
+    class="zk-header-fila"
     style="max-width: var(--container-max, min(1520px, 94vw)); margin: 0 auto; padding: 12px 24px; min-height: 76px; box-sizing: border-box; display: flex; align-items: center; gap: 16px; flex-wrap: nowrap;"
   >
-    <a href={homeHref} style="display: flex; align-items: center; flex: none;">
+    <a href={homeHref} class="zk-header-logo" style="display: flex; align-items: center; flex: none;">
       <img src={logoHorizontal.src} alt="Clínica ZK" style="height: 44px; display: block;" />
     </a>
     <nav
+      class="zk-nav"
       style="display: flex; gap: 8px 18px; margin-left: auto; align-items: center; flex-wrap: wrap; justify-content: flex-end; flex: 1 1 auto; min-width: 0;"
     >
       {links.map((l) => <a href={l.href} class="zk-nav-link" style={l.style}>{l.label}</a>)}
     </nav>
     <a href={contactoHref} class="zk-header-cta">Contacto</a>
+
+    <button
+      type="button"
+      id="zk-menu-btn"
+      class="zk-menu-btn"
+      aria-expanded="false"
+      aria-controls="zk-menu"
+      aria-label="Abrir menú de navegación"
+    >
+      <svg
+        class="zk-menu-icono zk-menu-icono--abrir"
+        width="26"
+        height="26"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        aria-hidden="true"
+      >
+        <path d="M3 6h18M3 12h18M3 18h18"></path>
+      </svg>
+      <svg
+        class="zk-menu-icono zk-menu-icono--cerrar"
+        width="26"
+        height="26"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        aria-hidden="true"
+      >
+        <path d="M18 6 6 18M6 6l12 12"></path>
+      </svg>
+    </button>
+  </div>
+
+  <div id="zk-menu" class="zk-menu" hidden>
+    <nav class="zk-menu-lista" aria-label="Navegación principal">
+      {
+        links.map((l) => (
+          <a href={l.href} class="zk-menu-link" data-activo={l.activo ? '' : undefined} aria-current={l.activo ? 'page' : undefined}>
+            {l.label}
+          </a>
+        ))
+      }
+    </nav>
+    <div class="zk-menu-sedes">
+      {
+        menuSedes.map((s) => (
+          <a href={s.href} target="_blank" rel="noopener" class="zk-menu-wa">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.52.149-.174.198-.298.297-.497.1-.198.05-.371-.025-.52-.074-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.372-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.511-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.884 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"></path>
+            </svg>
+            <span class="zk-menu-wa-texto">
+              <strong>{s.label}</strong>
+              <span class="zk-menu-wa-fono">{s.phone}</span>
+            </span>
+          </a>
+        ))
+      }
+    </div>
   </div>
 </header>
+
+<script>
+  /* Menú móvil: abre/cierra, bloquea el scroll de fondo, cierra con Escape,
+     al navegar a un ancla de la misma página y si la pantalla vuelve a escritorio. */
+  const btn = document.getElementById('zk-menu-btn');
+  const panel = document.getElementById('zk-menu');
+
+  if (btn && panel) {
+    const abrir = () => {
+      panel.removeAttribute('hidden');
+      btn.setAttribute('aria-expanded', 'true');
+      btn.setAttribute('aria-label', 'Cerrar menú de navegación');
+      document.body.dataset.zkMenu = 'abierto';
+    };
+    const cerrar = () => {
+      panel.setAttribute('hidden', '');
+      btn.setAttribute('aria-expanded', 'false');
+      btn.setAttribute('aria-label', 'Abrir menú de navegación');
+      delete document.body.dataset.zkMenu;
+    };
+
+    btn.addEventListener('click', () => {
+      if (btn.getAttribute('aria-expanded') === 'true') cerrar();
+      else abrir();
+    });
+
+    panel.querySelectorAll('a').forEach((a) => a.addEventListener('click', cerrar));
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && btn.getAttribute('aria-expanded') === 'true') {
+        cerrar();
+        btn.focus();
+      }
+    });
+
+    /* Si el usuario rota el teléfono o agranda la ventana y el menú deja de
+       existir visualmente, el scroll del body tiene que volver. */
+    const mq = window.matchMedia('(min-width: 901px)');
+    const alCambiar = () => {
+      if (mq.matches && btn.getAttribute('aria-expanded') === 'true') cerrar();
+    };
+    mq.addEventListener('change', alCambiar);
+  }
+</script>
 
 <style>
   /* El hover sale del style inline: lo inline gana siempre sobre la clase. */
@@ -80,5 +203,12 @@ const contactoHref = home ? '#contacto' : ruta('/') + '#contacto';
   .zk-header-cta:active {
     filter: brightness(0.95);
     transform: translateY(1px);
+  }
+
+  /* En escritorio no existe menú: ni el botón ni el panel se muestran.
+     Todo lo que los hace visibles vive en la capa responsiva. */
+  .zk-menu-btn,
+  .zk-menu {
+    display: none;
   }
 </style>

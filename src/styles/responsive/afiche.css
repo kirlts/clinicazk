@@ -1,0 +1,180 @@
+/* =============================================================================
+   Capa responsiva — afiche
+   Convenciones y motivo del `!important`: ver `base.css`.
+
+   TODAS las media queries de este archivo llevan `screen`. El afiche fija
+   `@page { size: A4; margin: 0 }`, así que el viewport de impresión también
+   mide ~794px de ancho: una media query sin `screen` se colaría también en
+   el PDF impreso y encogería o reordenaría la hoja que debe salir en A4
+   exacta. Se verificó con vista previa de impresión que el resultado no
+   cambia.
+
+   El afiche es un folleto de 794x1123 (A4) con medida física fija a
+   propósito (ver el comentario en `afiche.astro`). Se eligió la opción
+   "reflow" para teléfono en vez de escalar toda la hoja con zoom/transform:
+   escalar 794px hasta caber en 320px exige un factor ~0.35, que deja el
+   cuerpo de texto (16px) en ~5.6px, muy por debajo del piso de 13px legibles
+   del brief. Reflow conserva el tamaño real de cada texto y cambia el
+   patrón de los bloques que no caben en una columna angosta (tarjeta +
+   beneficios, ruta de cuidado, pies con QR), tal como habilita el brief
+   para componentes cuyo patrón de escritorio no funciona en teléfono.
+   ============================================================================= */
+
+/* -----------------------------------------------------------------------------
+   Tablet vertical y menor: la hoja deja de tener ancho fijo
+   Debajo de ~834px (794 de hoja + el padding del fondo gris) el ancho fijo
+   de `.face` desborda; a 768px ya desborda 13px. Se vuelve fluida hasta
+   1024 para cubrir ese rango entero, sin tocar el aspecto a 1024 (794 sigue
+   cabiendo de sobra, `max-width` no cambia nada ahí).
+   -------------------------------------------------------------------------- */
+@media screen and (max-width: 1024px) {
+  .face {
+    width: 100% !important;
+    max-width: 794px !important;
+    /* La altura fija de 1123px (A4) es del PDF, no de la pantalla: si el
+       contenido reflowea a más alto que eso, `overflow:hidden` lo cortaría. */
+    height: auto !important;
+    min-height: 0 !important;
+    overflow: visible !important;
+  }
+
+  /* Textos del propio handoff por debajo de 13px (etiquetas de la ruta de
+     cuidado, vigencia/condiciones/importante): el diseño de escritorio los
+     deja así a propósito para 794px vistos de cerca en papel; en pantalla
+     de tablet/teléfono quedan ilegibles. Se suben sólo dentro de esta capa. */
+  .face [style*='font-size:12.5px'],
+  .face [style*='font-size:11px'] {
+    font-size: 13.5px !important;
+  }
+
+  /* Nav propia del afiche (no es el header del sitio): sus tres links
+     rendían 23-38px de alto porque el contenedor los centra sin estirarlos. */
+  .zk-bar a {
+    display: flex !important;
+    align-items: center !important;
+    min-height: 44px !important;
+  }
+
+  .zk-volver {
+    min-height: 44px !important;
+  }
+
+  .zk-volver-embed {
+    min-height: 44px !important;
+  }
+}
+
+/* -----------------------------------------------------------------------------
+   Teléfono: cambia el patrón de los bloques que no caben en una columna
+   -------------------------------------------------------------------------- */
+@media screen and (max-width: 767px) {
+  .desk {
+    padding: 20px 12px !important;
+  }
+
+  .face {
+    padding: 24px 20px !important;
+  }
+
+  /* En modo embed la hoja se ve como continua: se conserva el remate corto
+     entre la cara A y la B (8px/10px) para que no se abra un salto donde
+     antes había continuidad, aunque el resto del padding ya cambió arriba. */
+  body.embed .face:first-child {
+    padding-bottom: 8px !important;
+  }
+  body.embed .face:last-child {
+    padding-top: 10px !important;
+  }
+
+  /* Cabecera de cada cara: logo + insignia de membresía. A 320px caben
+     justos; el wrap es sólo red de seguridad si algún nombre de membresía
+     resulta más largo que "ZK Seguimiento". */
+  .zk-af-top {
+    flex-wrap: wrap !important;
+    gap: 10px !important;
+  }
+
+  .zk-af-h1 {
+    font-size: 34px !important;
+    line-height: 1.15 !important;
+  }
+
+  .zk-af-tagline {
+    font-size: 19px !important;
+  }
+
+  /* Tarjeta física + lista de beneficios: en fila no queda espacio para el
+     texto (menos de 30 caracteres por línea). Pasa a apilado, patrón que ya
+     usa la línea de tiempo de la cara B. */
+  .zk-af-beneficios {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 20px !important;
+  }
+  .zk-af-beneficios-lista {
+    width: 100% !important;
+  }
+
+  /* Ruta de cuidado: la fila horizontal con línea punteada no tiene espacio
+     para 4-5 pasos en 320-375px. Pasa a lista vertical numerada, el mismo
+     patrón que ya usa la línea de tiempo de "Lo que incluye". */
+  .zk-af-ruta-fila {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 14px !important;
+  }
+  .zk-af-ruta-linea {
+    display: none !important;
+  }
+  .zk-af-ruta-paso {
+    flex-direction: row !important;
+    align-items: center !important;
+    text-align: left !important;
+    width: 100% !important;
+    padding: 0 !important;
+  }
+  .zk-af-ruta-num {
+    width: 40px !important;
+    height: 40px !important;
+    font-size: 15px !important;
+    flex-shrink: 0 !important;
+  }
+
+  /* Pies con QR: icono + texto + (tagline o logo) en fila no cabe con el
+     texto legible. Se apila; el último elemento (tagline en la cara A, logo
+     en la cara B) pierde la alineación a la derecha propia de una fila. */
+  .zk-af-pie {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 12px !important;
+  }
+  .zk-af-pie > *:last-child {
+    text-align: left !important;
+    max-width: 100% !important;
+  }
+
+  /* Grillas de 2 columnas del handoff: a una columna, o quedan tiras de una
+     o dos palabras por línea. */
+  .zk-af-ideal-lista {
+    grid-template-columns: 1fr !important;
+  }
+  .zk-af-doscol {
+    grid-template-columns: 1fr !important;
+    gap: 16px !important;
+  }
+}
+
+/* -----------------------------------------------------------------------------
+   Teléfono angosto: ajustes finos
+   -------------------------------------------------------------------------- */
+@media screen and (max-width: 380px) {
+  /* La tarjetita mide 250px y sus tamaños de letra, paddings y el salto del lema
+     son valores fijos calculados para ese ancho. Al forzarla a 150px el lema
+     pasaba de dos renglones a tres y se cortaba contra el borde inferior, porque
+     la tarjeta recorta (`overflow: hidden`) y su alto lo fija el aspect-ratio.
+     A 320px de viewport quedan 272px útiles, así que la tarjeta entra a su
+     tamaño natural: no hay que encogerla, sólo impedir que se pase. */
+  .face .zk-mtag {
+    max-width: 100% !important;
+  }
+}

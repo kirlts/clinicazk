@@ -1,0 +1,121 @@
+/* =============================================================================
+   Capa responsiva — nosotros
+   Convenciones y motivo del `!important`: ver `base.css`.
+   ============================================================================= */
+
+/* -----------------------------------------------------------------------------
+   Teléfono
+   La página es sobre todo texto largo en secciones separadas por padding fijo
+   en px (no usa las variables --space-*, así que la reducción global de
+   base.css no llega aquí: cada sección se ajusta a mano para no dejar tiras
+   de aire entre bloques de texto.
+   -------------------------------------------------------------------------- */
+@media screen and (max-width: 767px) {
+  /* --- Hero: "Quiénes somos" ------------------------------------------- */
+  .zk-nos-hero {
+    padding: 56px 24px 0 !important;
+  }
+
+  /* La marca de agua del isotipo se posiciona con `right` negativo, medido
+     desde el borde de la sección (que ocupa el 100% del viewport). Eso hace
+     que desborde un ancho fijo sin importar el tamaño de pantalla. Se achica
+     y se reancla dentro del borde para que no desborde y quede como un
+     detalle de esquina, acorde a la escala de un teléfono. */
+  .zk-nos-marca-hero {
+    width: 200px !important;
+    height: 204px !important;
+    top: -24px !important;
+    right: 8px !important;
+  }
+
+  /* Rejilla de 3 párrafos: `minmax(300px, 1fr)` fuerza un piso de 300px que,
+     sumado al padding de sección, desborda por debajo de ~324px de ancho de
+     pantalla (320px incluido). Una columna fluida evita el piso fijo. */
+  .zk-nos-intro {
+    grid-template-columns: 1fr !important;
+    gap: 24px !important;
+    margin: 40px auto 0 !important;
+  }
+
+  .zk-nos-pull {
+    margin: 48px auto 0 !important;
+  }
+
+  /* --- Nuestra historia / Nuestra convicción ---------------------------- */
+  .zk-nos-s-historia {
+    padding: 56px 24px 0 !important;
+  }
+
+  /* Mismo problema que `.zk-nos-intro`: el piso de 340px desborda por debajo
+     de ~364px de ancho de pantalla (incluye 320px y 375px límite). */
+  .zk-nos-historia-grid {
+    grid-template-columns: 1fr !important;
+    gap: 40px !important;
+    padding-top: 40px !important;
+  }
+
+  /* --- Nuestro crecimiento ------------------------------------------------
+     `0.6fr 0.4fr` dentro de 327px de ancho deja una columna de texto de
+     ~160px: cada línea cae a una o dos palabras. Se apila a una columna,
+     texto primero y foto después, que es el orden que ya trae el DOM. */
+  .zk-nos-s-crecimiento {
+    padding: 56px 24px 0 !important;
+  }
+
+  .zk-nos-crecimiento-grid {
+    grid-template-columns: 1fr !important;
+    gap: 32px !important;
+    align-items: start !important;
+  }
+
+  /* --- Dos sedes, un mismo compromiso ------------------------------------ */
+  .zk-nos-s-dossedes {
+    padding: 56px 24px 0 !important;
+  }
+
+  .zk-nos-dossedes-inner {
+    padding-top: 40px !important;
+  }
+
+  /* --- Principios de atención ---------------------------------------------
+     `repeat(2, minmax(0, 1fr))` deja cada tarjeta en ~160px a 375px: los
+     títulos de dos palabras se parten letra a letra. Una columna conserva
+     las líneas divisorias (el truco de `gap: 1px` + fondo ya las dibuja
+     también entre filas, así que no hace falta tocar `gap`). */
+  .zk-nos-s-principios {
+    padding: 56px 24px 64px !important;
+  }
+
+  .zk-nos-principios-grid {
+    grid-template-columns: 1fr !important;
+    margin: 32px auto 0 !important;
+  }
+
+  /* --- Cierre: "Tu cuidado puede comenzar..." ---------------------------- */
+  .zk-nos-s-cierre {
+    padding: 64px 24px !important;
+  }
+
+  /* Esta marca de agua se centra con `translate(-50%, -50%)`: a 375px de
+     ancho su tamaño de escritorio (760px) desborda ~193px por lado. Se
+     achica para que quepa centrada incluso a 320px. */
+  .zk-nos-marca-cierre {
+    width: 260px !important;
+    height: 266px !important;
+  }
+}
+
+/* -----------------------------------------------------------------------------
+   Teléfono angosto
+   -------------------------------------------------------------------------- */
+@media screen and (max-width: 380px) {
+  /* "Dos sedes, un mismo compromiso." lleva `white-space: nowrap` porque a
+     los anchos de escritorio y tablet siempre entra en una línea. A 320px
+     deja de entrar y el texto desborda hacia la derecha sin generar scroll
+     visible (lo recorta `overflow-x: clip` del body), cortando la palabra
+     final. Se libera para que envuelva a dos líneas, ya centradas por el
+     contenedor. */
+  .zk-nos-dossedes-inner h2 {
+    white-space: normal !important;
+  }
+}

@@ -13,10 +13,36 @@ y este proyecto adhiere a [Versionado Semántico](https://semver.org/spec/v2.0.0
 - WhatsApp de Dirección Clínica: por confirmar (Clínica ZK).
 - Imágenes por especialidad: el panel de especialidades aún no lleva foto.
 - Contenido de la sección Privacidad: el modal muestra un aviso de sección en preparación.
-- Versión móvil detallada de las cuatro páginas nuevas (Sucursales, Nosotros, Convenios, Equipo); el header móvil todavía no tiene patrón de menú definido con diseño.
 - Difuminar patentes en algunas tomas de fachada de las galerías.
 - Dominio clinicazk.cl (pendiente de trámite).
 - Widgets de Google Maps: diferidos por complejidad con dos sedes (reevaluar).
+- Revisión de la versión móvil por el director en un teléfono real.
+
+## [3.1.0] - 2026-07-30
+
+> Versión móvil completa. El handoff v3 declaraba que la versión móvil "todavía no está diseñada en detalle" y sólo fijaba reglas mínimas; el sitio se maquetaba para escritorio y en un teléfono el header se apilaba sobre el logo, las rejillas de dos y cuatro columnas se comprimían hasta dejar una palabra por renglón y el zoom base reducía el cuerpo a 13.6px reales.
+
+### Añadido
+- Capa responsiva propia en `src/styles/responsive/`, importada desde `Layout.astro` después de `global.css`: `base.css` (tokens y guardas), `chrome.css` (header, menú, footer, FAB), `componentes.css`, un archivo por página y `afiche.css`. Ver MASTER-SPEC §7.1.1.
+- Menú móvil del header bajo 900px: botón hamburguesa, panel a pantalla completa con los 6 links y los accesos de WhatsApp de ambas sedes, con el CTA "Contacto" siempre visible fuera del panel. Incluye `aria-expanded`, `aria-controls`, cierre por Escape, por selección de link y al volver a escritorio, y bloqueo del scroll de fondo. Ver USER-DECISIONS UD-013.
+- Breakpoints declarados: ≤1024px (tablet vertical), ≤900px (colapso del header), ≤767px (teléfono), ≤380px (teléfono angosto).
+
+### Cambiado
+- El zoom base `html { zoom: .8 }` vuelve a `1` bajo 1024px. Sobre ese ancho no cambia nada. Ver USER-DECISIONS UD-012.
+- Patrones adaptados en teléfono, sin tocar el copy ni el orden de las secciones (USER-DECISIONS UD-014): el índice de especialidades pasa de maestro-detalle a lista apilada con desplazamiento al panel; las 4 membresías de Inicio pasan a carrusel con scroll-snap; el comparador de Familia ZK se apila por membresía; el split diagonal de sedes apila las dos mitades conservando el corte como costura horizontal; la tira de miniaturas de las galerías se vuelve deslizable con miniaturas de 64px; la tabla de datos de cada sede apila etiqueta y valor; el afiche A4 fluye a una columna en pantalla sin alterar su salida impresa.
+- Los rótulos en versalitas (`--ls-eyebrow`) suben a 13px bajo 1024px, y todo control interactivo alcanza los 44px de alto que exige el handoff.
+- Los títulos de columna del footer pasan de `<h4>` a `<h3>`: venían después de un `<h2>` y saltaban un nivel de jerarquía en las 7 páginas. El cambio no altera el pintado.
+
+### Corregido
+- La capa responsiva se aplicaba también al imprimir. Una hoja A4 mide 794px de ancho en CSS y cae dentro del breakpoint de 1024px, así que el `overflow-wrap: break-word` pensado para pantallas angostas partía el lema de ZK Seguimiento por la mitad de una palabra en el afiche impreso ("ACOMPAÑAMIENT / O CONSTANTE"). Toda media query de la capa pasó a `screen and (max-width: …)`. El defecto sólo apareció al comparar el PDF generado contra el del commit anterior; la inspección en pantalla no lo mostraba.
+
+### Verificado
+- Cero scroll horizontal, ningún control bajo 44px y ningún texto bajo 13px en las 7 páginas a 320, 375, 414, 768 y 1024px (35 combinaciones).
+- Afiche impreso sin cambios: los 4 folletos generan 2 páginas A4 de 794x1123px, y las 8 páginas resultantes son **idénticas píxel a píxel** a las del commit anterior tras rasterizar los PDF a 100dpi.
+- Teléfono en horizontal (812x375 y 667x375) e iPad en horizontal: sin scroll horizontal, y el panel del menú desplaza y deja alcanzable su último elemento pese a los 313px de alto disponibles.
+- El escritorio quedó **idéntico píxel a píxel** al commit anterior: 21 comparaciones de página completa a 1280, 1440 y 1920px contra un worktree de referencia en `HEAD`, con animaciones congeladas para que la captura sea determinista. Es la contrapartida verificable de la regla de la capa: fuera del breakpoint no existe ninguna regla nueva.
+- Menú móvil, modal del afiche, galerías, filtro de equipo y popover de agenda probados en emulación táctil.
+- `astro check`: 0 errores, 0 advertencias. Build completo sin errores.
 
 ## [3.0.0] - 2026-07-29
 

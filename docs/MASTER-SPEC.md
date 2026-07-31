@@ -92,7 +92,9 @@
 | CSS nativo con custom properties vs Tailwind | Control total sobre el design system, alineado con manual de marca | Mayor tamaño de CSS (irrelevante para sitio informativo) | El manual de marca define tokens de color, espaciado y tipografía específicos que Tailwind no cubre sin extensa configuración. |
 | Multi-página (6 rutas) vs single-page con anclas | Jerarquía de contenido, URLs compartibles por sección, páginas más cortas | Más navegación entre vistas que en la v2 | El diseño v3 define Inicio como hub y páginas propias para Familia ZK, Sucursales, Equipo, Nosotros y Convenios. Las anclas de la v2 siguen funcionando: `#nosotros` y `#membresias` como anclas de Inicio, y `#sucursales` / `#convenios` / `#equipo` redirigen a su página nueva. |
 | Fidelidad 1:1 con el design handoff v3 vs reinterpretación libre | Consistencia exacta con el diseño aprobado por el cliente | Menos libertad para "mejorar" durante el port | El handoff (bundle de Claude Design) es la fuente de verdad. La paridad se demuestra ejecutando el prototipo y el sitio lado a lado y comparando `innerText` por escenario, no leyendo código. Ver VERIFICATION. |
-| Zoom base 0.8 horneado (`html { zoom: 0.8 }`) vs 100% nativo | El 100% por defecto del navegador ya equivale al 80% que prefiere el director | Depende del soporte de `zoom` (Chrome/Edge/Safari; Firefox 126+) | Preferencia explícita del usuario. En navegadores sin soporte de `zoom` el sitio se ve al 100% sin romperse. |
+| Zoom base 0.8 horneado (`html { zoom: 0.8 }`) vs 100% nativo | El 100% por defecto del navegador ya equivale al 80% que prefiere el director | Depende del soporte de `zoom` (Chrome/Edge/Safari; Firefox 126+) | Preferencia explícita del usuario. En navegadores sin soporte de `zoom` el sitio se ve al 100% sin romperse. Bajo 1024px vuelve a 1: en táctil la preferencia produce lo contrario de lo que busca en escritorio. Ver USER-DECISIONS UD-012. |
+| Capa responsiva aparte con `!important` vs editar los `style` inline | El escritorio queda demostrablemente intacto y la trazabilidad con el handoff se conserva | La hoja móvil está sembrada de `!important` y no puede leerse como CSS convencional | El layout de escritorio son estilos inline, que ganan a cualquier selector. La alternativa era reescribir siete páginas y perder la comparación 1:1 con el prototipo. Ver §7.1.1. |
+| Cambiar el patrón de un componente en móvil vs sólo apilar a una columna | Piezas como el índice de especialidades o el comparador quedan usables en teléfono | La comparación 1:1 con el prototipo deja de aplicar bajo el breakpoint | El propio handoff declara que la versión móvil "todavía no está diseñada en detalle" y delega el patrón. Ver USER-DECISIONS UD-014. |
 | Optimización de imágenes en build (webp) vs servir originales | Peso del sitio mínimo para el visitante que llega desde Instagram/móvil | Los originales pesados quedan en el repo como fuente | `astro:assets` genera webp por tamaño; el sitio servido queda liviano sin sacrificar la fuente editable. |
 | Omitir widgets de Google Maps por ahora vs embeberlos | Evitar complejidad innecesaria con dos sucursales | Se pierde la prueba social de reseñas en el sitio | Con dos sedes harían falta dos widgets (se ve recargado) o un selector que los alterne (complejidad injustificada). Decisión de reevaluar. Ver USER-DECISIONS UD-009. |
 
@@ -164,6 +166,34 @@
 - `src/styles/global.css`: reset, estilos base y zoom base del sitio.
 
 **Dependencias:** Ninguna. CSS nativo.
+
+### 7.1.1. Capa responsiva
+
+**Propósito:** Adaptar a tablet y teléfono un sitio cuyo layout de escritorio vive en atributos `style` inline.
+
+**El problema que resuelve:** el sitio es un port 1:1 de un handoff de Claude Design. Los `style` inline de cada `.astro` son la especificación aprobada por el cliente. Una media query normal no puede tocarlos, porque un estilo inline gana a cualquier selector, y editarlos rompería la trazabilidad con el diseño.
+
+**Mecanismo:**
+
+- Todas las reglas móviles viven en `src/styles/responsive/`, importado desde `Layout.astro` **después** de `global.css`. Un archivo por página (`inicio.css`, `sucursales.css`, …), más `base.css` (tokens y guardas), `chrome.css` (header, menú, footer, FAB), `componentes.css` y `afiche.css`.
+- **Toda regla vive dentro de una media query.** Fuera del breakpoint la capa no existe, de modo que el escritorio queda demostrablemente intacto y esa promesa se verifica comparando capturas contra un worktree del commit anterior.
+- **Toda declaración que pise un inline lleva `!important`.** Es el único mecanismo con más peso que un estilo inline; se aplica de forma uniforme para que la regla sea una sola y no haya que razonar caso a caso. Alcanza también a los `<style>` con scope de Astro, que llevan el selector de scope y por tanto más especificidad.
+- **Toda media query empieza por `screen and`, sin excepción.** Una hoja A4 mide 794px de ancho en CSS, así que al imprimir cae dentro del breakpoint de 1024px: sin acotar a pantalla, lo pensado para un teléfono se aplica al papel. No es hipotético: el `overflow-wrap: break-word` de la capa partía el lema de una membresía por la mitad de una palabra en el afiche impreso, y sólo apareció al comparar el PDF generado contra el del commit anterior.
+- En los `.astro` sólo se **agregan** atributos `class` como gancho. Los `style` inline no se editan.
+- Buena parte de la adaptación se resuelve **redefiniendo tokens** (`--container-max`, la escala `--space-*`, `--lh-tight`) en vez de reescribir reglas: un solo cambio se propaga a cada inline que use el token.
+
+**Breakpoints:**
+
+| Ancho | Qué ocurre |
+| --- | --- |
+| ≤1024px | Tablet vertical. Se neutraliza el zoom base (UD-012). Rejillas de 3-4 columnas bajan a 2. |
+| ≤900px | El header colapsa a menú (UD-013). Umbral medido sobre la navegación real. |
+| ≤767px | Teléfono. Una columna. Se permiten cambios de patrón (UD-014). |
+| ≤380px | Teléfono angosto. Ajustes finos. |
+
+**Interacción entre `zoom` y las media queries:** se verificó con Playwright, en 15 anchos entre 320 y 1440px, que las media queries se evalúan contra el viewport físico y no contra el `zoom` de la raíz. Por eso `@media (max-width: 1024px) { html { zoom: 1 } }` no realimenta el breakpoint ni produce parpadeo.
+
+**Dependencias:** ninguna. CSS nativo.
 
 ### 7.2. Modal-afiche de membresías
 

@@ -249,54 +249,106 @@ const panels = await Promise.all(
     border-radius: var(--radius-md);
   }
 
-  /* La v3 no especifica móvil (queda declarado como pendiente en el handoff):
-     estos ajustes solo evitan que el split se rompa en pantallas angostas. */
-  @media (max-width: 640px) {
+  /* La v3 no especifica móvil (queda declarado como pendiente en el handoff).
+     El split vertical (dos mitades por ancho) se midió a 375px con la columna
+     de texto real: ~155px por lado, que forzaba el eyebrow a 10.5px, el blurb
+     a 12px y renglones de una sola palabra ("Especialidades," / "escáner,").
+     Eso incumple el mínimo de 13px y el largo de línea legible, y no hay forma
+     de arreglarlo sin angostar aún más el texto: el ancho es la mitad de un
+     teléfono, no hay margen que ganar.
+
+     El handoff mismo habilita apilar conservando la diagonal como separador,
+     así que en ≤767px las dos sedes pasan a paneles de ancho completo, uno
+     bajo el otro, y el corte diagonal se reusa como costura entre ambos (una
+     variante del mismo polygon, rotada de vertical a horizontal). Cada panel
+     ancho completo le da al blurb más de 30 caracteres por línea.
+
+     El desplazamiento de --zk-center en hover/foco (el efecto de "empujar" la
+     diagonal hacia la sede activa) pierde sentido cuando los paneles ya no
+     comparten un borde central: en este modo la costura queda fija y el toque
+     solo abre la ficha de contacto (dirección + WhatsApp), igual que hace
+     hover en escritorio. */
+  @media screen and (max-width: 767px) {
     .zk-branchsplit {
-      --zk-d: 5;
-      height: 420px !important;
+      height: auto !important;
+      display: flex;
+      flex-direction: column;
+    }
+    .zk-branch {
+      position: relative;
+      inset: auto;
+      width: 100%;
+      height: 264px;
+      flex-shrink: 0;
+      transition: none;
+    }
+    .zk-branch--left {
+      clip-path: polygon(0 0, 100% 0, 100% calc(100% - 22px), 0 100%);
+    }
+    .zk-branch--right {
+      margin-top: -22px;
+      clip-path: polygon(0 22px, 100% 0, 100% 100%, 0 100%);
+    }
+    .zk-branch__photo {
+      width: 100%;
+      height: 100%;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
     }
     .zk-branch__content {
-      padding: 0 26% 0 6%;
+      padding: 30px 28px 36px;
+      align-items: flex-start;
+      text-align: left;
     }
     .zk-branch__content[data-align='right'] {
-      padding: 0 6% 0 26%;
+      padding: 36px 28px 30px;
+      align-items: flex-start;
+      text-align: left;
+    }
+    .zk-branch__eyebrow[data-align='right'] {
+      flex-direction: row;
     }
     .zk-branch__eyebrow span:last-child {
-      font-size: 10.5px;
+      font-size: 13px;
     }
     .zk-branch__city {
-      font-size: 26px;
+      font-size: 30px;
       margin-top: 8px;
     }
     .zk-branch__blurb {
-      font-size: 12px;
-      line-height: 1.4;
-      margin-top: 6px;
-      max-width: 118px;
+      font-size: 14px;
+      line-height: 1.45;
+      margin-top: 8px;
+      max-width: 84%;
     }
     .zk-branch__address {
-      font-size: 12.5px;
+      font-size: 13.5px;
     }
     .zk-branch__wa {
-      font-size: 12px;
-      padding: 7px 12px;
-      margin-top: 8px;
+      display: inline-flex;
+      align-items: center;
+      min-height: 44px;
+      font-size: 13.5px;
+      padding: 0 16px;
+      margin-top: 10px;
+      box-sizing: border-box;
     }
     .zk-branch.is-active .zk-branch__detail {
-      max-height: 100px;
+      max-height: 96px;
     }
   }
 
-  @media (max-width: 420px) {
-    .zk-branch__content {
-      padding: 0 30% 0 5%;
+  @media screen and (max-width: 380px) {
+    .zk-branch {
+      height: 244px;
     }
-    .zk-branch__content[data-align='right'] {
-      padding: 0 5% 0 30%;
+    .zk-branch__city {
+      font-size: 27px;
     }
     .zk-branch__blurb {
-      max-width: 100px;
+      max-width: 90%;
     }
   }
 </style>

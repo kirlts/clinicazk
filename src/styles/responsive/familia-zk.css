@@ -1,0 +1,144 @@
+/* =============================================================================
+   Capa responsiva — familia-zk
+   Convenciones y motivo del `!important`: ver `base.css`.
+
+   Ancla de página: el div raíz de familia-zk/index.astro lleva `.zk-familia-page`.
+   Se usa para acotar los selectores que tocan componentes hijos (`.zk-mc`,
+   `.zk-faq`) a esta página, sin afectar otras páginas que también los usan
+   (`index.css` importa todos los CSS de página en todas las páginas).
+   ============================================================================= */
+
+/* -----------------------------------------------------------------------------
+   Tablet vertical y menor
+   -------------------------------------------------------------------------- */
+@media screen and (max-width: 1024px) {
+  /* Ritmo vertical: las secciones de esta página traen padding en px sueltos
+     (no usan var(--space-N)), así que la reducción de base.css no las alcanza.
+     Se recorta a mano con la misma proporción que usa esa escala. */
+  .zk-familia-hero {
+    padding: 72px 24px 0 !important;
+  }
+  .zk-familia-membresias {
+    padding: 56px 24px 72px !important;
+  }
+  #comparador {
+    padding: 72px 24px 80px !important;
+  }
+  .zk-familia-cierre {
+    padding: 48px 24px !important;
+  }
+  .zk-familia-vigencia {
+    padding: 72px 24px 80px !important;
+  }
+
+  /* Las 4 tarjetas de membresía usan auto-fit con minmax(190px, 1fr): entre
+     768px y 1024px caben 3 en la fila y la cuarta queda sola. Se fuerza 2x2,
+     que es la reducción de "3-4 columnas a 2" pedida para esta franja. */
+  .zk-familia-membresias-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+
+  /* El CTA de MembershipCard (componente de otro agente) queda en 42px de
+     alto, bajo el mínimo táctil de 44px. Se ancla a esta página porque el
+     mismo componente se usa en otras páginas del sitio. */
+  .zk-familia-page .zk-mc__cta {
+    min-height: 44px !important;
+  }
+}
+
+/* -----------------------------------------------------------------------------
+   Teléfono
+   -------------------------------------------------------------------------- */
+@media screen and (max-width: 767px) {
+  .zk-familia-hero {
+    padding: 56px 24px 0 !important;
+  }
+  .zk-familia-membresias {
+    padding: 40px 24px 56px !important;
+  }
+  #comparador {
+    padding: 52px 24px 56px !important;
+  }
+  .zk-familia-cierre {
+    padding: 40px 24px !important;
+  }
+  .zk-familia-vigencia {
+    padding: 52px 24px 56px !important;
+  }
+
+  /* La tabla de breakpoints pide una columna real a partir de 767px. El
+     auto-fit de minmax(190px, 1fr) todavía cabe en 2-3 columnas hasta cerca
+     de 800px de ancho, así que hace falta forzarlo. */
+  .zk-familia-membresias-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Marca de agua decorativa del isotipo: a 700x716px fijos desborda +163px
+     en un teléfono (mitad del ancho > mitad del viewport, por el centrado
+     con translateX(-50%)). Se escala con el viewport y se conserva la
+     proporción original para que `background-size: contain` no la deforme. */
+  .zk-familia-marca {
+    width: min(360px, 82vw) !important;
+    height: auto !important;
+    aspect-ratio: 700 / 716 !important;
+    top: -90px !important;
+  }
+
+  /* #comparador: el bloque de encabezado y la tarjeta "¿Cómo comenzar?" usan
+     auto-fit con minmax(360px, 1fr); 360px no cabe en los ~327px de
+     contenido a 375px y cada uno desborda +9px. Se apilan a una columna. */
+  .zk-comparador-intro {
+    grid-template-columns: 1fr !important;
+    gap: 40px !important;
+  }
+
+  /* Cada fila del comparador reserva 200px fijos para el nombre, dejando la
+     descripción en columnas de ~15 caracteres por línea (mínimo pedido:
+     ~28). Se apila: nombre arriba, descripción abajo a todo el ancho. */
+  .zk-comparador-fila {
+    grid-template-columns: 1fr !important;
+    gap: 8px !important;
+  }
+
+  /* La tarjeta "¿Cómo comenzar?" trae 38px de padding horizontal pensados
+     para su ancho de escritorio (360px+); sobre ~327px de contenido deja
+     muy poco aire para la lista de pasos. */
+  .zk-comparador-pasos {
+    padding: 28px 22px 32px !important;
+  }
+
+  /* Entre la tarjeta de pasos y los botones de WhatsApp quedaban 144px de
+     aire (margin-top 88px + padding-top 56px del borde), la tira de aire
+     que pide evitar el brief. */
+  .zk-comparador-cta {
+    margin-top: 48px !important;
+    padding-top: 32px !important;
+  }
+
+  /* Vigencia e información importante: minmax(340px, 1fr) no desborda a
+     375px, pero sí a 320px (340px no cabe en los ~272px de contenido). Se
+     apila para no depender de dónde caiga el umbral. */
+  .zk-familia-vigencia-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* FaqBloque es de otro agente: su rejilla interna usa
+     repeat(auto-fit, minmax(380px, 1fr)) y cada `.zk-faq` desborda +29px en
+     un teléfono. No expone una clase para ese contenedor, así que se ubica
+     por estructura (el div cuyos hijos directos son `.zk-faq`) y se ancla a
+     `.zk-familia-page` para no afectar el mismo componente en otras páginas. */
+  .zk-familia-page div:has(> .zk-faq) {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* -----------------------------------------------------------------------------
+   Teléfono angosto
+   -------------------------------------------------------------------------- */
+@media screen and (max-width: 380px) {
+  /* La marca de agua ya escala por vw; a este ancho basta acercarla un poco
+     más al borde superior para que no empuje el hero hacia abajo. */
+  .zk-familia-marca {
+    top: -70px !important;
+  }
+}

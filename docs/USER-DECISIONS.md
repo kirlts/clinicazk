@@ -157,3 +157,72 @@
 - Eliminarlo (elegida).
 
 **Razón:** Mantener un sitio completo muerto en el árbol confunde en revisiones futuras y no aporta: el historial de git conserva la v2 íntegra si hiciera falta recuperarla.
+
+---
+
+## [UD-012] El zoom base 0.8 se neutraliza bajo 1024px
+
+**Fecha:** 2026-07-30
+**Decisión:** `html { zoom: .8 }` sigue vigente en escritorio, pero vuelve a `1` bajo 1024px de ancho de viewport.
+
+**Contexto:** UD-008 y UD-010 fijaron el zoom base porque el director reduce al 80% en su pantalla. Al abordar la versión móvil se midió el efecto de esa preferencia en un teléfono: el cuerpo de 17px se dibuja a 13.6px reales y el layout cree disponer de 469px donde el teléfono tiene 375. La preferencia produce en táctil lo contrario de lo que busca en escritorio.
+
+**Alternativas evaluadas:**
+- Neutralizarlo sólo bajo 768px, dejando el 0.8 en tablet.
+- Mantener el 0.8 en todas partes y compensar subiendo los tamaños tipográficos.
+- Neutralizarlo bajo 1024px (elegida).
+
+**Razón:** El usuario eligió 1024px porque el problema de compresión también afecta a la tablet vertical. La preferencia de escritorio queda intacta: sobre 1024px no cambia absolutamente nada.
+
+**Consecuencias:**
+- (+) El texto recupera su tamaño nominal en teléfono y tablet.
+- (+) Las media queries dejan de pelear contra un layout escalado.
+- (-) Entre 1024px y 1025px hay un salto de escala perceptible al redimensionar la ventana.
+
+**Verificación:** se comprobó con Playwright, en 15 anchos entre 320 y 1440px, que las media queries se evalúan contra el viewport físico y no contra el zoom de la raíz. El cambio de zoom no realimenta el breakpoint ni produce parpadeo.
+
+**Condiciones de reversión:** si el director declara que también quiere el 80% en su teléfono.
+
+---
+
+## [UD-013] Patrón de menú móvil: hamburguesa con el contacto siempre visible
+
+**Fecha:** 2026-07-30
+**Decisión:** Bajo 900px el header muestra logo, el botón "Contacto" y una hamburguesa que abre un panel a pantalla completa con los 6 links y los accesos de WhatsApp de ambas sedes.
+
+**Contexto:** El handoff v3 dejó este patrón explícitamente "a definir con diseño" (README del bundle, Pendientes conocidos, punto 6). Sin él, los 6 links se apilaban encima del logo en cualquier pantalla angosta.
+
+**Alternativas evaluadas:**
+- Sólo hamburguesa, con "Contacto" dentro del panel.
+- Barra de links con scroll horizontal, sin panel.
+- Hamburguesa con el CTA fuera del panel (elegida).
+
+**Razón:** WhatsApp es el único canal de contacto del sitio (UD del alcance v3). Esconderlo tras un menú lo dejaría a dos toques en el dispositivo desde el que llega la mayoría del tráfico. El umbral de 900px se midió sobre la navegación real, no se eligió por convención.
+
+**Consecuencias:**
+- (+) El canal principal queda a un toque en todo el sitio.
+- (+) El panel repite los rótulos de contacto que ya existen en Inicio: no se inventó copy.
+- (-) El header móvil lleva dos controles en vez de uno.
+
+**Condiciones de reversión:** si diseño entrega un patrón de menú propio para la v3.
+
+---
+
+## [UD-014] En móvil se puede cambiar el patrón de un componente, nunca su contenido
+
+**Fecha:** 2026-07-30
+**Decisión:** Bajo el breakpoint de teléfono se permite reemplazar el patrón de interacción de un componente cuando el de escritorio no funciona. El copy, los colores, la tipografía y el orden de las secciones no se tocan.
+
+**Contexto:** El handoff declara que la versión móvil de las cuatro páginas nuevas "todavía no está diseñada en detalle" y sólo fija reglas mínimas: una columna, hit targets de 44px, la galería mantiene 4:3, el header colapsa. Varios componentes no admiten simple reflow: un maestro-detalle de dos columnas y una rejilla de cuatro tarjetas quedan ilegibles a 375px por mucho que se apilen.
+
+**Alternativas evaluadas:**
+- Sólo reflow a una columna, conservando la mecánica de escritorio en todo.
+- Permitir cambios de patrón acotados (elegida).
+
+**Razón:** UD-006 exige fidelidad 1:1 con el handoff, pero el handoff mismo delega la versión móvil. Fidelidad al diseño aprobado significa aquí respetar lo que el diseño sí definió (contenido, marca, jerarquía) y resolver con criterio lo que dejó abierto.
+
+**Consecuencias:**
+- (+) Piezas como el comparador de membresías o el índice de especialidades quedan usables en teléfono.
+- (-) La comparación 1:1 con el prototipo deja de aplicar bajo el breakpoint. Sobre él sigue siendo exigible.
+
+**Condiciones de reversión:** si diseño entrega la versión móvil detallada, sus patrones reemplazan a estos.

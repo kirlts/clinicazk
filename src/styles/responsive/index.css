@@ -1,0 +1,21 @@
+/* =============================================================================
+   Capa responsiva — punto de entrada
+
+   Se importa desde `Layout.astro` DESPUÉS de `global.css`, para que estas
+   reglas queden al final de la cascada. Aun así toda declaración que pise un
+   `style` inline lleva `!important`: ver la explicación en `base.css`.
+
+   Un archivo por página y uno por familia de componentes, para que el origen
+   de cada regla móvil se ubique sin buscar.
+   ============================================================================= */
+
+@import './base.css';
+@import './chrome.css';
+@import './componentes.css';
+@import './inicio.css';
+@import './familia-zk.css';
+@import './sucursales.css';
+@import './equipo-clinico.css';
+@import './nosotros.css';
+@import './convenios.css';
+@import './afiche.css';

@@ -22,6 +22,22 @@ html {
   zoom: 0.8;
 }
 
+/* El zoom base es una preferencia de escritorio (UD-008, UD-010): nace de que el
+   director reduce al 80% en su pantalla. En una pantalla táctil produce lo
+   contrario de lo que busca: el cuerpo de 17px se dibuja a 13.6px reales y el
+   layout cree tener 469px donde el teléfono tiene 375. Bajo 1024px vuelve a 1.
+   Las media queries se evalúan contra el viewport físico, no contra el zoom, así
+   que este cambio no realimenta el breakpoint.
+
+   `screen and` no es decorativo: una hoja A4 mide 794px de ancho en CSS, o sea
+   que cae dentro de este breakpoint. Sin acotar a pantalla, todo lo pensado para
+   un teléfono se aplicaría también al imprimir. */
+@media screen and (max-width: 1024px) {
+  html {
+    zoom: 1;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;

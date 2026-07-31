@@ -1,0 +1,128 @@
+/* =============================================================================
+   Capa responsiva — convenios
+   Convenciones y motivo del `!important`: ver `base.css`.
+   ============================================================================= */
+
+@media screen and (max-width: 767px) {
+  /* Marca de agua del isotipo: a 600x613px con desplazamiento -120/-80 está
+     pensada para una sección de 1500px+. La sección la recorta con
+     overflow:hidden, pero el elemento sigue siendo más ancho que la pantalla
+     y domina el hero como una forma grande. Se reduce a una escala
+     proporcional al viewport para que quede como textura sutil. */
+  .zk-cv-marca-agua {
+    width: 280px !important;
+    height: 286px !important;
+    top: -40px !important;
+    right: -40px !important;
+  }
+
+  /* Ritmo vertical: los 104-120px de padding entre secciones están pensados
+     para una pantalla ancha. En teléfono se reduce el aire sin perder la
+     separación entre bloques (el brief pide "ritmo razonable", no cero aire). */
+  .zk-cv-sec-hero {
+    padding-top: 56px !important;
+  }
+  .zk-cv-sec-instituciones,
+  .zk-cv-sec-reembolso,
+  .zk-cv-sec-pagos {
+    padding-top: 64px !important;
+  }
+  .zk-cv-sec-invitacion {
+    padding-top: 64px !important;
+    padding-bottom: 72px !important;
+  }
+  .zk-cv-sec-cierre {
+    padding: 48px 24px !important;
+  }
+
+  /* Frase destacada del hero: 96px de margen superior es el espacio pensado
+     para separarla de dos párrafos anchos en dos columnas; en una columna
+     angosta ese aire es excesivo. */
+  .zk-cv-hero-frase {
+    margin-top: 56px !important;
+  }
+
+  /* Borde superior del bloque de invitación: mismo criterio, menos aire. */
+  .zk-cv-invitacion-borde {
+    padding-top: 40px !important;
+  }
+
+  /* Pares de párrafos en dos columnas (repeat(auto-fit, minmax(340-360px,1fr))):
+     el mínimo de columna es mayor que el ancho disponible en un teléfono
+     (~327px con el padding de sección), lo que fuerza scroll horizontal.
+     Una columna es el patrón acordado para teléfono. */
+  .zk-cv-hero-parrafos,
+  .zk-cv-instituciones-intro {
+    grid-template-columns: 1fr !important;
+    gap: 28px !important;
+  }
+  .zk-cv-invitacion-grid {
+    grid-template-columns: 1fr !important;
+    gap: 24px !important;
+  }
+
+  /* Tarjeta "Listado de instituciones": la descripción y la rejilla de logos
+     comparten fila con minmax(300px,1fr), que ya no cabe en el padding de la
+     tarjeta a este ancho. Se apila y se reduce el padding para dejarle más
+     aire a los 6 slots de logo. */
+  .zk-cv-instituciones-card {
+    grid-template-columns: 1fr !important;
+    gap: 24px !important;
+    padding: 28px 22px !important;
+  }
+
+  /* 6 slots de logo (16:9, placeholders honestos "Logo"): a una columna cada
+     slot mediría cerca de 180px de alto, y las 6 sumarían una tira larga sin
+     aportar información nueva. Dos columnas conservan el 16:9 de cada slot y
+     bajan la altura total a la mitad. No se inventa contenido: siguen siendo
+     placeholders. */
+  .zk-cv-logos-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+
+  /* Reembolso (2 celdas "Solicitud en línea" / "Solicitud manual"):
+     minmax(320px,1fr) ya no cabe en el ancho de columna en un teléfono
+     angosto; se fuerza a una columna. */
+  .zk-cv-reembolso-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Medios de pago: la rejilla `0.38fr 0.62fr` deja la columna de texto en
+     ~124px reales en un teléfono, inutilizable para leer. Se apila: primero
+     el texto de la promoción, después la rejilla de medios de pago. */
+  .zk-cv-pagos-layout {
+    grid-template-columns: 1fr !important;
+    gap: 32px !important;
+  }
+
+  /* 8 medios de pago como texto ("American Express" es la etiqueta más
+     larga). Con el ancho de columna de un teléfono, repeat(auto-fit,
+     minmax(150px,1fr)) fuerza una celda más ancha que el contenedor. Se fija
+     en 2 columnas explícitas: "American Express" envuelve a dos líneas cortas
+     dentro de la celda sin cortarse ni cruzar su borde. */
+  .zk-cv-pagos-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+  .zk-cv-pagos-grid > div {
+    padding: 16px 10px !important;
+  }
+}
+
+/* -----------------------------------------------------------------------------
+   Teléfono angosto
+   -------------------------------------------------------------------------- */
+@media screen and (max-width: 380px) {
+  /* A este ancho la columna de contenido baja a cerca de 280px: la marca de
+     agua se reduce un poco más para no dominar el hero. */
+  .zk-cv-marca-agua {
+    width: 220px !important;
+    height: 225px !important;
+  }
+
+  /* Con 2 columnas y menos ancho disponible, "American Express" necesita el
+     padding lateral mínimo para no acercarse al borde de la celda. */
+  .zk-cv-pagos-grid > div {
+    padding: 14px 6px !important;
+    font-size: 14px !important;
+  }
+}

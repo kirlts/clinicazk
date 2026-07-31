@@ -310,7 +310,7 @@
 
 **Checks cubiertos:** `UIX.AV.037.HUM`
 
-- [ ] **PENDIENTE (desarrollador):** iterar la versión mobile tras la reunión del 2026-07-22
+- [x] **Resuelto por EPIC-009:** la versión móvil se construyó completa para las 7 páginas `2026-07-30`
 
 ---
 
@@ -345,9 +345,56 @@
 - [ ] **PENDIENTE (Clínica ZK):** listado de convenios y sus logos (6 slots con placeholder)
 - [ ] **PENDIENTE (Clínica ZK):** WhatsApp de Dirección Clínica
 - [ ] **PENDIENTE (Clínica ZK):** contenido de la sección Privacidad
-- [ ] **PENDIENTE (diseño):** patrón de menú móvil del header y versión móvil de las cuatro páginas nuevas
+- [x] **Resuelto por EPIC-009:** patrón de menú móvil definido (UD-013) y versión móvil de las cuatro páginas nuevas `2026-07-30`
 - [ ] **PENDIENTE (diseño):** imágenes por especialidad
 - [ ] **PENDIENTE (Clínica ZK):** difuminar patentes en algunas tomas de fachada
+
+---
+
+## [EPIC-009] Versión móvil completa
+
+> Ref: MASTER-SPEC §5, §7.1.1 · USER-DECISIONS UD-002, UD-012, UD-013, UD-014 · handoff v3, "Responsive" y Pendientes conocidos punto 6
+
+### [TASK-031] Capa responsiva y neutralización del zoom base
+
+**Checks cubiertos:** `RSP.FN.001.LLM`, `RSP.FN.002.LLM`
+
+- [x] Capa `src/styles/responsive/` importada después de `global.css`, con toda regla dentro de una media query `2026-07-30`
+- [x] `html { zoom: 1 }` bajo 1024px, junto a la declaración original y con su porqué al lado `2026-07-30`
+- [x] Comprobado con Playwright que las media queries no se realimentan con el zoom de la raíz `2026-07-30`
+- [x] Tokens reescalados por breakpoint (`--container-max`, `--space-*`, `--lh-tight`) `2026-07-30`
+
+### [TASK-032] Menú móvil del header
+
+**Checks cubiertos:** `RSP.FN.003.LLM`, `RSP.AV.010.HUM`
+
+- [x] Botón hamburguesa bajo 900px, con el CTA de contacto siempre visible `2026-07-30`
+- [x] Panel a pantalla completa con los 6 links y los accesos de WhatsApp de ambas sedes `2026-07-30`
+- [x] `aria-expanded`, `aria-controls`, cierre por Escape, por link y al volver a escritorio `2026-07-30`
+- [x] Bloqueo del scroll de fondo sin romper el `position: sticky` del header `2026-07-30`
+
+### [TASK-033] Adaptación de las siete páginas y los componentes
+
+**Checks cubiertos:** `RSP.FN.004.LLM` a `RSP.FN.008.LLM`
+
+- [x] Inicio, Familia ZK, Sucursales, Equipo clínico, Nosotros, Convenios y 404 `2026-07-30`
+- [x] Componentes compartidos: BranchSplit, Galeria, MembershipCard, MembershipTag, FaqItem, FaqBloque `2026-07-30`
+- [x] Afiche imprimible legible en teléfono, sin alterar la salida A4 de impresión `2026-07-30`
+
+### [TASK-034] Verificación de la versión móvil
+
+**Checks cubiertos:** `RSP.FN.009.LLM`, `RSP.AV.011.HUM`
+
+- [x] Cero scroll horizontal en las 7 páginas a 320, 375, 768 y 1024px `2026-07-30`
+- [x] Hit targets de 44px y ningún texto bajo 13px `2026-07-30`
+- [x] Escritorio idéntico al commit anterior, verificado comparando capturas contra un worktree de referencia `2026-07-30`
+- [ ] **PENDIENTE (humano):** revisión del director en un teléfono real (`RSP.AV.011.HUM`)
+
+### [TASK-035] Defectos de escritorio corregidos de paso
+
+**Checks cubiertos:** `RSP.FN.010.LLM`
+
+- [x] Los títulos de columna del footer eran `<h4>` después de `<h2>`: saltaban un nivel de jerarquía en las 7 páginas. Pasados a `<h3>`, sin cambio visual `2026-07-30`
 
 ---
 

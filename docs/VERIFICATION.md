@@ -95,3 +95,48 @@ OPS/OAS: Operaciones
 🤖 `DES.V3.009.LLM` `astro check` sin errores y `npm run build` local en verde (8 páginas). ✅
 🧑 `DES.V3.010.HUM` Revisión visual del director sobre el sitio desplegado. 🔲
 🧑 `DES.V3.011.HUM` Confirmación de horarios, convenios y WhatsApp de Dirección Clínica. 🔲
+
+---
+
+## Verificación de la versión móvil (2026-07-30)
+
+> La adaptación no se declaró leyendo CSS: se midió y se capturó ejecutando el sitio en
+> emulación táctil, y se contrastó el escritorio contra un worktree de git en el commit
+> anterior. Ref: MASTER-SPEC §7.1.1, USER-DECISIONS UD-012, UD-013 y UD-014.
+
+🤖 `RSP.FN.001.LLM` Las media queries se evalúan contra el viewport físico y no contra el `zoom` de la raíz: `@media (max-width: 1024px) { html { zoom: 1 } }` no realimenta el breakpoint. Comprobado en 15 anchos entre 320 y 1440px. ✅
+🤖 `RSP.FN.002.LLM` El zoom base pasa de 0.8 a 1 exactamente en el límite: 1025px dibuja a 0.8, 1024px a 1. ✅
+🤖 `RSP.FN.003.LLM` Menú móvil: bajo 900px la navegación se oculta y aparece el botón; sobre 900px al revés. El panel abre, bloquea el scroll de fondo, cierra con Escape y el header sigue sticky tras desplazar la página. ✅
+🤖 `RSP.FN.004.LLM` Cero scroll horizontal en las 7 páginas a 320, 375, 414, 768 y 1024px (35 combinaciones). ✅
+🤖 `RSP.FN.005.LLM` Ningún `a` ni `button` bajo 44px de alto en esas mismas 35 combinaciones. ✅
+🤖 `RSP.FN.006.LLM` Ningún texto bajo 13px en esas mismas 35 combinaciones. ✅
+🤖 `RSP.FN.007.LLM` Interacciones vivas en emulación táctil: modal del afiche (abre, carga `?m=…&embed=1`, cierra con Escape), flechas y miniaturas de galería, filtro de equipo y popover de agenda. ✅
+🤖 `RSP.FN.008.LLM` El afiche conserva su medida física A4 en impresión mientras fluye a una columna en pantalla: los 4 folletos generan 2 páginas de 794x1123px, y las 8 páginas resultantes son idénticas píxel a píxel a las del commit anterior tras rasterizar los PDF a 100dpi. ✅
+🤖 `RSP.FN.012.LLM` Ninguna regla de la capa responsiva alcanza al papel: toda media query está acotada con `screen and`. Una hoja A4 mide 794px de ancho en CSS y cae dentro del breakpoint de 1024px, así que sin esa cláusula lo pensado para un teléfono se aplicaría al imprimir. ✅
+🤖 `RSP.FN.013.LLM` Teléfono en horizontal (812x375 y 667x375) e iPad en horizontal (1024x768): sin scroll horizontal; el panel del menú desplaza y su último elemento queda alcanzable pese a los 313px de alto disponibles. ✅
+🤖 `RSP.FN.009.LLM` **El escritorio quedó idéntico píxel a píxel al commit anterior**: 21 comparaciones de página completa a 1280, 1440 y 1920px contra un worktree en `HEAD`, con animaciones y transiciones congeladas para que la captura sea determinista. Es la contrapartida verificable de la regla de la capa: fuera del breakpoint no existe ninguna regla nueva. ✅
+🤖 `RSP.FN.010.LLM` Jerarquía de encabezados sin saltos: los títulos de columna del footer pasaron de `<h4>` a `<h3>`, que venían tras un `<h2>` en las 7 páginas. ✅
+🤖 `RSP.FN.011.LLM` `astro check` sin errores ni advertencias y `npm run build` en verde (8 páginas). ✅
+🧑 `RSP.AV.010.HUM` El menú móvil se siente natural y el acceso a contacto es evidente. 🔲
+🧑 `RSP.AV.011.HUM` Revisión del director sobre un teléfono real, incluido el recorrido completo de las 7 páginas. 🔲
+
+### Historial de esta verificación
+
+`RSP.FN.008.LLM` estuvo marcado como aprobado antes de haberse ejecutado: se dio por buena
+la salida impresa del afiche sin comprobarla. Al verificarlo de verdad apareció el defecto
+que corrigió `RSP.FN.012.LLM`. Queda anotado porque el valor de este documento depende de
+que un tilde signifique que la comprobación se corrió, no que se esperaba que pasara.
+
+### Límites declarados de esta verificación
+
+- Toda la medición corre sobre Chromium en emulación táctil. No se probó en Safari de iOS
+  ni en un dispositivo físico: `RSP.AV.011.HUM` existe justamente por eso.
+- La revisión visual cubre las 7 páginas y el afiche a 375px, y además 320px en Inicio y
+  768px en Inicio y Equipo. No se revisó captura por captura cada página en cada ancho: en
+  los anchos no revisados visualmente el respaldo es la medición automática.
+- El umbral de 13px para el texto y el de 44px para los controles son los del handoff. Los
+  enlaces dentro de un párrafo quedan excluidos del mínimo de 44px a propósito: agrandarlos
+  rompería el interlineado del texto que los contiene.
+- La comparación de escritorio congela animaciones y transiciones. Sin eso las capturas no
+  son deterministas y las diferencias bailan entre corridas por el fade de entrada del
+  split de sedes y por el observador que muestra el FAB.

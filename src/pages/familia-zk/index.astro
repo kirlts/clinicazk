@@ -34,12 +34,13 @@ const orientacionWa = (['Los Ángeles', 'Pucón'] as Sede[]).map((s) => ({
   title="Membresías Dentales Familia ZK | Clínica ZK"
   description="Conoce las membresías ZK Anticipa, ZK Familia, ZK Seguimiento y ZK Total para organizar tu cuidado dental durante el año."
 >
-  <div style="font-family: var(--font-sans); color: var(--text-body);">
+  <div class="zk-familia-page" style="font-family: var(--font-sans); color: var(--text-body);">
     <SiteHeader active="Familia ZK" />
 
-    <section style="position: relative; overflow: hidden; padding: 104px 24px 0;">
+    <section class="zk-familia-hero" style="position: relative; overflow: hidden; padding: 104px 24px 0;">
       <div
         aria-hidden="true"
+        class="zk-familia-marca"
         style={`position: absolute; top: -170px; left: 50%; transform: translateX(-50%); width: 700px; height: 716px; background: url(${isotipo.src}) center / contain no-repeat; opacity: .055; pointer-events: none;`}
       >
       </div>
@@ -71,9 +72,10 @@ const orientacionWa = (['Los Ángeles', 'Pucón'] as Sede[]).map((s) => ({
       </div>
     </section>
 
-    <section style="padding: 88px 24px 112px;">
+    <section class="zk-familia-membresias" style="padding: 88px 24px 112px;">
       <div style="max-width: var(--container-max); margin: 0 auto;">
         <div
+          class="zk-familia-membresias-grid"
           style="display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 18px; align-items: stretch;"
         >
           {
@@ -97,6 +99,7 @@ const orientacionWa = (['Los Ángeles', 'Pucón'] as Sede[]).map((s) => ({
 
     <section id="comparador" style="background: var(--surface-section); padding: 112px 24px 120px;">
       <div
+        class="zk-comparador-intro"
         style="max-width: var(--container-max); margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); gap: 72px; align-items: start;"
       >
         <div>
@@ -108,7 +111,7 @@ const orientacionWa = (['Los Ángeles', 'Pucón'] as Sede[]).map((s) => ({
           </h2>
           {
             comparador.map((c) => (
-              <div style="display: grid; grid-template-columns: 200px 1fr; gap: 20px; align-items: baseline; padding: 16px 0; border-bottom: 1px solid var(--border-subtle);">
+              <div class="zk-comparador-fila" style="display: grid; grid-template-columns: 200px 1fr; gap: 20px; align-items: baseline; padding: 16px 0; border-bottom: 1px solid var(--border-subtle);">
                 <div style="display: flex; align-items: center; gap: 10px;">
                   <span style={`width: 22px; height: 14px; border-radius: 4px; flex: none; background: ${c.color};`} />
                   <span style="font-size: 16.5px; font-weight: var(--fw-semibold); color: var(--text-heading);">
@@ -121,7 +124,7 @@ const orientacionWa = (['Los Ángeles', 'Pucón'] as Sede[]).map((s) => ({
           }
         </div>
 
-        <div style="border: 1px solid var(--border-subtle); background: var(--zk-white); padding: 40px 38px 44px;">
+        <div class="zk-comparador-pasos" style="border: 1px solid var(--border-subtle); background: var(--zk-white); padding: 40px 38px 44px;">
           <h2
             style="font-size: var(--fs-h3); font-weight: var(--fw-semibold); color: var(--text-heading); margin: 0; text-align: center;"
           >
@@ -149,6 +152,7 @@ const orientacionWa = (['Los Ángeles', 'Pucón'] as Sede[]).map((s) => ({
       </div>
 
       <div
+        class="zk-comparador-cta"
         style="max-width: 900px; margin: 88px auto 0; padding-top: 56px; border-top: 1px solid var(--border-subtle); text-align: center;"
       >
         <p style="font-size: 16.5px; line-height: var(--lh-body); margin: 0; text-wrap: pretty;">
@@ -167,7 +171,7 @@ const orientacionWa = (['Los Ángeles', 'Pucón'] as Sede[]).map((s) => ({
       </div>
     </section>
 
-    <section style="background: var(--gradient-brand); padding: 64px 24px;">
+    <section class="zk-familia-cierre" style="background: var(--gradient-brand); padding: 64px 24px;">
       <p
         style="max-width: 1000px; margin: 0 auto; text-align: center; font-size: clamp(22px, 2vw, 32px); font-weight: var(--fw-light); color: #fff; line-height: var(--lh-tight); text-wrap: pretty;"
       >
@@ -175,8 +179,9 @@ const orientacionWa = (['Los Ángeles', 'Pucón'] as Sede[]).map((s) => ({
       </p>
     </section>
 
-    <section style="padding: 112px 24px 120px;">
+    <section class="zk-familia-vigencia" style="padding: 112px 24px 120px;">
       <div
+        class="zk-familia-vigencia-grid"
         style="max-width: 1240px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 40px 72px;"
       >
         <div>

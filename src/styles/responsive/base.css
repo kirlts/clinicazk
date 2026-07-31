@@ -1,0 +1,134 @@
+/* =============================================================================
+   Capa responsiva — base
+
+   POR QUÉ EXISTE ESTA CAPA APARTE
+   El sitio nació como port 1:1 de un handoff de Claude Design: el layout de
+   escritorio vive en atributos `style` inline, que son la especificación
+   aprobada. Un `@media` normal no puede tocarlos (inline gana a cualquier
+   selector), y editarlos rompería la trazabilidad con el diseño.
+
+   Por eso la adaptación móvil vive por completo dentro de media queries, en
+   archivos propios. Consecuencias buscadas:
+
+   1. El escritorio queda demostrablemente intacto: fuera del breakpoint no
+      existe ninguna regla de esta capa.
+   2. Toda declaración que pise un `style` inline o un `<style>` con scope de
+      Astro lleva `!important`. No es descuido: es el único mecanismo con más
+      peso que un inline. Se usa de forma uniforme para que la regla sea una
+      sola y no haya que razonar caso a caso.
+
+   3. Toda media query empieza por `screen and`, sin excepción. No es
+      decorativo: una hoja A4 mide 794px de ancho en CSS, así que al imprimir
+      cae dentro del breakpoint de 1024px. Sin acotar a pantalla, lo pensado
+      para un teléfono se aplica al papel. Ya pasó una vez: el `overflow-wrap:
+      break-word` de esta hoja partía el lema de una membresía por la mitad de
+      una palabra en el afiche impreso ("ACOMPAÑAMIENT / O CONSTANTE"), y sólo
+      apareció al comparar el PDF generado contra el del commit anterior.
+
+   BREAKPOINTS
+     ≤1024px  tablet vertical y menor  — neutraliza el zoom, colapsa a 1-2 col
+     ≤900px   el header pasa a menú    — medido: bajo 900 la nav no cabe
+     ≤767px   teléfono                 — una columna, cambios de patrón
+     ≤380px   teléfono angosto         — ajustes finos
+
+   El zoom base (`html { zoom: .8 }`, UD-008/UD-010) se neutraliza en
+   `global.css`, junto a su declaración, para que la excepción se lea al lado
+   de la regla.
+   ============================================================================= */
+
+/* -----------------------------------------------------------------------------
+   Tablet vertical y menor
+   -------------------------------------------------------------------------- */
+@media screen and (max-width: 1024px) {
+  :root {
+    /* El contenedor deja de reservar el 3% de cada lado: con el ancho de un
+       teléfono ese margen se suma al padding de sección y estrangula el texto.
+       El aire lateral pasa a ser sólo el padding de la sección (24px). */
+    --container-max: 100% !important;
+
+    /* El ritmo vertical del diseño está pensado para 1520px de ancho. En una
+       pantalla angosta esos 96px entre bloques obligan a scrollear en vacío. */
+    --space-9: 64px !important;
+    --space-10: 88px !important;
+  }
+
+  /* Red de seguridad contra desbordes horizontales. `clip` y no `hidden`:
+     `hidden` convertiría a <body> en contenedor de scroll y rompería el
+     `position: sticky` del header. `clip` recorta sin crear scrollport. */
+  body {
+    overflow-x: clip !important;
+  }
+
+  /* Ningún medio puede ser más ancho que su columna. */
+  img,
+  video,
+  canvas {
+    max-width: 100% !important;
+  }
+
+  /* Palabras largas (direcciones, nombres de especialidad) antes que desborde. */
+  h1,
+  h2,
+  h3,
+  h4,
+  p,
+  li,
+  a,
+  span,
+  div {
+    overflow-wrap: break-word;
+  }
+
+  /* Hit target mínimo del handoff: 44px. Aplica desde tablet vertical y no sólo
+     desde teléfono: 768px es el ancho de un iPad en vertical, que se toca con el
+     dedo igual que un teléfono. Alcanza a los controles que el diseño dejó entre
+     21px y 42px de alto. Los enlaces dentro de un párrafo quedan fuera: agrandar
+     un enlace de prosa rompe el interlineado del texto que lo contiene. */
+  a[class*='zk-btn'],
+  button[class*='zk-btn'],
+  .zk-brillo,
+  .zk-contacto-btn,
+  .zk-header-logo,
+  .zk-header-cta,
+  .zk-mc__cta,
+  .zk-branch__wa {
+    min-height: 44px !important;
+  }
+
+  /* Los rótulos tipo "ODONTOLOGÍA · ESTÉTICA · SALUD" están entre 11.5px y 13px,
+     tamaño calculado para una pantalla grande vista de lejos. En una pantalla
+     que se sostiene con la mano, versalitas con 0.18em de tracking a 11.5px son
+     ilegibles. Se identifican por el único rasgo que comparten todas: usan
+     `--ls-eyebrow`. Se excluye el eyebrow de SectionHeader, que ya viene a 15px
+     (`--fs-small`). */
+  [style*='--ls-eyebrow']:not([style*='--fs-small']) {
+    font-size: 13px !important;
+  }
+}
+
+/* -----------------------------------------------------------------------------
+   Teléfono
+   -------------------------------------------------------------------------- */
+@media screen and (max-width: 767px) {
+  :root {
+    --space-7: 36px !important;
+    --space-8: 44px !important;
+    --space-9: 52px !important;
+    --space-10: 60px !important;
+
+    /* Las secciones traen `padding: … 24px` inline. 24px por lado sobre 375px
+       deja 327px de contenido, que es el gutter correcto para teléfono; no se
+       toca. Lo que sí se corrige es el interlineado de los títulos grandes:
+       `--lh-tight: 1.12` se diseñó para 54px, no para 34px. */
+    --lh-tight: 1.18 !important;
+  }
+}
+
+/* -----------------------------------------------------------------------------
+   Teléfono angosto (iPhone SE, Galaxy S antiguos)
+   -------------------------------------------------------------------------- */
+@media screen and (max-width: 380px) {
+  :root {
+    --space-9: 44px !important;
+  }
+}

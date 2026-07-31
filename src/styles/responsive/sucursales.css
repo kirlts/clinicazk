@@ -1,0 +1,135 @@
+/* =============================================================================
+   Capa responsiva — Sucursales
+   Convenciones y motivo del `!important`: ver `base.css`.
+   ============================================================================= */
+
+/* -----------------------------------------------------------------------------
+   Tablet vertical y menor
+   -------------------------------------------------------------------------- */
+@media screen and (max-width: 1024px) {
+  /* Las dos columnas de sede (galería 0.62 / infraestructura 0.38, invertidas en
+     Pucón) no admiten reparto asimétrico en pantalla angosta: la columna corta
+     baja de 300px y la lista de infraestructura queda en renglones de dos
+     palabras. A partir de tablet vertical se apilan.
+
+     `minmax(0, 1fr)` y no `1fr`: `1fr` equivale a `minmax(auto, 1fr)`, y ese
+     `auto` deja que el ancho mínimo del contenido infle la pista. La tira de
+     miniaturas de Los Ángeles mide 649px de mínimo (10 miniaturas de 64px), y
+     con `1fr` la columna se estiraba a 649px dentro de una pantalla de 327px.
+     El `minmax(0, …)` autoriza a la pista a encoger y deja que el que scrollee
+     sea el contenedor de miniaturas, que para eso tiene `overflow-x: auto`. */
+  .zk-suc .zk-suc-grid {
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 40px !important;
+  }
+  .zk-suc .zk-suc-grid > * {
+    min-width: 0 !important;
+  }
+
+  /* El Instagram de cada sede cierra su tabla de datos: como enlace de texto
+     queda en 22px de alto, la mitad del mínimo táctil. */
+  .zk-suc-fila-link {
+    display: inline-flex !important;
+    align-items: center !important;
+    min-height: 44px !important;
+  }
+
+  /* Apiladas, la galería va primero en ambas sedes. En escritorio el espejo
+     (galería a la izquierda en Los Ángeles, a la derecha en Pucón) es una
+     decisión de composición horizontal; al apilar deja de ser simetría y pasa a
+     ser inconsistencia: una sede abriría con foto y la otra con una lista. */
+  .zk-suc #pucon .zk-suc-grid > div:first-child {
+    order: 2;
+  }
+  .zk-suc #pucon .zk-suc-grid > [data-galeria] {
+    order: 1;
+  }
+}
+
+/* -----------------------------------------------------------------------------
+   Teléfono
+   -------------------------------------------------------------------------- */
+@media screen and (max-width: 767px) {
+  /* El ritmo vertical del diseño (104px de portada, 112px entre sedes, 96px
+     antes de la frase de cierre) está calculado para 1520px de ancho. En un
+     teléfono obliga a scrollear pantallas casi vacías entre bloque y bloque. */
+  .zk-suc > section {
+    padding-top: 56px !important;
+  }
+  .zk-suc > section:first-of-type {
+    padding-top: 36px !important;
+  }
+  .zk-suc > section:last-of-type {
+    padding-bottom: 72px !important;
+  }
+  .zk-suc-intro {
+    margin-top: 32px !important;
+  }
+  .zk-suc-cierre {
+    margin-top: 48px !important;
+  }
+  .zk-suc-sep {
+    padding-top: 48px !important;
+  }
+  .zk-suc-grid {
+    margin-top: 36px !important;
+  }
+  .zk-suc-datos {
+    margin-top: 48px !important;
+  }
+
+  /* La marca de agua mide 620px y arranca en left: -110px. La sección la recorta
+     (tiene `overflow: hidden`), así que no provoca scroll, pero a 375px cubre
+     toda la portada y compite con el titular en vez de acompañarlo. */
+  .zk-suc-marca {
+    width: 320px !important;
+    height: 327px !important;
+    top: -70px !important;
+    left: -80px !important;
+  }
+
+  /* Tabla de datos de contacto: en escritorio es etiqueta a la izquierda y valor
+     alineado a la derecha. A 327px de ancho, "Avenida Gabriela Mistral 79, Los
+     Ángeles" no cabe en la mitad derecha y se parte contra el borde. Apilada,
+     cada dato se lee de corrido. */
+  .zk-suc-fila {
+    display: grid !important;
+    gap: 2px !important;
+    padding: 12px 0 !important;
+    text-align: left !important;
+  }
+  .zk-suc-fila-k {
+    font-size: 13px !important;
+  }
+  .zk-suc-fila-v {
+    margin-left: 0 !important;
+    text-align: left !important;
+    font-size: 16px !important;
+  }
+
+  /* El botón de WhatsApp de cada sede es la acción principal de su bloque. */
+  .zk-wa-btn {
+    width: 100% !important;
+    justify-content: center !important;
+    text-align: center !important;
+    min-height: 48px !important;
+    padding: 12px 18px !important;
+  }
+
+  /* Los dos accesos del cierre, uno bajo el otro y a ancho completo. */
+  .zk-suc > section:last-of-type .zk-btn-sec {
+    width: 100% !important;
+    justify-content: center !important;
+    min-height: 48px !important;
+  }
+}
+
+/* -----------------------------------------------------------------------------
+   Teléfono angosto
+   -------------------------------------------------------------------------- */
+@media screen and (max-width: 380px) {
+  .zk-suc-marca {
+    width: 260px !important;
+    height: 266px !important;
+  }
+}

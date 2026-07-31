@@ -12,7 +12,7 @@ const { tema = 'Atención' } = Astro.props;
 const faqs = faqsDeTema(tema);
 ---
 
-<section style="padding: var(--space-9) 24px; font-family: var(--font-sans); color: var(--text-body);">
+<section class="zk-faqbloque" style="padding: var(--space-9) 24px; font-family: var(--font-sans); color: var(--text-body);">
   <div style="max-width: var(--container-max, min(1520px, 94vw)); margin: 0 auto;">
     <div style="padding-bottom: 22px; border-bottom: 1px solid var(--border-subtle); text-align: center;">
       <h2 style="font-size: var(--fs-h2); font-weight: var(--fw-semibold); color: var(--text-heading); margin: 0;">
@@ -20,6 +20,7 @@ const faqs = faqsDeTema(tema);
       </h2>
     </div>
     <div
+      class="zk-faqbloque-grid"
       style="margin-top: 8px; display: grid; grid-template-columns: repeat(auto-fit, minmax(380px, 1fr)); gap: 0 56px; align-items: start;"
     >
       {faqs.map((f) => <FaqItem question={f.q} answer={f.a} />)}

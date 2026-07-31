@@ -23,10 +23,11 @@ const waPu = waConsultaSede('Pucón');
   style="border-top: 1px solid var(--border-subtle); background: var(--zk-white); font-family: var(--font-sans); color: var(--text-body);"
 >
   <div
+    class="zk-footer-grid"
     style="max-width: var(--container-max, min(1520px, 94vw)); margin: 0 auto; padding: 56px 24px 40px; display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 44px;"
   >
     <div>
-      <img src={logoVertical.src} alt="Clínica ZK" style="height: 104px; display: block;" />
+      <img src={logoVertical.src} alt="Clínica ZK" class="zk-footer-logo" style="height: 104px; display: block;" />
       <div style="font-size: 16px; font-weight: var(--fw-semibold); color: var(--text-heading); margin-top: 18px;">
         Tu salud dental, en orden.
       </div>
@@ -36,9 +37,9 @@ const waPu = waConsultaSede('Pucón');
     </div>
 
     <div>
-      <h4 style="font-size: 15px; font-weight: var(--fw-semibold); color: var(--text-heading); margin: 0 0 12px;">
+      <h3 style="font-size: 15px; font-weight: var(--fw-semibold); color: var(--text-heading); margin: 0 0 12px;">
         Los Ángeles
-      </h4>
+      </h3>
       <div style="font-size: 14.5px; line-height: 1.85;">
         <div>{sedes.la.direccion}</div>
         <div>Teléfono: {sedes.la.telefono}</div>
@@ -51,9 +52,9 @@ const waPu = waConsultaSede('Pucón');
     </div>
 
     <div>
-      <h4 style="font-size: 15px; font-weight: var(--fw-semibold); color: var(--text-heading); margin: 0 0 12px;">
+      <h3 style="font-size: 15px; font-weight: var(--fw-semibold); color: var(--text-heading); margin: 0 0 12px;">
         Pucón
-      </h4>
+      </h3>
       <div style="font-size: 14.5px; line-height: 1.85;">
         <div>{sedes.pucon.direccion}</div>
         <div>Teléfono y WhatsApp: {sedes.pucon.telefono}</div>
@@ -65,10 +66,10 @@ const waPu = waConsultaSede('Pucón');
     </div>
 
     <div>
-      <h4 style="font-size: 15px; font-weight: var(--fw-semibold); color: var(--text-heading); margin: 0 0 12px;">
+      <h3 style="font-size: 15px; font-weight: var(--fw-semibold); color: var(--text-heading); margin: 0 0 12px;">
         Clínica ZK
-      </h4>
-      <div style="display: grid; gap: 2px; font-size: 14.5px; line-height: 1.7;">
+      </h3>
+      <div class="zk-footer-indice" style="display: grid; gap: 2px; font-size: 14.5px; line-height: 1.7;">
         {links.map((l) => <a href={l.href} style="text-decoration: none;">{l.label}</a>)}
         <button type="button" id="zk-priv-abrir" class="zk-priv-btn">Privacidad</button>
       </div>
@@ -113,7 +114,7 @@ const waPu = waConsultaSede('Pucón');
         >
           Evita enviar antecedentes clínicos sensibles, diagnósticos, radiografías o documentación personal por WhatsApp.
         </p>
-        <div style="display: flex; gap: 12px; margin-top: 28px;">
+        <div class="zk-priv-acciones" style="display: flex; gap: 12px; margin-top: 28px;">
           <a
             href={waLa}
             target="_blank"

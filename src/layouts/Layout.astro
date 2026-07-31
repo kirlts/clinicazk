@@ -1,5 +1,8 @@
 ---
 import '../styles/global.css';
+/* La adaptación a tablet y teléfono vive en su propia capa, importada después de
+   global.css para quedar al final de la cascada. Ver `styles/responsive/base.css`. */
+import '../styles/responsive/index.css';
 
 interface Props {
   title?: string;

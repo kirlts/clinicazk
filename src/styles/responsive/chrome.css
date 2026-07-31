@@ -1,0 +1,266 @@
+/* =============================================================================
+   Capa responsiva — chrome compartido (header, menú, footer, FAB)
+   Convenciones y motivo del `!important`: ver `base.css`.
+   ============================================================================= */
+
+/* -----------------------------------------------------------------------------
+   Header — colapso a menú
+   El umbral son 900px: medido sobre la nav real (logo + 6 links + CTA), bajo
+   ese ancho los links empiezan a envolverse encima del logo.
+   -------------------------------------------------------------------------- */
+@media screen and (max-width: 900px) {
+  .zk-header-fila {
+    min-height: 62px !important;
+    padding: 8px 20px !important;
+    gap: 12px !important;
+  }
+
+  .zk-header-logo img {
+    height: 38px !important;
+  }
+
+  /* La fila de links deja su lugar al botón de menú.
+     Se ancla a `.zk-header-fila` a propósito: `.zk-nav` también es el nombre de
+     las flechas de la galería de sucursales, y sin acotar este selector las
+     ocultaría justo en el dispositivo donde son imprescindibles. */
+  .zk-header-fila .zk-nav {
+    display: none !important;
+  }
+
+  .zk-menu-btn {
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    flex: none;
+    margin-left: auto;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    background: none;
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-md);
+    color: var(--text-heading);
+    cursor: pointer;
+  }
+
+  /* El CTA de contacto no se esconde: es el canal principal del sitio.
+     Sólo se compacta para convivir con el botón de menú. */
+  .zk-header-cta {
+    margin-left: auto;
+    padding: 10px 16px !important;
+    font-size: 14px !important;
+    min-height: 44px;
+  }
+  .zk-menu-btn + .zk-header-cta,
+  .zk-header-cta ~ .zk-menu-btn {
+    margin-left: 0;
+  }
+
+  /* Un solo ícono a la vez dentro del botón. */
+  .zk-menu-icono--cerrar {
+    display: none;
+  }
+  .zk-menu-btn[aria-expanded='true'] .zk-menu-icono--abrir {
+    display: none;
+  }
+  .zk-menu-btn[aria-expanded='true'] .zk-menu-icono--cerrar {
+    display: block;
+  }
+
+  /* Panel desplegable. `:not([hidden])` en vez de `.zk-menu` a secas para no
+     ganarle a la regla global `[hidden] { display: none !important }`. */
+  .zk-menu:not([hidden]) {
+    display: flex !important;
+    flex-direction: column;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    height: calc(100dvh - 62px);
+    box-sizing: border-box;
+    padding: 4px 20px 28px;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    background: var(--zk-white);
+    border-top: 1px solid var(--border-subtle);
+    animation: zkfade 0.18s var(--ease-out);
+  }
+
+  .zk-menu-lista {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .zk-menu-link {
+    display: flex;
+    align-items: center;
+    min-height: 56px;
+    padding: 4px 2px;
+    font-size: 18px;
+    font-weight: var(--fw-regular);
+    color: var(--text-heading);
+    text-decoration: none;
+    border-bottom: 1px solid var(--border-subtle);
+  }
+  .zk-menu-link[data-activo] {
+    font-weight: var(--fw-semibold);
+    color: var(--zk-teal-700);
+  }
+  .zk-menu-link:hover {
+    text-decoration: none;
+    color: var(--zk-teal-700);
+  }
+
+  .zk-menu-sedes {
+    display: grid;
+    gap: 10px;
+    margin-top: 24px;
+  }
+
+  .zk-menu-wa {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-height: 56px;
+    padding: 12px 16px;
+    border-radius: var(--radius-md);
+    background: var(--surface-section);
+    border: 1px solid var(--border-subtle);
+    color: var(--zk-teal-700);
+    text-decoration: none;
+    font-size: 15px;
+    line-height: 1.35;
+  }
+  .zk-menu-wa:hover {
+    text-decoration: none;
+  }
+  .zk-menu-wa svg {
+    flex: none;
+    color: var(--zk-whatsapp);
+  }
+  .zk-menu-wa-texto {
+    display: grid;
+    gap: 2px;
+    min-width: 0;
+  }
+  .zk-menu-wa-fono {
+    font-variant-numeric: tabular-nums;
+    color: var(--text-body);
+    font-size: 14px;
+  }
+
+  /* Con el panel abierto la página de fondo no debe scrollear.
+     `overflow` en <body> se propaga al viewport (html está en `visible`), así
+     que el header sticky sigue funcionando. */
+  body[data-zk-menu='abierto'] {
+    overflow: hidden !important;
+  }
+}
+
+/* -----------------------------------------------------------------------------
+   Footer: mínimos táctiles desde tablet vertical
+   El índice del sitio y los Instagram de cada sede son navegación, no enlaces
+   dentro de un párrafo: su altura sí debe llegar a los 44px del handoff.
+   -------------------------------------------------------------------------- */
+@media screen and (max-width: 1024px) {
+  .zk-footer-indice a,
+  .zk-footer-indice .zk-priv-btn {
+    min-height: 44px !important;
+    display: flex !important;
+    align-items: center !important;
+  }
+  .zk-footer-grid a[href*='instagram'] {
+    display: inline-flex !important;
+    align-items: center !important;
+    min-height: 44px !important;
+  }
+}
+
+/* -----------------------------------------------------------------------------
+   Footer
+   -------------------------------------------------------------------------- */
+@media screen and (max-width: 767px) {
+  .zk-footer-grid {
+    grid-template-columns: 1fr !important;
+    gap: 32px !important;
+    padding: 40px 24px 32px !important;
+  }
+
+  .zk-footer-logo {
+    height: 84px !important;
+  }
+
+  /* El índice de 9 links del footer a una columna es una lista larga de toques
+     pequeños: se reparte en dos columnas de destinos cortos. */
+  .zk-footer-indice {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 2px 16px !important;
+  }
+  /* Modal de privacidad: el padding de escritorio deja 264px útiles en un
+     teléfono. Se reduce el marco y los botones dejan de competir por la fila. */
+  #zk-priv-fondo {
+    padding: 16px !important;
+    align-items: flex-start !important;
+    overflow-y: auto !important;
+  }
+  #zk-priv-caja {
+    width: 100% !important;
+    max-height: none !important;
+    margin: 16px 0 !important;
+    padding: 28px 22px !important;
+  }
+  .zk-priv-acciones {
+    flex-wrap: wrap !important;
+    gap: 10px !important;
+  }
+  .zk-priv-acciones > a,
+  .zk-priv-acciones > button {
+    flex: 1 1 100% !important;
+    justify-content: center !important;
+    text-align: center !important;
+    min-height: 44px !important;
+    display: flex !important;
+    align-items: center !important;
+    margin-left: 0 !important;
+  }
+}
+
+/* -----------------------------------------------------------------------------
+   FAB de WhatsApp
+   -------------------------------------------------------------------------- */
+@media screen and (max-width: 767px) {
+  .zk-fab-link {
+    right: 16px !important;
+    bottom: 16px !important;
+    padding: 12px 18px !important;
+    font-size: 15px !important;
+  }
+}
+
+/* En teléfono angosto el FAB compite con el ancho del contenido: queda como
+   botón circular, con el rótulo accesible sólo para lectores de pantalla. */
+@media screen and (max-width: 380px) {
+  .zk-fab-link {
+    width: 52px !important;
+    height: 52px !important;
+    padding: 0 !important;
+    justify-content: center !important;
+  }
+  .zk-fab-link span {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    overflow: hidden !important;
+    clip-path: inset(50%) !important;
+    white-space: nowrap !important;
+  }
+}
+
+/* -----------------------------------------------------------------------------
+   SectionHeader
+   -------------------------------------------------------------------------- */
+@media screen and (max-width: 767px) {
+  .zk-section-header {
+    max-width: 100% !important;
+  }
+}

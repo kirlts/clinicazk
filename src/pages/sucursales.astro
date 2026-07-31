@@ -22,12 +22,13 @@ const waPu = waSede('Pucón');
   title="Sucursales Clínica ZK | Los Ángeles y Pucón"
   description="Conoce las sucursales de Clínica ZK en Los Ángeles y Pucón: infraestructura, especialidades, apoyo diagnóstico, dirección y canales de atención."
 >
-  <div style="font-family: var(--font-sans); color: var(--text-body);">
+  <div class="zk-suc" style="font-family: var(--font-sans); color: var(--text-body);">
     <SiteHeader active="Sucursales" />
 
     <section style="position: relative; overflow: hidden; padding: 104px 24px 0;">
       <div
         aria-hidden="true"
+        class="zk-suc-marca"
         style={`position: absolute; top: -140px; left: -110px; width: 620px; height: 634px; background: url(${isotipo.src}) center / contain no-repeat; opacity: .055; pointer-events: none;`}
       >
       </div>
@@ -44,7 +45,7 @@ const waPu = waSede('Pucón');
             Encuentra la atención que necesitas, más cerca de ti.
           </h1>
         </div>
-        <div style="margin: 72px auto 0; max-width: 1080px; text-align: center;">
+        <div class="zk-suc-intro" style="margin: 72px auto 0; max-width: 1080px; text-align: center;">
           <p style="font-size: 16.5px; line-height: var(--lh-body); margin: 0; text-wrap: pretty;">
             Clínica ZK está presente en Los Ángeles y Pucón con equipos, especialidades y servicios de apoyo diagnóstico
             adaptados a la realidad de cada sede.
@@ -55,6 +56,7 @@ const waPu = waSede('Pucón');
           </p>
         </div>
         <p
+          class="zk-suc-cierre"
           style="font-size: clamp(20px, 1.8vw, 28px); font-weight: var(--fw-light); color: var(--text-heading); line-height: var(--lh-tight); margin: 96px auto 0; max-width: 1000px; text-align: center; text-wrap: pretty;"
         >
           Dos ciudades. Una misma manera de acompañar tu salud dental<span style="color: var(--zk-teal-600);">.</span>
@@ -85,6 +87,7 @@ const waPu = waSede('Pucón');
         </p>
       </div>
       <div
+        class="zk-suc-grid"
         style="max-width: var(--container-max); margin: 64px auto 0; display: grid; grid-template-columns: 0.62fr 0.38fr; gap: 56px; align-items: start;"
       >
         <Galeria id="la" fotos={LA_PHOTOS} />
@@ -108,34 +111,37 @@ const waPu = waSede('Pucón');
           </ul>
         </div>
       </div>
-      <div style="max-width: 760px; margin: 88px auto 0; text-align: center;">
+      <div class="zk-suc-datos" style="max-width: 760px; margin: 88px auto 0; text-align: center;">
         <div style="display: grid; font-size: 15px; border-top: 1px solid var(--border-subtle);">
           {
             LA_DATOS.map((d) => (
-              <div style="display: flex; gap: 16px; align-items: baseline; padding: 11px 0; border-bottom: 1px solid var(--border-subtle);">
-                <span style="color: var(--text-muted); flex: none;">{d.k}</span>
-                <span style="margin-left: auto; text-align: right; color: var(--text-body);">{d.v}</span>
+              <div class="zk-suc-fila" style="display: flex; gap: 16px; align-items: baseline; padding: 11px 0; border-bottom: 1px solid var(--border-subtle);">
+                <span class="zk-suc-fila-k" style="color: var(--text-muted); flex: none;">{d.k}</span>
+                <span class="zk-suc-fila-v" style="margin-left: auto; text-align: right; color: var(--text-body);">{d.v}</span>
               </div>
             ))
           }
           <div
+            class="zk-suc-fila"
             style="display: flex; gap: 16px; align-items: baseline; padding: 11px 0; border-bottom: 1px solid var(--border-subtle);"
           >
-            <span style="color: var(--text-muted); flex: none;">Instagram</span>
-            <span style="margin-left: auto; text-align: right;">
+            <span class="zk-suc-fila-k" style="color: var(--text-muted); flex: none;">Instagram</span>
+            <span class="zk-suc-fila-v" style="margin-left: auto; text-align: right;">
               <a
                 href={sedes.la.instagramUrl}
                 target="_blank"
                 rel="noopener"
+                class="zk-suc-fila-link"
                 style="text-decoration: none; border-bottom: 1px solid var(--zk-teal-200);">{sedes.la.instagram}</a
               >
             </span>
           </div>
           <div
+            class="zk-suc-fila"
             style="display: flex; gap: 16px; align-items: baseline; padding: 11px 0; border-bottom: 1px solid var(--border-subtle);"
           >
-            <span style="color: var(--text-muted); flex: none;">Horario</span>
-            <span style="margin-left: auto; text-align: right; color: var(--text-muted);">Pendiente de confirmación</span>
+            <span class="zk-suc-fila-k" style="color: var(--text-muted); flex: none;">Horario</span>
+            <span class="zk-suc-fila-v" style="margin-left: auto; text-align: right; color: var(--text-muted);">Pendiente de confirmación</span>
           </div>
         </div>
         <div style="margin-top: 36px; display: flex; gap: 12px; flex-wrap: wrap; justify-content: center;">
@@ -149,6 +155,7 @@ const waPu = waSede('Pucón');
     <!-- ===================== PUCÓN ===================== -->
     <section id="pucon" style="padding: 112px 24px 0;">
       <div
+        class="zk-suc-sep"
         style="max-width: var(--container-max); margin: 0 auto; border-top: 1px solid var(--border-subtle); padding-top: 112px;"
       >
       </div>
@@ -172,6 +179,7 @@ const waPu = waSede('Pucón');
         </p>
       </div>
       <div
+        class="zk-suc-grid"
         style="max-width: var(--container-max); margin: 64px auto 0; display: grid; grid-template-columns: 0.38fr 0.62fr; gap: 56px; align-items: start;"
       >
         <div>
@@ -195,34 +203,37 @@ const waPu = waSede('Pucón');
         </div>
         <Galeria id="pu" fotos={PU_PHOTOS} />
       </div>
-      <div style="max-width: 760px; margin: 88px auto 0; text-align: center;">
+      <div class="zk-suc-datos" style="max-width: 760px; margin: 88px auto 0; text-align: center;">
         <div style="display: grid; font-size: 15px; border-top: 1px solid var(--border-subtle);">
           {
             PU_DATOS.map((d) => (
-              <div style="display: flex; gap: 16px; align-items: baseline; padding: 11px 0; border-bottom: 1px solid var(--border-subtle);">
-                <span style="color: var(--text-muted); flex: none;">{d.k}</span>
-                <span style="margin-left: auto; text-align: right; color: var(--text-body);">{d.v}</span>
+              <div class="zk-suc-fila" style="display: flex; gap: 16px; align-items: baseline; padding: 11px 0; border-bottom: 1px solid var(--border-subtle);">
+                <span class="zk-suc-fila-k" style="color: var(--text-muted); flex: none;">{d.k}</span>
+                <span class="zk-suc-fila-v" style="margin-left: auto; text-align: right; color: var(--text-body);">{d.v}</span>
               </div>
             ))
           }
           <div
+            class="zk-suc-fila"
             style="display: flex; gap: 16px; align-items: baseline; padding: 11px 0; border-bottom: 1px solid var(--border-subtle);"
           >
-            <span style="color: var(--text-muted); flex: none;">Instagram</span>
-            <span style="margin-left: auto; text-align: right;">
+            <span class="zk-suc-fila-k" style="color: var(--text-muted); flex: none;">Instagram</span>
+            <span class="zk-suc-fila-v" style="margin-left: auto; text-align: right;">
               <a
                 href={sedes.pucon.instagramUrl}
                 target="_blank"
                 rel="noopener"
+                class="zk-suc-fila-link"
                 style="text-decoration: none; border-bottom: 1px solid var(--zk-teal-200);">{sedes.pucon.instagram}</a
               >
             </span>
           </div>
           <div
+            class="zk-suc-fila"
             style="display: flex; gap: 16px; align-items: baseline; padding: 11px 0; border-bottom: 1px solid var(--border-subtle);"
           >
-            <span style="color: var(--text-muted); flex: none;">Horario</span>
-            <span style="margin-left: auto; text-align: right; color: var(--text-muted);">Pendiente de confirmación</span>
+            <span class="zk-suc-fila-k" style="color: var(--text-muted); flex: none;">Horario</span>
+            <span class="zk-suc-fila-v" style="margin-left: auto; text-align: right; color: var(--text-muted);">Pendiente de confirmación</span>
           </div>
         </div>
         <div style="margin-top: 36px; display: flex; gap: 12px; flex-wrap: wrap; justify-content: center;">

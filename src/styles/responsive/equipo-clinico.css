@@ -1,0 +1,100 @@
+/* =============================================================================
+   Capa responsiva — equipo-clinico
+   Convenciones y motivo del `!important`: ver `base.css`.
+   ============================================================================= */
+
+/* -----------------------------------------------------------------------------
+   Teléfono
+   -------------------------------------------------------------------------- */
+/* -----------------------------------------------------------------------------
+   Mínimos táctiles y de lectura, desde tablet vertical
+   No sólo desde teléfono: 768px es un iPad en vertical, que se toca con el dedo.
+   -------------------------------------------------------------------------- */
+@media screen and (max-width: 1024px) {
+  /* Chips de filtro: 9px 16px de padding rinden ~40px de alto, bajo el hit
+     target mínimo. Se centra el texto en flex para no perder la alineación
+     al forzar el alto. */
+  .zk-chip {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    min-height: 44px !important;
+    padding: 9px 16px !important;
+  }
+
+  /* Etiquetas de sede (pill) en la ficha destacada y en la grilla: 12.5px,
+     bajo el mínimo legible de 13px. Se identifican por ser el único elemento
+     de estos contenedores con ese tamaño exacto (constante TAG del .astro). */
+  #zk-direccion [style*='font-size: 12.5px'],
+  #zk-grilla [style*='font-size: 12.5px'] {
+    font-size: 13px !important;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  /* Marcas de agua del isotipo: en escritorio decoran a 600px y 720px dentro
+     de secciones con `overflow: hidden` propio, así que no producen scroll
+     real. Aun así, a este ancho son varias veces el viewport: se reducen para
+     no pintar de más ni arriesgar el desborde si algún día cambia ese overflow. */
+  .zk-marca-hero {
+    top: -60px !important;
+    right: 0 !important;
+    width: 260px !important;
+    height: 266px !important;
+  }
+  .zk-marca-confianza {
+    width: 320px !important;
+    height: 327px !important;
+  }
+
+  /* ---------------------------------------------------------------------
+     Ficha destacada de Dirección Clínica
+     La rejilla de escritorio es `180px minmax(0, 1fr)`: en un teléfono el
+     retrato reclama la mitad del ancho y el texto queda en una columna de
+     un puñado de píxeles (una palabra por renglón). Pasa a una columna,
+     retrato arriba y texto abajo a todo el ancho, mismo patrón que las
+     fichas de la grilla para que el componente se lea como una familia.
+     --------------------------------------------------------------------- */
+  #zk-direccion > div {
+    grid-template-columns: 1fr !important;
+    padding: 32px 22px 36px !important;
+    gap: 22px !important;
+  }
+
+  /* El retrato traía `width: 100%` relativo a la columna de 180px de
+     escritorio; con una sola columna eso lo estiraría a todo el ancho de la
+     tarjeta. Se fija un ancho propio y se conserva el encuadre
+     (background-position) que ya trae el .astro. */
+  #zk-direccion > div > div:first-child {
+    width: 168px !important;
+  }
+
+  /* Los botones de agenda usan `display: flex; flex-wrap: wrap` en el
+     .astro: al forzarlos a ocupar toda la fila, el wrap los apila uno por
+     línea en vez de intentar compartirla y desbordar. */
+  #zk-direccion a.zk-brillo {
+    flex: 1 1 100% !important;
+  }
+
+  /* ---------------------------------------------------------------------
+     Grilla de profesionales
+     `repeat(auto-fit, minmax(380px, 1fr))` no cabe en un teléfono: el
+     mínimo de 380px fuerza la pista y desborda la página. Una columna.
+     --------------------------------------------------------------------- */
+  #zk-grilla {
+    grid-template-columns: 1fr !important;
+  }
+
+  #zk-grilla [data-ficha] {
+    padding: 30px 22px 34px !important;
+  }
+
+  /* La fila retrato + nombre en escritorio reparte 116px de foto y el resto
+     al texto: en una tarjeta angosta eso deja una columna de texto de menos
+     de 15 caracteres por renglón (el área de especialidad es, en varios
+     casos, una frase larga). Se apila: retrato arriba, texto abajo a todo
+     el ancho de la tarjeta, igual que en la ficha destacada. */
+  #zk-grilla [data-ficha] > div:first-child {
+    flex-direction: column !important;
+  }
+}
