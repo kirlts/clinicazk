@@ -13,18 +13,28 @@ concurrency:
   group: pages
   cancel-in-progress: false
 
+# Las acciones se mantienen en su major vigente porque las anteriores corrían sobre
+# Node 20, ya retirado de los runners: GitHub las forzaba a Node 24 y avisaba en cada
+# ejecución. `node-version` es otra cosa: es el Node con que se compila el sitio, y
+# sigue en 22 a propósito.
+#
+# Dos cambios rompientes de esos saltos se revisaron y no aplican aquí:
+#   - upload-pages-artifact v4 dejó de incluir archivos ocultos en el artefacto.
+#     El build no genera ninguno (`find dist -name '.*'` vuelve vacío).
+#   - setup-node v5 y v6 activan caché automática según el campo `packageManager`
+#     de package.json. Este proyecto no lo declara y fija `cache: npm` explícito.
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
         with:
           node-version: 22
           cache: npm
       - run: npm ci
       - run: npm run build
-      - uses: actions/upload-pages-artifact@v3
+      - uses: actions/upload-pages-artifact@v5
         with:
           path: dist
 
@@ -35,4 +45,4 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - uses: actions/deploy-pages@v4
+      - uses: actions/deploy-pages@v5
