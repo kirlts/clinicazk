@@ -13,7 +13,7 @@ Todas las operaciones en este repositorio y cualquier contexto invocado por el a
 
 ## Reglas
 
-1. **Fuente primaria:** El contexto del proyecto se obtiene de Google Drive (folder `1W9YIti9DEZHtA4v1Q3L97m8VkB9gFuGU`). Toda decisión de branding, contenido y diseño debe basarse en los archivos de ese Drive: manual de marca, manual DIDEMCO, bitácora, transcripciones, afiches de membresías, imágenes y logos. Ninguna decisión se toma sin consultar estas fuentes.
+1. **Fuente primaria:** El contexto del proyecto se obtiene de la carpeta de Google Drive del proyecto, cuyo identificador no se publica en este repositorio: se pide al director de marketing. (Este repositorio es público.) Toda decisión de branding, contenido y diseño debe basarse en los archivos de ese Drive: manual de marca, manual DIDEMCO, bitácora, transcripciones, afiches de membresías, imágenes y logos. Ninguna decisión se toma sin consultar estas fuentes.
 
 2. **Tono DIDEMCO:** Todo copy del sitio sigue el Manual Textual Operativo para Redes ZK: prevención, anticipación, orden, acompañamiento. Sin tecnicismos sin explicación. Sin emojis. Sin urgencia comercial. Sin em dash (—).
 

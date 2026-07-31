@@ -1,4 +1,4 @@
-# MASTER-SPEC: Clínica ZK v3.2.4
+# MASTER-SPEC: Clínica ZK v3.2.5
 
 > Sitio web institucional para Clínica ZK. Clínica dental con sucursales en Los Ángeles y Pucón.
 

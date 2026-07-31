@@ -18,6 +18,18 @@ y este proyecto adhiere a [Versionado Semántico](https://semver.org/spec/v2.0.0
 - Revisión de la versión móvil por el director en un teléfono real.
 - Decisión sobre justificar párrafos: la comparativa está hecha y medida, falta que el director elija.
 
+## [3.2.5] - 2026-07-31
+
+> Auditoría del repositorio como paquete de entrega. Este repositorio es **público**.
+
+### Eliminado
+- `Versión 2 del sitio (1).zip` sale del control de versiones. Ese bundle de diseño de 17 MB contenía las **8 fotografías sin la redacción** que exige UD-017: las patentes, los carteles de terceros y las dos caras de la sala de espera viajaban sin tapar dentro de un archivo que el build nunca usa. Cualquiera que descargara el repositorio obtenía los originales. Se conserva localmente y `*.zip` queda ignorado.
+- `PROGRESO.md` sale del control de versiones. Es la bitácora de una sesión, no material de entrega; su contenido permanente ya vive en `docs/`.
+
+### Seguridad
+- `docs/RULES.md` publicaba el identificador de la carpeta de Google Drive del cliente, con manual de marca, bitácoras y transcripciones. Retirado: si esa carpeta está compartida por enlace, el identificador es la llave.
+- Barrido de secretos sobre los 102 archivos versionados: ningún token, clave, credencial ni dirección de correo.
+
 ## [3.2.4] - 2026-07-31
 
 ### Corregido

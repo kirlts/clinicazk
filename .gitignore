@@ -28,3 +28,11 @@ npm-debug.log*
 # documentos comerciales (no forman parte del sitio)
 /propuestas/
 /Versión 3 del sitio.zip
+
+# Bundles de diseño (Claude Design). Pesan decenas de MB y traen las fotografías
+# SIN la redacción de datos de terceros que exige USER-DECISIONS UD-017: versionarlos
+# publicaba patentes y caras que el sitio sí tapa. Se conservan localmente.
+*.zip
+
+# Bitácora de sesión. Su contenido permanente vive en docs/; no es material de entrega.
+PROGRESO.md

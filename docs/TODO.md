@@ -1,4 +1,4 @@
-# TODO: Clínica ZK v3.2.4
+# TODO: Clínica ZK v3.2.5
 
 > Trazabilidad directa: cada tarea referencia checks de `VERIFICATION.md`.
 

@@ -1,4 +1,4 @@
-# VERIFICATION: Clínica ZK v3.2.4
+# VERIFICATION: Clínica ZK v3.2.5
 
 > Verdad canónica de todas las verificaciones formales de promesas y de los límites de testing.
 > Generado y mantenido exclusivamente por el algoritmo `/derive`.
