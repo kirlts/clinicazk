@@ -17,6 +17,20 @@ y este proyecto adhiere a [Versionado Semántico](https://semver.org/spec/v2.0.0
 - Dominio clinicazk.cl (pendiente de trámite).
 - Widgets de Google Maps: diferidos por complejidad con dos sedes (reevaluar).
 - Revisión de la versión móvil por el director en un teléfono real.
+- Decisión sobre justificar párrafos: la comparativa está hecha y medida, falta que el director elija.
+
+## [3.2.0] - 2026-07-30
+
+### Añadido
+- Convenios y seguros queda marcada como sección todavía no habilitada, a la espera del listado de instituciones y sus logos. Sus cuatro accesos (header, menú móvil, índice del footer y celda de Inicio) se muestran deshabilitados. El estado vive en `RUTAS_PENDIENTES` (`src/data/navegacion.ts`): revertirlo es sacar la ruta de ese conjunto. Ver USER-DECISIONS UD-015.
+- Las rutas marcadas como pendientes quedan fuera del sitemap y sirven `robots: noindex` mientras lo estén. La página sigue existiendo y sigue siendo alcanzable por URL directa.
+
+### Corregido
+- El split diagonal de sedes no funcionaba al tocarlo en un teléfono, por dos motivos distintos. El toque abría y cerraba la ficha en el mismo gesto, porque en táctil el navegador sintetiza `mouseenter` antes del `click`. Y la ficha salía cortada, porque el panel tenía alto fijo y un `clip-path` que recortaba el botón de WhatsApp entre 13 y 29px. El comportamiento de escritorio quedó idéntico, verificado paso a paso.
+- Los dos botones de consulta del panel de especialidades venían anclados al borde derecho, heredado de la columna ancha de escritorio. Apilados en un teléfono dejaban los bordes izquierdos escalonados mientras el texto del panel iba a la izquierda. Pasan a ancho completo.
+
+### Cambiado
+- Las cuatro acciones del despliegue suben a su major vigente (`checkout` y `setup-node` a v7, `upload-pages-artifact` y `deploy-pages` a v5): las anteriores corrían sobre Node 20, retirado de los runners. Se revisaron los dos cambios rompientes de esos saltos y ninguno aplica a este repositorio.
 
 ## [3.1.0] - 2026-07-30
 

@@ -1,4 +1,4 @@
-# TODO: Clínica ZK v2.0.0
+# TODO: Clínica ZK v3.2.0
 
 > Trazabilidad directa: cada tarea referencia checks de `VERIFICATION.md`.
 
@@ -330,7 +330,7 @@
 
 ### [TASK-029] Verificar la paridad ejecutando prototipo y sitio
 
-**Checks cubiertos:** `DES.V3.001.LLM` a `DES.V3.008.LLM`
+**Checks cubiertos:** `DES.V3.001.LLM`, `DES.V3.002.LLM`, `DES.V3.003.LLM`, `DES.V3.004.LLM`, `DES.V3.005.LLM`, `DES.V3.006.LLM`, `DES.V3.007.LLM`, `DES.V3.008.LLM`, `DES.V3.010.HUM`
 
 - [x] `innerText` idéntico en 15 de 16 escenarios; el 404 es desviación consciente y declarada
 - [x] Interacciones equivalentes: galerías, modales, popover, filtro de equipo, FAB
@@ -375,7 +375,7 @@
 
 ### [TASK-033] Adaptación de las siete páginas y los componentes
 
-**Checks cubiertos:** `RSP.FN.004.LLM` a `RSP.FN.008.LLM`
+**Checks cubiertos:** `RSP.FN.004.LLM`, `RSP.FN.005.LLM`, `RSP.FN.006.LLM`, `RSP.FN.007.LLM`, `RSP.FN.008.LLM`
 
 - [x] Inicio, Familia ZK, Sucursales, Equipo clínico, Nosotros, Convenios y 404 `2026-07-30`
 - [x] Componentes compartidos: BranchSplit, Galeria, MembershipCard, MembershipTag, FaqItem, FaqBloque `2026-07-30`
@@ -383,11 +383,14 @@
 
 ### [TASK-034] Verificación de la versión móvil
 
-**Checks cubiertos:** `RSP.FN.009.LLM`, `RSP.AV.011.HUM`
+**Checks cubiertos:** `RSP.FN.009.LLM`, `RSP.FN.011.LLM`, `RSP.FN.012.LLM`, `RSP.FN.013.LLM`, `RSP.AV.011.HUM`
 
 - [x] Cero scroll horizontal en las 7 páginas a 320, 375, 768 y 1024px `2026-07-30`
 - [x] Hit targets de 44px y ningún texto bajo 13px `2026-07-30`
 - [x] Escritorio idéntico al commit anterior, verificado comparando capturas contra un worktree de referencia `2026-07-30`
+- [x] Ninguna regla de la capa alcanza al papel: toda media query acotada con `screen and`, tras detectar que una hoja A4 cae dentro del breakpoint de 1024px `2026-07-30`
+- [x] Orientación horizontal verificada a 812x375, 667x375 y 1024x768 `2026-07-30`
+- [x] `astro check` sin errores ni advertencias y build en verde `2026-07-30`
 - [ ] **PENDIENTE (humano):** revisión del director en un teléfono real (`RSP.AV.011.HUM`)
 
 ### [TASK-035] Defectos de escritorio corregidos de paso
@@ -398,15 +401,62 @@
 
 ---
 
+## [EPIC-010] Correcciones posteriores al despliegue móvil
+
+> Ref: MASTER-SPEC §7.1.1, §7.5 · USER-DECISIONS UD-015 · CHANGELOG 3.2.0
+
+### [TASK-036] Corregir el split de sedes en pantalla táctil
+
+**Checks cubiertos:** `RSP.FN.014.LLM`, `RSP.FN.015.LLM`, `RSP.FN.016.LLM`
+
+- [x] El toque deja de abrir y cerrar en el mismo gesto: el hover se ata sólo donde existe (`matchMedia('(hover: hover)')`) y el foco sólo cuando viene del teclado (`:focus-visible`) `2026-07-30`
+- [x] La ficha deja de recortarse: el panel pasa de alto fijo a alto mínimo y su contenido, de absoluto a flujo `2026-07-30`
+- [x] Comportamiento de escritorio verificado paso a paso, sin cambios `2026-07-30`
+- [x] Los dos botones de consulta del panel de especialidades pasan a ancho completo en teléfono `2026-07-30`
+
+### [TASK-037] Marcar Convenios como sección todavía no habilitada
+
+**Checks cubiertos:** `NAV.FN.001.LLM`, `NAV.FN.002.LLM`, `NAV.FN.003.LLM`, `NAV.FN.004.LLM`, `NAV.AV.001.HUM`
+
+- [x] Estado centralizado en `RUTAS_PENDIENTES` (`src/data/navegacion.ts`): revertir es sacar una ruta del conjunto `2026-07-30`
+- [x] Los cuatro accesos (header, menú móvil, índice del footer, celda de Inicio) se renderizan deshabilitados `2026-07-30`
+- [x] La ruta queda fuera del sitemap y sirve `robots: noindex` mientras esté pendiente `2026-07-30`
+- [ ] **PENDIENTE (Clínica ZK):** listado de instituciones con convenio y sus logos. Al llegar, sacar `/convenios` de `RUTAS_PENDIENTES`
+- [ ] **PENDIENTE (humano):** confirmar que el estado deshabilitado se entiende como "en preparación" (`NAV.AV.001.HUM`)
+
+### [TASK-038] Actualizar las acciones del despliegue
+
+**Checks cubiertos:** Gobernanza transversal
+
+- [x] `checkout` y `setup-node` a v7, `upload-pages-artifact` y `deploy-pages` a v5: las anteriores corrían sobre Node 20, retirado de los runners `2026-07-30`
+- [x] Revisados los dos cambios rompientes de esos saltos (archivos ocultos en el artefacto, caché automática por `packageManager`); ninguno aplica, y queda anotado en el workflow `2026-07-30`
+
+### [TASK-039] Decidir la justificación de párrafos
+
+**Checks cubiertos:** Gobernanza transversal
+
+- [x] Comparativa renderizada sobre texto real del sitio en tres anchos (503, 292 y 220px) y en teléfono `2026-07-30`
+- [x] Medición: de 39 párrafos de 3 o más renglones, ninguno está centrado y sólo 4 superan los 450px de ancho `2026-07-30`
+- [ ] **PENDIENTE (usuario):** decidir. La recomendación es no justificar; la variante defendible sería sólo escritorio, sólo sobre 450px y con `hyphens: auto`
+
+---
+
 ## Resumen general de cobertura
 
 | Épica | Tareas | Estado | 🤖 .LLM | 🧑 .HUM | 🤖🧑 .MIX | Total checks |
 | --- | --- | --- | --- | --- | --- | --- |
-| EPIC-001 | TASK-001 a 004 | ✅ 4/4 | 6 | 2 | 0 | 8 |
-| EPIC-002 | TASK-005 a 007 | ✅ 3/3 | 3 | 1 | 0 | 4 |
-| EPIC-003 | TASK-008 a 013 | ⏳ 6/6 (3 con pendiente de contenido) | 5 | 4 | 0 | 9 |
-| EPIC-004 | TASK-014 a 015 | ⏳ 1/2 (fotos integradas; textos pendientes) | 0 | 3 | 0 | 3 |
-| EPIC-005 | TASK-016 a 017 | ⏳ 1/2 (deploy ok; dominio pendiente) | 1 | 1 | 0 | 2 |
-| EPIC-006 | TASK-018 a 024 | ✅ 7/7 | 8 | 4 | 0 | 12 |
-| EPIC-007 | TASK-025 a 027 | 🔲 0/3 (esperan insumos y reunión) | 0 | 2 | 0 | 2 |
-| EPIC-008 | TASK-028 a 030 | ⏳ 2/3 (port y verificación listos; faltan insumos) | 9 | 2 | 0 | 11 |
+| EPIC-001 | TASK-001 a TASK-004 | ✅ completa | 5 | 2 | 0 | 7 |
+| EPIC-002 | TASK-005 a TASK-007 | ✅ completa | 3 | 1 | 0 | 4 |
+| EPIC-003 | TASK-008 a TASK-013 | ⏳ 10 hechas, 4 pendientes | 6 | 5 | 0 | 11 |
+| EPIC-004 | TASK-014 a TASK-015 | ⏳ 2 hechas, 5 pendientes | 0 | 3 | 0 | 3 |
+| EPIC-005 | TASK-016 a TASK-017 | ⏳ 3 hechas, 2 pendientes | 1 | 1 | 0 | 2 |
+| EPIC-006 | TASK-018 a TASK-024 | ✅ completa | 7 | 5 | 0 | 12 |
+| EPIC-007 | TASK-025 a TASK-027 | ⏳ 1 hechas, 7 pendientes | 0 | 5 | 0 | 5 |
+| EPIC-008 | TASK-028 a TASK-030 | ⏳ 9 hechas, 7 pendientes | 9 | 2 | 0 | 11 |
+| EPIC-009 | TASK-031 a TASK-035 | ⏳ 18 hechas, 1 pendiente | 13 | 2 | 0 | 15 |
+| EPIC-010 | TASK-036 a TASK-039 | ⏳ 11 hechas, 3 pendientes | 7 | 1 | 0 | 8 |
+| **Total (checks únicos)** | 39 tareas | | **50** | **22** | **0** | **72** |
+
+> El total es el conjunto único de checks, no la suma de la columna: 6 checks aparecen en más de una épica porque una misma promesa se sostiene desde varias tareas.
+
+> VERIFICATION declara 72 checks únicos y las tareas referencian 72. No queda ningún check sin tarea que lo reclame.

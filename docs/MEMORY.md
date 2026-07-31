@@ -64,3 +64,35 @@
 **Patrón:** `html { zoom: 0.8 }` reproduce el zoom manual del navegador (escala uniforme, incluye posicionamiento fijo y media queries del layout), a diferencia de `transform: scale()` que rompe el flujo. Si hay iframes embebidos con su propio propósito, se les fija `zoom: 1` para evitar doble escalado.
 **Lección:** Para "hornear" una preferencia de zoom, `zoom` es la herramienta correcta por sobre `transform`. Soporte amplio hoy (Chrome/Edge/Safari; Firefox 126+); degrada a 100% sin romper en navegadores sin soporte.
 **Fuente:** [Patrón documentado de la plataforma web: CSS zoom, baseline 2024]
+
+## [HEU-008] Una hoja A4 cae dentro de los breakpoints de teléfono
+
+**Fecha:** 2026-07-30
+**Origen:** Clínica ZK v3.1: una capa responsiva con `@media (max-width: 1024px)` alteró el afiche imprimible sin que ninguna inspección en pantalla lo mostrara.
+**Patrón:** Al imprimir, el ancho del área de composición es el del papel: una hoja A4 mide 794px en CSS a 96dpi. Ese valor queda dentro de cualquier breakpoint pensado para tablet o teléfono, así que todas esas reglas se aplican al papel. En este caso un `overflow-wrap: break-word` partía una palabra por la mitad en el folleto impreso. El defecto sólo apareció comparando el PDF generado contra el del commit anterior, rasterizado; el PDF crudo no sirve porque su metadata cambia en cada generación.
+**Lección:** En un proyecto que imprime algo, toda media query de ancho se acota con `screen and`. Y "se ve bien en pantalla" no cubre la impresión: hay que generar el PDF y compararlo, rasterizado, contra una referencia conocida.
+**Fuente:** [Patrón documentado de la plataforma web: tipos de medio CSS, `screen` frente a `print`]
+
+## [HEU-009] En táctil, hover y click sobre el mismo elemento se cancelan entre sí
+
+**Fecha:** 2026-07-30
+**Origen:** Clínica ZK v3.1: un componente que abría una ficha con `mouseenter` y la alternaba con `click` nunca quedaba abierto al tocarlo en un teléfono.
+**Patrón:** Tras un toque, el navegador sintetiza eventos de mouse por compatibilidad, en este orden: `mouseenter`, `mousedown`, `focus`, `mouseup`, `click`. Un componente que abre con `mouseenter` y alterna con `click` se abre y se cierra en el mismo gesto. Lo mismo ocurre por la vía del `focus`, porque tocar un elemento enfocable lo enfoca. La corrección es atar el hover sólo donde existe (`matchMedia('(hover: hover)')`) y el foco sólo cuando viene del teclado (`:focus-visible`).
+**Lección:** Un componente con estado que combine hover y click necesita probarse con un toque real, no con un click emulado. Y conviene revisar el `focus` además del `mouseenter`: es la segunda vía por la que el mismo gesto activa dos veces.
+**Fuente:** [Patrón documentado de la plataforma web: MDN, eventos de mouse por compatibilidad tras eventos táctiles]
+
+## [HEU-010] `1fr` en CSS Grid no autoriza a la pista a encoger
+
+**Fecha:** 2026-07-30
+**Origen:** Clínica ZK v3.1: una columna de `grid-template-columns: 1fr` se estiraba a 649px dentro de una pantalla de 327px.
+**Patrón:** `1fr` equivale a `minmax(auto, 1fr)`, y ese `auto` toma como mínimo el ancho mínimo del contenido. Si dentro hay algo intrínsecamente ancho (una tira de miniaturas, una tabla, una palabra larga), la pista se infla y desborda el contenedor. La forma correcta de permitir que encoja es `minmax(0, 1fr)`, más `min-width: 0` en los hijos que a su vez sean contenedores.
+**Lección:** Cuando una rejilla desborda sin motivo aparente en pantallas angostas, el sospechoso es el `auto` implícito de `1fr`, no el contenido. Se corrige en la definición de la pista, no achicando el contenido.
+**Fuente:** [Documentado en la especificación CSS Grid: `flex` como `minmax(auto, <flex>)`]
+
+## [HEU-011] Una comparación visual sólo concluye si antes se congela lo que se mueve
+
+**Fecha:** 2026-07-30
+**Origen:** Clínica ZK v3.1: al demostrar que el escritorio no había cambiado, las diferencias variaban de tamaño entre corridas del mismo par de capturas.
+**Patrón:** Las capturas de página completa son no deterministas mientras haya animaciones de entrada, transiciones a medio camino, `IntersectionObserver` que muestra elementos según el momento del scroll, o imágenes sin decodificar. Antes de comparar hay que anular animaciones y transiciones, fijar en un estado conocido lo que aparece por observador, y esperar la decodificación de las imágenes. Sin eso, un diff distinto de cero no distingue un cambio real de un artefacto.
+**Lección:** Un diff de píxeles que fluctúa entre corridas no es evidencia de nada. La primera pregunta ante una diferencia visual es si es reproducible: correr la misma comparación dos o tres veces cuesta poco y evita perseguir fantasmas.
+**Fuente:** [Práctica establecida en regresión visual: Playwright expone `animations: 'disabled'` en su API de captura con este propósito]

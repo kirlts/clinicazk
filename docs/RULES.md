@@ -21,7 +21,7 @@ Todas las operaciones en este repositorio y cualquier contexto invocado por el a
 
 4. **Mobile-first:** Todo componente debe funcionar y verse bien en pantallas desde 320px. El menú de navegación debe colapsar en mobile.
 
-5. **Zero-backend:** No se permite backend, base de datos, SSR, API routes ni almacenamiento de datos de usuario. El formulario de contacto usa un servicio externo.
+5. **Zero-backend:** No se permite backend, base de datos, SSR, API routes ni almacenamiento de datos de usuario. Desde la v3 no hay formulario: el contacto sale por WhatsApp, fuera del sitio (MASTER-SPEC §4.8).
 
 6. **Static-only:** El build debe generar HTML, CSS y JS estáticos. Despliegue en GitHub Pages.
 

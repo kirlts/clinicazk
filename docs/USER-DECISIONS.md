@@ -226,3 +226,30 @@
 - (-) La comparación 1:1 con el prototipo deja de aplicar bajo el breakpoint. Sobre él sigue siendo exigible.
 
 **Condiciones de reversión:** si diseño entrega la versión móvil detallada, sus patrones reemplazan a estos.
+
+---
+
+## [UD-015] Convenios se muestra deshabilitada mientras falte su contenido
+
+**Fecha:** 2026-07-30
+**Decisión:** Los accesos a `/convenios` se muestran deshabilitados, en vez de llevar a una página a medio llenar o de desaparecer de la navegación.
+
+**Contexto:** La clínica todavía no entrega el listado de instituciones con convenio ni sus logos, así que la página muestra seis marcos con la palabra "Logo" como placeholder honesto. El usuario pidió marcarla como no habilitada: *"quiero que la marque es como no habilitada. Es decir, que el botón quede como lo convencional, supongo que es tipo transparente o algo así."*
+
+**Alternativas descartadas:**
+- Sacar la sección de la navegación hasta tener el contenido: la sección dejaría de estar anunciada y no se vería que viene.
+- Dejarla enlazada tal cual: promete un listado de convenios y entrega seis marcos vacíos.
+
+**Consecuencias:**
+- (+) La sección sigue anunciada sin prometer algo que hoy no está.
+- (+) Volver a habilitarla es sacar una ruta de `RUTAS_PENDIENTES`; no hay que recordar cuatro lugares.
+- (-) Un visitante ve una sección que no puede abrir, sin más explicación que el tooltip "Estamos preparando esta sección".
+- (-) La página queda fuera de resultados de búsqueda mientras dure el estado.
+
+**Condiciones de reversión:** Cuando Clínica ZK entregue el listado de instituciones y sus logos. Ver TODO TASK-037.
+
+---
+
+## Anotación de auditoría documental (2026-07-30)
+
+`UD-010` y `UD-011` fueron escritas con cuatro de los cinco campos del formato ADR: declaran fecha, contexto, decisión, alternativas y razón, pero **no declaran consecuencias ni condiciones de reversión**. No se completan aquí porque hacerlo sería atribuirle al usuario un razonamiento que no consta en el registro de la conversación. Quedan marcadas como incompletas para que él las cierre cuando quiera.

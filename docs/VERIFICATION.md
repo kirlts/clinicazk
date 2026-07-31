@@ -1,4 +1,4 @@
-# VERIFICATION: Clínica ZK v3.0.0
+# VERIFICATION: Clínica ZK v3.2.0
 
 > Verdad canónica de todas las verificaciones formales de promesas y de los límites de testing.
 > Generado y mantenido exclusivamente por el algoritmo `/derive`.
@@ -84,15 +84,15 @@ OPS/OAS: Operaciones
 > La paridad con el handoff no se declaró leyendo código: se demostró ejecutando el prototipo
 > (`.dc.html` sobre su design system) y el sitio Astro lado a lado y comparando el resultado.
 
-🤖 `DES.V3.001.LLM` `innerText` idéntico carácter por carácter entre prototipo y sitio en 15 de 16 escenarios: las 6 páginas, los 4 afiches, el afiche en modo embed, el popover de agenda, el cambio de especialidad y los dos filtros de equipo. ✅
-🤖 `DES.V3.002.LLM` 404: el cuerpo de la página coincide carácter por carácter. La diferencia total es el header y el footer, que el prototipo no renderiza por un error de referencia propio (`ZKHeader`/`ZKFooter` en vez de `ZKHeaderV3`/`ZKFooterV3`) y que el sitio sí implementa, como declara el archivo y pide el handoff. ✅ (desviación consciente)
-🤖 `DES.V3.003.LLM` Estilos computados del h1, del header sticky y del CTA equivalentes; las únicas diferencias numéricas corresponden al factor 0.8 del zoom base (por ejemplo, borde de 1px que computa 1.25px). ✅
-🤖 `DES.V3.004.LLM` Galerías: contador, caption y miniaturas se comportan igual en ambos lados al avanzar dos fotos. ✅
-🤖 `DES.V3.005.LLM` Modal-afiche: abre desde la tarjeta, carga `?m=…&embed=1`, aplica `body.embed`, la cara mide 794px dentro del iframe de 880px y cierra con Escape. ✅
-🤖 `DES.V3.006.LLM` Modal de Privacidad del footer: abre y cierra. ✅
-🤖 `DES.V3.007.LLM` FAB de WhatsApp: opacidad 0 en la portada y 1 tras salir de ella, igual que el prototipo. ✅
-🤖 `DES.V3.008.LLM` Marca de agua del isotipo: ninguna en Inicio; una en Sucursales, Convenios y Familia ZK; dos en Nosotros y Equipo (portada + sello de cierre), según el handoff. ✅
-🤖 `DES.V3.009.LLM` `astro check` sin errores y `npm run build` local en verde (8 páginas). ✅
+🤖 `DES.V3.001.LLM` `innerText` idéntico carácter por carácter entre prototipo y sitio en 15 de 16 escenarios: las 6 páginas, los 4 afiches, el afiche en modo embed, el popover de agenda, el cambio de especialidad y los dos filtros de equipo. ✅ (🤖 Verificado por herramienta; 2026-07-29 22:40)
+🤖 `DES.V3.002.LLM` 404: el cuerpo de la página coincide carácter por carácter. La diferencia total es el header y el footer, que el prototipo no renderiza por un error de referencia propio (`ZKHeader`/`ZKFooter` en vez de `ZKHeaderV3`/`ZKFooterV3`) y que el sitio sí implementa, como declara el archivo y pide el handoff. ✅ (desviación consciente) (🤖 Verificado por herramienta; 2026-07-29 22:40)
+🤖 `DES.V3.003.LLM` Estilos computados del h1, del header sticky y del CTA equivalentes; las únicas diferencias numéricas corresponden al factor 0.8 del zoom base (por ejemplo, borde de 1px que computa 1.25px). ✅ (🤖 Verificado por herramienta; 2026-07-29 22:40)
+🤖 `DES.V3.004.LLM` Galerías: contador, caption y miniaturas se comportan igual en ambos lados al avanzar dos fotos. ✅ (🤖 Verificado por herramienta; 2026-07-29 22:40)
+🤖 `DES.V3.005.LLM` Modal-afiche: abre desde la tarjeta, carga `?m=…&embed=1`, aplica `body.embed`, la cara mide 794px dentro del iframe de 880px y cierra con Escape. ✅ (🤖 Verificado por herramienta; 2026-07-29 22:40)
+🤖 `DES.V3.006.LLM` Modal de Privacidad del footer: abre y cierra. ✅ (🤖 Verificado por herramienta; 2026-07-29 22:40)
+🤖 `DES.V3.007.LLM` FAB de WhatsApp: opacidad 0 en la portada y 1 tras salir de ella, igual que el prototipo. ✅ (🤖 Verificado por herramienta; 2026-07-29 22:40)
+🤖 `DES.V3.008.LLM` Marca de agua del isotipo: ninguna en Inicio; una en Sucursales, Convenios y Familia ZK; dos en Nosotros y Equipo (portada + sello de cierre), según el handoff. ✅ (🤖 Verificado por herramienta; 2026-07-29 22:40)
+🤖 `DES.V3.009.LLM` `astro check` sin errores y `npm run build` local en verde (8 páginas). ✅ (🤖 Verificado por herramienta; 2026-07-29 22:40)
 🧑 `DES.V3.010.HUM` Revisión visual del director sobre el sitio desplegado. 🔲
 🧑 `DES.V3.011.HUM` Confirmación de horarios, convenios y WhatsApp de Dirección Clínica. 🔲
 
@@ -104,19 +104,19 @@ OPS/OAS: Operaciones
 > emulación táctil, y se contrastó el escritorio contra un worktree de git en el commit
 > anterior. Ref: MASTER-SPEC §7.1.1, USER-DECISIONS UD-012, UD-013 y UD-014.
 
-🤖 `RSP.FN.001.LLM` Las media queries se evalúan contra el viewport físico y no contra el `zoom` de la raíz: `@media (max-width: 1024px) { html { zoom: 1 } }` no realimenta el breakpoint. Comprobado en 15 anchos entre 320 y 1440px. ✅
-🤖 `RSP.FN.002.LLM` El zoom base pasa de 0.8 a 1 exactamente en el límite: 1025px dibuja a 0.8, 1024px a 1. ✅
-🤖 `RSP.FN.003.LLM` Menú móvil: bajo 900px la navegación se oculta y aparece el botón; sobre 900px al revés. El panel abre, bloquea el scroll de fondo, cierra con Escape y el header sigue sticky tras desplazar la página. ✅
-🤖 `RSP.FN.004.LLM` Cero scroll horizontal en las 7 páginas a 320, 375, 414, 768 y 1024px (35 combinaciones). ✅
-🤖 `RSP.FN.005.LLM` Ningún `a` ni `button` bajo 44px de alto en esas mismas 35 combinaciones. ✅
-🤖 `RSP.FN.006.LLM` Ningún texto bajo 13px en esas mismas 35 combinaciones. ✅
-🤖 `RSP.FN.007.LLM` Interacciones vivas en emulación táctil: modal del afiche (abre, carga `?m=…&embed=1`, cierra con Escape), flechas y miniaturas de galería, filtro de equipo y popover de agenda. ✅
-🤖 `RSP.FN.008.LLM` El afiche conserva su medida física A4 en impresión mientras fluye a una columna en pantalla: los 4 folletos generan 2 páginas de 794x1123px, y las 8 páginas resultantes son idénticas píxel a píxel a las del commit anterior tras rasterizar los PDF a 100dpi. ✅
-🤖 `RSP.FN.012.LLM` Ninguna regla de la capa responsiva alcanza al papel: toda media query está acotada con `screen and`. Una hoja A4 mide 794px de ancho en CSS y cae dentro del breakpoint de 1024px, así que sin esa cláusula lo pensado para un teléfono se aplicaría al imprimir. ✅
-🤖 `RSP.FN.013.LLM` Teléfono en horizontal (812x375 y 667x375) e iPad en horizontal (1024x768): sin scroll horizontal; el panel del menú desplaza y su último elemento queda alcanzable pese a los 313px de alto disponibles. ✅
-🤖 `RSP.FN.009.LLM` **El escritorio quedó idéntico píxel a píxel al commit anterior**: 21 comparaciones de página completa a 1280, 1440 y 1920px contra un worktree en `HEAD`, con animaciones y transiciones congeladas para que la captura sea determinista. Es la contrapartida verificable de la regla de la capa: fuera del breakpoint no existe ninguna regla nueva. ✅
-🤖 `RSP.FN.010.LLM` Jerarquía de encabezados sin saltos: los títulos de columna del footer pasaron de `<h4>` a `<h3>`, que venían tras un `<h2>` en las 7 páginas. ✅
-🤖 `RSP.FN.011.LLM` `astro check` sin errores ni advertencias y `npm run build` en verde (8 páginas). ✅
+🤖 `RSP.FN.001.LLM` Las media queries se evalúan contra el viewport físico y no contra el `zoom` de la raíz: `@media (max-width: 1024px) { html { zoom: 1 } }` no realimenta el breakpoint. Comprobado en 15 anchos entre 320 y 1440px. ✅ (🤖 Verificado por herramienta; 2026-07-30 20:47)
+🤖 `RSP.FN.002.LLM` El zoom base pasa de 0.8 a 1 exactamente en el límite: 1025px dibuja a 0.8, 1024px a 1. ✅ (🤖 Verificado por herramienta; 2026-07-30 20:47)
+🤖 `RSP.FN.003.LLM` Menú móvil: bajo 900px la navegación se oculta y aparece el botón; sobre 900px al revés. El panel abre, bloquea el scroll de fondo, cierra con Escape y el header sigue sticky tras desplazar la página. ✅ (🤖 Verificado por herramienta; 2026-07-30 20:47)
+🤖 `RSP.FN.004.LLM` Cero scroll horizontal en las 7 páginas a 320, 375, 414, 768 y 1024px (35 combinaciones). ✅ (🤖 Verificado por herramienta; 2026-07-30 20:47)
+🤖 `RSP.FN.005.LLM` Ningún `a` ni `button` bajo 44px de alto en esas mismas 35 combinaciones. ✅ (🤖 Verificado por herramienta; 2026-07-30 20:47)
+🤖 `RSP.FN.006.LLM` Ningún texto bajo 13px en esas mismas 35 combinaciones. ✅ (🤖 Verificado por herramienta; 2026-07-30 20:47)
+🤖 `RSP.FN.007.LLM` Interacciones vivas en emulación táctil: modal del afiche (abre, carga `?m=…&embed=1`, cierra con Escape), flechas y miniaturas de galería, filtro de equipo y popover de agenda. ✅ (🤖 Verificado por herramienta; 2026-07-30 20:47)
+🤖 `RSP.FN.008.LLM` El afiche conserva su medida física A4 en impresión mientras fluye a una columna en pantalla: los 4 folletos generan 2 páginas de 794x1123px, y las 8 páginas resultantes son idénticas píxel a píxel a las del commit anterior tras rasterizar los PDF a 100dpi. ✅ (🤖 Verificado por herramienta; 2026-07-30 20:47)
+🤖 `RSP.FN.012.LLM` Ninguna regla de la capa responsiva alcanza al papel: toda media query está acotada con `screen and`. Una hoja A4 mide 794px de ancho en CSS y cae dentro del breakpoint de 1024px, así que sin esa cláusula lo pensado para un teléfono se aplicaría al imprimir. ✅ (🤖 Verificado por herramienta; 2026-07-30 20:47)
+🤖 `RSP.FN.013.LLM` Teléfono en horizontal (812x375 y 667x375) e iPad en horizontal (1024x768): sin scroll horizontal; el panel del menú desplaza y su último elemento queda alcanzable pese a los 313px de alto disponibles. ✅ (🤖 Verificado por herramienta; 2026-07-30 20:47)
+🤖 `RSP.FN.009.LLM` **El escritorio quedó idéntico píxel a píxel al commit anterior**: 21 comparaciones de página completa a 1280, 1440 y 1920px contra un worktree en `HEAD`, con animaciones y transiciones congeladas para que la captura sea determinista. Es la contrapartida verificable de la regla de la capa: fuera del breakpoint no existe ninguna regla nueva. ✅ (🤖 Verificado por herramienta; 2026-07-30 20:47)
+🤖 `RSP.FN.010.LLM` Jerarquía de encabezados sin saltos: los títulos de columna del footer pasaron de `<h4>` a `<h3>`, que venían tras un `<h2>` en las 7 páginas. ✅ (🤖 Verificado por herramienta; 2026-07-30 20:47)
+🤖 `RSP.FN.011.LLM` `astro check` sin errores ni advertencias y `npm run build` en verde (8 páginas). ✅ (🤖 Verificado por herramienta; 2026-07-30 20:47)
 🧑 `RSP.AV.010.HUM` El menú móvil se siente natural y el acceso a contacto es evidente. 🔲
 🧑 `RSP.AV.011.HUM` Revisión del director sobre un teléfono real, incluido el recorrido completo de las 7 páginas. 🔲
 
@@ -140,3 +140,24 @@ que un tilde signifique que la comprobación se corrió, no que se esperaba que 
 - La comparación de escritorio congela animaciones y transiciones. Sin eso las capturas no
   son deterministas y las diferencias bailan entre corridas por el fade de entrada del
   split de sedes y por el observador que muestra el FAB.
+
+---
+
+## Verificación del split de sedes en táctil y del estado pendiente (2026-07-30)
+
+🤖 `RSP.FN.014.LLM` Un toque real sobre una mitad del split de sedes abre su ficha de contacto y la deja abierta. Antes el navegador sintetizaba `mouseenter` antes del `click` del mismo toque y la ficha se cerraba sola. ✅ (🤖 Verificado por herramienta; 2026-07-30 20:15)
+🤖 `RSP.FN.015.LLM` La ficha abierta no queda recortada por el `clip-path` del panel: el botón de WhatsApp cae dentro del recorte a 320 y 375px. Antes sobresalía entre 13 y 29px. ✅ (🤖 Verificado por herramienta; 2026-07-30 20:15)
+🤖 `RSP.FN.016.LLM` En escritorio el split conserva su comportamiento previo, verificado paso a paso: hover abre y desplaza la diagonal, salir del área cierra, click alterna, y el foco por programa no activa. ✅ (🤖 Verificado por herramienta; 2026-07-30 20:20)
+🤖 `NAV.FN.001.LLM` Una ruta marcada en `RUTAS_PENDIENTES` no deja ningún enlace vivo hacia ella en el sitio compilado. ✅ (🤖 Verificado por herramienta; 2026-07-30 20:47)
+🤖 `NAV.FN.002.LLM` Los accesos a una ruta pendiente se renderizan como `<span>` con `aria-disabled="true"`, fuera del orden de tabulación y con el aspecto convencional de deshabilitado. Los cuatro accesos (header, menú móvil, índice del footer y celda de Inicio) cumplen. ✅ (🤖 Verificado por herramienta; 2026-07-30 20:47)
+🤖 `NAV.FN.003.LLM` Una ruta pendiente queda fuera del `sitemap.xml` y sirve `robots: noindex`; ninguna otra página lleva `noindex`. ✅ (🤖 Verificado por herramienta; 2026-07-30 20:47)
+🤖 `NAV.FN.004.LLM` La página pendiente sigue existiendo y respondiendo por URL directa, para poder revisarla antes de habilitarla. ✅ (🤖 Verificado por herramienta; 2026-07-30 20:52)
+🧑 `NAV.AV.001.HUM` El estado deshabilitado se lee como "sección en preparación" y no como un error del sitio. 🔲
+
+### Límites declarados de esta verificación
+
+- `RSP.FN.014` y `RSP.FN.015` se comprobaron en emulación táctil de Chromium, no en hardware.
+  La distinción hover/táctil depende de `matchMedia('(hover: hover)')`, cuyo valor real en un
+  navegador de escritorio con pantalla táctil no se probó.
+- `NAV.FN.001` cuenta enlaces en el HTML compilado. Un enlace construido en tiempo de
+  ejecución por JavaScript no sería detectado por esa cuenta; hoy no existe ninguno.

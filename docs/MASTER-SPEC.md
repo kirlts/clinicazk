@@ -1,4 +1,4 @@
-# MASTER-SPEC: Clínica ZK v3.0.0
+# MASTER-SPEC: Clínica ZK v3.2.0
 
 > Sitio web institucional para Clínica ZK. Clínica dental con sucursales en Los Ángeles y Pucón.
 
@@ -194,6 +194,21 @@
 **Interacción entre `zoom` y las media queries:** se verificó con Playwright, en 15 anchos entre 320 y 1440px, que las media queries se evalúan contra el viewport físico y no contra el `zoom` de la raíz. Por eso `@media (max-width: 1024px) { html { zoom: 1 } }` no realimenta el breakpoint ni produce parpadeo.
 
 **Dependencias:** ninguna. CSS nativo.
+
+### 7.1.2. Secciones pendientes de habilitar
+
+**Propósito:** Marcar como no disponible una sección que existe en el sitio pero cuyo contenido todavía no entrega el cliente, sin borrarla ni dejarla enlazada prometiendo algo que no está.
+
+**Mecanismo:**
+
+- El estado vive en un solo lugar: `RUTAS_PENDIENTES`, un conjunto de rutas en `src/data/navegacion.ts`, con el helper `estaPendiente(page)`.
+- Los cuatro accesos a una ruta pendiente (header, panel del menú móvil, índice del footer y celda de accesos de Inicio) se renderizan como `<span>` en vez de `<a>`: no hay destino que seguir, quedan fuera del orden de tabulación y llevan `aria-disabled="true"` para que un lector de pantalla los anuncie como deshabilitados. El aspecto lo da la clase `.zk-pendiente` en `global.css`.
+- Mientras la ruta esté en el conjunto, `astro.config.mjs` la excluye del sitemap y su página pasa `noindex` al `Layout`. Sería contradictorio que el sitio la marque como no disponible y a la vez la ofrezca en una búsqueda con sus placeholders a la vista.
+- La página **sigue existiendo y sigue siendo alcanzable por URL directa**, para poder revisarla antes de habilitarla.
+
+**Reversión:** sacar la ruta de `RUTAS_PENDIENTES`. Los cuatro accesos, el sitemap y el `noindex` vuelven solos.
+
+**Estado actual:** `/convenios`, a la espera del listado de instituciones y sus logos. Ver USER-DECISIONS UD-015 y TODO TASK-037.
 
 ### 7.2. Modal-afiche de membresías
 
