@@ -18,6 +18,13 @@ y este proyecto adhiere a [Versionado Semántico](https://semver.org/spec/v2.0.0
 - Revisión de la versión móvil por el director en un teléfono real.
 - Decisión sobre justificar párrafos: la comparativa está hecha y medida, falta que el director elija.
 
+## [3.2.7] - 2026-07-31
+
+### Documentación
+- Eje documental sincronizado con `/document`. MASTER-SPEC §4 incorpora la restricción 10: ninguna imagen publicada muestra datos de terceros, y la restricción alcanza a lo que se versiona, porque los bundles de diseño traen las fotos sin tratar. TODO suma EPIC-012 con la auditoría del repositorio y la purga del historial. REPOMAP corrige dos filas que quedaron obsoletas al sacar el bundle y la bitácora del control de versiones.
+- MEMORY suma tres heurísticas transferibles, cada una con fuente externa: difuminar en el estado actual no borra el pasado de un repositorio público y el servidor sigue sirviendo los objetos viejos por SHA hasta que recolecta; una animación que toca `transform` pisa el `transform` propio del elemento; y reasignar `src` junto con el fundido desvanece la imagen que sale, no la que entra.
+- Corregida la trazabilidad: `CONT.IN.006.HUM` y `CONT.IN.007.LLM` no tenían tarea que los reclamara.
+
 ## [3.2.6] - 2026-07-31
 
 > Purga del historial. La clínica confirmó que **no tiene consentimiento** de las personas retratadas en la sala de espera, así que la redacción dejó de ser higiene y pasó a ser obligatoria también hacia atrás.

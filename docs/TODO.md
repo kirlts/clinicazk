@@ -1,4 +1,4 @@
-# TODO: Clínica ZK v3.2.6
+# TODO: Clínica ZK v3.2.7
 
 > Trazabilidad directa: cada tarea referencia checks de `VERIFICATION.md`.
 
@@ -459,7 +459,7 @@
 
 > Ref: USER-DECISIONS UD-017; MASTER-SPEC §7.3
 
-**Checks cubiertos:** `CONT.IN.001.LLM`, `CONT.IN.002.LLM`, `CONT.IN.003.LLM`, `CONT.IN.004.LLM`, `CONT.IN.005.HUM`
+**Checks cubiertos:** `CONT.IN.001.LLM`, `CONT.IN.002.LLM`, `CONT.IN.003.LLM`, `CONT.IN.004.LLM`, `CONT.IN.005.HUM`, `CONT.IN.006.HUM`
 
 - [x] Las 32 fotografías del sitio revisadas una por una, ampliando cada zona sospechosa `2026-07-31`
 - [x] 13 zonas difuminadas en 8 fotografías: 4 patentes, 7 carteles o logos de terceros y 2 caras de pacientes `2026-07-31`
@@ -483,6 +483,26 @@
 
 ---
 
+## [EPIC-012] El repositorio como entregable
+
+> Ref: MASTER-SPEC §4.10 · CHANGELOG 3.2.5 y 3.2.6
+
+### [TASK-043] Auditar el repositorio como paquete de entrega y purgar el historial
+
+> Ref: MASTER-SPEC §4.10; USER-DECISIONS UD-017; CHANGELOG 3.2.5 y 3.2.6
+
+**Checks cubiertos:** `CONT.IN.007.LLM`
+
+- [x] Auditoría de los 102 archivos versionados: ningún token, clave, credencial ni correo `2026-07-31`
+- [x] El bundle de diseño versionado traía las 8 fotografías **sin redactar**; sale del control de versiones y `*.zip` queda ignorado `2026-07-31`
+- [x] El identificador de la carpeta de Drive del cliente sale de `docs/RULES.md` `2026-07-31`
+- [x] `PROGRESO.md` sale del control de versiones: es bitácora, no material de entrega `2026-07-31`
+- [x] Historial reescrito: cada blob histórico de las 8 fotos reemplazado por su versión redactada, sin borrar la ruta, para no perder lo que UD-011 declara `2026-07-31`
+- [x] Verificado clonando de nuevo desde GitHub, no sobre la copia local `2026-07-31`
+- [ ] **PENDIENTE (dueño de la cuenta):** pedir a GitHub Support la recolección de objetos. La API todavía entrega los blobs viejos a quien conozca su SHA
+
+---
+
 ## Resumen general de cobertura
 
 | Épica | Tareas | Estado | 🤖 .LLM | 🧑 .HUM | 🤖🧑 .MIX | Total checks |
@@ -497,12 +517,13 @@
 | EPIC-008 | TASK-028 a TASK-030 | ⏳ 9 hechas, 7 pendientes | 9 | 2 | 0 | 11 |
 | EPIC-009 | TASK-031 a TASK-035 | ⏳ 18 hechas, 1 pendiente | 13 | 2 | 0 | 15 |
 | EPIC-010 | TASK-036 a TASK-039 | ⏳ 11 hechas, 3 pendientes | 7 | 1 | 0 | 8 |
-| EPIC-011 | TASK-040 a TASK-042 | ⏳ 11 hechas, 1 pendiente | 9 | 1 | 0 | 10 |
-| **Total (checks únicos)** | 42 tareas | | **50** | **21** | **0** | **71** |
+| EPIC-011 | TASK-040 a TASK-042 | ⏳ 12 hechas, 1 pendiente | 9 | 2 | 0 | 11 |
+| EPIC-012 | TASK-043 | ⏳ 6 hechas, 1 pendiente | 1 | 0 | 0 | 1 |
+| **Total (checks únicos)** | 43 tareas | | **51** | **22** | **0** | **73** |
 
 > El total es el conjunto único de checks, no la suma de la columna: 6 checks aparecen en más de una épica porque una misma promesa se sostiene desde varias tareas.
 
-> VERIFICATION declara 71 checks únicos y las 42 tareas referencian esos mismos 71: ningún
+> VERIFICATION declara 73 checks únicos y las 43 tareas referencian esos mismos 73: ningún
 > check queda sin tarea que lo reclame, y ninguna tarea apunta a un check inexistente.
 > Contado por herramienta el 2026-07-31.
 

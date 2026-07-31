@@ -1,4 +1,4 @@
-# MASTER-SPEC: Clínica ZK v3.2.6
+# MASTER-SPEC: Clínica ZK v3.2.7
 
 > Sitio web institucional para Clínica ZK. Clínica dental con sucursales en Los Ángeles y Pucón.
 
@@ -78,6 +78,7 @@
 7. **Sin em dash (—):** Cero tolerancia al caracter em dash en todo el sitio.
 8. **WhatsApp como único canal de contacto:** La v3 eliminó el correo electrónico de todo el sitio. Ninguna página puede mostrar una dirección de email.
 9. **Sin datos inventados:** Nada de testimonios, nombres de pacientes, precios ni logos de convenio ficticios. Un placeholder honesto vale más que contenido plausible falso.
+10. **Sin datos de terceros en las fotografías, ni en el repositorio:** Ninguna imagen publicada muestra patentes, carteles de negocios ajenos ni caras de personas que no son del equipo. La restricción alcanza también a lo que se versiona: los bundles de diseño traen las fotos sin tratar, así que no se suben. Este repositorio es **público**, y difuminar en el estado actual no borra el pasado. Ver USER-DECISIONS UD-017 y `tools/difuminar-fotos.py`.
 
 ---
 

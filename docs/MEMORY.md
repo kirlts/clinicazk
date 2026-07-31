@@ -96,3 +96,27 @@
 **Patrón:** Las capturas de página completa son no deterministas mientras haya animaciones de entrada, transiciones a medio camino, `IntersectionObserver` que muestra elementos según el momento del scroll, o imágenes sin decodificar. Antes de comparar hay que anular animaciones y transiciones, fijar en un estado conocido lo que aparece por observador, y esperar la decodificación de las imágenes. Sin eso, un diff distinto de cero no distingue un cambio real de un artefacto.
 **Lección:** Un diff de píxeles que fluctúa entre corridas no es evidencia de nada. La primera pregunta ante una diferencia visual es si es reproducible: correr la misma comparación dos o tres veces cuesta poco y evita perseguir fantasmas.
 **Fuente:** [Práctica establecida en regresión visual: Playwright expone `animations: 'disabled'` en su API de captura con este propósito]
+
+## [HEU-012] Difuminar en el estado actual no borra el pasado de un repositorio público
+
+**Fecha:** 2026-07-31
+**Origen:** Se difuminaron patentes y caras de pacientes en las fotografías de un sitio, y al auditar el repositorio como paquete de entrega apareció que el historial seguía sirviendo los originales.
+**Patrón:** Redactar un archivo produce un commit nuevo; el anterior sigue ahí. En un repositorio público, cualquiera pide el commit previo y obtiene el original. Y hay un segundo escalón menos evidente: incluso después de reescribir el historial y forzar el push, los objetos viejos quedan inalcanzables desde cualquier commit pero **siguen recuperables por SHA**, porque el servidor los conserva hasta que recolecta. Se comprobó pidiéndolos por API: devolvían la imagen sin redactar.
+**Lección:** El material sensible se redacta ANTES del primer commit. Si ya se subió, la limpieza tiene tres frentes y no uno: el estado actual, el historial, y lo que el servidor cachea. Este último no lo cierra ningún comando de git; hay que pedirlo al proveedor. Y vigilar los archivos comprimidos: un bundle de diseño versionado puede llevar dentro las mismas imágenes sin tratar que uno creía haber corregido.
+**Fuente:** [Removing sensitive data from a repository, GitHub Docs](https://docs.github.com/en/enterprise-cloud@latest/authentication/keeping-your-account-and-data-secure/removing-sensitive-data-from-a-repository)
+
+## [HEU-013] Una animación que toca `transform` pisa el `transform` propio del elemento
+
+**Fecha:** 2026-07-31
+**Origen:** Un popover centrado con `translateX(-50%)` aparecía 150px corrido a la derecha durante 0.2s y después saltaba a su lugar. En un teléfono quedaba medio fuera de pantalla.
+**Patrón:** Los keyframes reemplazan la propiedad completa, no la componen con el valor que ya tenía el elemento. Una animación de entrada que va de `translateY(10px)` a `none` anula el `translateX(-50%)` mientras corre, y al terminar el valor propio vuelve de golpe. El salto se ve como un parpadeo o un tirón.
+**Lección:** Si un elemento se posiciona con `transform`, la animación que lo toque tiene que llevar ese posicionamiento dentro de cada keyframe, o usar `animation-composition: add`, o mover el posicionamiento a un envoltorio. Vale para cualquier propiedad que se anime y que el elemento ya use por otra razón.
+**Fuente:** [animation-composition, MDN Web Docs](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/animation-composition)
+
+## [HEU-014] Reasignar `src` y reiniciar el fundido en el mismo gesto desvanece la imagen que sale
+
+**Fecha:** 2026-07-31
+**Origen:** Una galería parpadeaba al cambiar de foto: la imagen se desvanecía y volvía, y recién después cambiaba.
+**Patrón:** Al asignar un `src` nuevo, el navegador sigue pintando la imagen anterior hasta que la nueva está descargada y decodificada. Si en ese mismo instante se reinicia la animación de entrada, lo que se desvanece es la foto que sale, no la que entra. El efecto se lee como un defecto aunque cada pieza esté bien.
+**Lección:** Esperar a que la imagen esté lista (`decode()` sobre una instancia aparte) y recién entonces tocar el `<img>` y arrancar el fundido. Esperar abre tres problemas derivados que conviene resolver a la vez: el control se queda sin respuesta visible, así que algo tiene que acusar recibo del toque de inmediato; la navegación no puede leer el índice mostrado, porque ya no avanza al instante; y una ráfaga de toques dispara descargas que compiten entre sí.
+**Fuente:** [HTMLImageElement.decode(), MDN Web Docs](https://developer.mozilla.org/docs/Web/API/HTMLImageElement/decode)
