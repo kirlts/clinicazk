@@ -122,7 +122,7 @@
 
 1. Hero (`#inicio`): h1 "Tu salud dental, en orden.", botón a Sucursales y popover "Agenda tu evaluación" con las dos sedes; split diagonal de sedes (BranchSplit, 680px) y franja de 8 etiquetas rápidas que saltan a la especialidad correspondiente.
 2. Introducción: banda `--surface-section` con el relato de la clínica y frase de cierre sobre hairline.
-3. Especialidades (`#especialidades`): índice `role="tablist"` de 14 especialidades agrupadas por disponibilidad; panel derecho con sede, gancho, descripción y botones de WhatsApp por sede.
+3. Especialidades (`#especialidades`): índice `role="tablist"` de 14 especialidades agrupadas por disponibilidad; panel derecho con la foto de la especialidad a sangre, la ficha (sede, gancho, descripción) en una caja de vidrio esmerilado que ocupa todo el ancho de la foto, pegada a su borde inferior, y los botones de WhatsApp por sede lado a lado debajo de la foto. En teléfono la foto va primero, en una banda propia sin texto encima, y la ficha y los botones siguen debajo.
 4. Membresías (`#membresias`): 4 tarjetas; "Conoce ZK …" abre el modal-afiche. Debajo, acceso al comparador de Familia ZK.
 5. Accesos (`#nosotros`): tres celdas hacia Nosotros, Equipo y Convenios. No repiten contenido.
 6. Preguntas frecuentes (`#preguntas`): acordeón de 9 preguntas.
@@ -229,7 +229,7 @@
 **Propósito:** Mantener el sitio liviano sin renunciar a fotos reales de sedes y retratos del equipo.
 
 **Mecanismo:**
-- `src/lib/imagenes.ts` construye tres mapas nombre-de-archivo a `ImageMetadata` vía `import.meta.glob` sobre `src/assets/fotos/`, `src/assets/equipo/` y `src/assets/brand/`.
+- `src/lib/imagenes.ts` construye cuatro mapas nombre-de-archivo a `ImageMetadata` vía `import.meta.glob` sobre `src/assets/fotos/`, `src/assets/equipo/`, `src/assets/brand/` y `src/assets/especialidades/` (fotos por especialidad, nombradas por su posición 1-14 en `ESPEC`).
 - `BranchSplit` y `Galeria` usan `getImage()` de `astro:assets` para generar webp por tamaño (principal ~1200px, miniatura ~220px).
 - Los retratos del equipo se sirven como `background-image` con URL ya optimizada: así conservan el encuadre del diseño (`background-position: center 22%` en tarjetas, `38%` en Dirección Clínica).
 - El glob es `eager`: cualquier imagen que quede en `src/assets/` se copia al build aunque ninguna vista la use. Las fotos del handoff que el diseño no referencia no se incorporan al repositorio.

@@ -73,12 +73,34 @@
   }
   /* Los paneles traían `height: 100%` para igualar la altura de la columna
      del índice (56px de gap entre columnas en desktop). Apilados, esa altura
-     no tiene sentido: la caja debe medir lo que mide su contenido. El padding
-     de 44px 48px también se pensó para una columna de ~500px, no para los
-     ~280-330px de un teléfono. */
+     no tiene sentido: la caja debe medir lo que mide su contenido. */
   #especialidades [data-panel] {
     height: auto !important;
-    padding: 28px 22px !important;
+  }
+
+  /* En teléfono el texto de la especialidad es largo y el esquema de
+     escritorio (caja de vidrio sobre el borde inferior de la foto) dejaba ver
+     sólo una franja estrecha de imagen: la foto pasaba desapercibida. Se
+     separan: la foto va primero, a sangre y sin texto encima, en una banda
+     propia de alto acotado (con sesgo de encuadre hacia arriba para no cortar
+     rostros), y la ficha sigue debajo sobre el fondo del panel, ya sin vidrio:
+     no hay foto detrás que difuminar. */
+  #especialidades .zk-espec-foto {
+    position: static !important;
+    display: block;
+    height: clamp(200px, 60vw, 320px) !important;
+    object-position: center 30%;
+  }
+  #especialidades .zk-espec-caja {
+    position: static !important;
+    background: none !important;
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+    border-top: none !important;
+    padding: 22px 22px 0 !important;
+  }
+  #especialidades .zk-espec-acciones {
+    padding: 16px 22px 24px !important;
   }
 
   /* Los dos botones de consulta vienen con `justify-content: flex-end`, que en

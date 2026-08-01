@@ -21,6 +21,12 @@ export const marca = cargar(
   import.meta.glob<{ default: ImageMetadata }>('../assets/brand/*.png', { eager: true })
 );
 
+/* Fotos por especialidad, nombradas por su posición (1-14) en ESPEC
+   (`src/data/especialidades.ts`). */
+export const especFotos = cargar(
+  import.meta.glob<{ default: ImageMetadata }>('../assets/especialidades/*.{jpg,jpeg,png}', { eager: true })
+);
+
 export const isotipo = marca['isotipo.png'];
 export const logoHorizontal = marca['logo-zk-horizontal.png'];
 export const logoVertical = marca['logo-zk-vertical.png'];

@@ -7,11 +7,14 @@ y este proyecto adhiere a [Versionado Semántico](https://semver.org/spec/v2.0.0
 
 ## [Sin publicar]
 
+### Añadido
+- **Foto por especialidad en Inicio.** El panel de cada especialidad muestra su fotografía a sangre. En escritorio la ficha de texto (sede, gancho y descripción) va en una caja de vidrio esmerilado (blanco semitransparente con desenfoque de fondo) que ocupa todo el ancho de la foto, pegada a su borde inferior, y los botones de WhatsApp van lado a lado debajo de la foto. En teléfono la foto va primero, en una banda propia sin texto encima, y la ficha y los botones siguen debajo: el vidrio sobre la imagen dejaba ver muy poco. Las 14 fotos llegan del handoff (`Especialidades-20260801.zip`), numeradas en el mismo orden del listado; se recortaron a 4:5, la proporción del panel en escritorio, y se sirven como webp de 1100px vía `astro:assets` (34-161 KB cada una). Las dimensiones de las dos columnas de la sección no cambiaron.
+
 ### Pendiente
 - Horarios oficiales de ambas sedes: hoy dicen "Pendiente de confirmación" (Clínica ZK).
 - Listado de convenios vigentes y sus logos: los 6 slots son placeholders marcados (Clínica ZK).
 - WhatsApp de Dirección Clínica: por confirmar (Clínica ZK).
-- Imágenes por especialidad: el panel de especialidades aún no lleva foto.
+- Consentimiento de publicación de las personas retratadas en las fotos de especialidades 1, 9 y 11 (caras reconocibles que no son del equipo): confirmar con la clínica (UD-017).
 - Contenido de la sección Privacidad: el modal muestra un aviso de sección en preparación.
 - Dominio clinicazk.cl (pendiente de trámite).
 - Widgets de Google Maps: diferidos por complejidad con dos sedes (reevaluar).

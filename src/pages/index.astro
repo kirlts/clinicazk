@@ -14,10 +14,11 @@ import { wa, waConsultaSede, GRAD_LA, GRAD_PU } from '../data/contacto';
 import { ESPEC, QUICK_LINKS, colorOf, tagOf } from '../data/especialidades';
 import { MB_INICIO } from '../data/membresias';
 import { FAQ_INICIO } from '../data/faq';
-import { logoHorizontal } from '../lib/imagenes';
+import { logoHorizontal, especFotos } from '../lib/imagenes';
+import { getImage } from 'astro:assets';
 
 const BTN =
-  'display: inline-flex; align-items: center; gap: 8px; padding: 11px 20px; font-size: 14.5px; font-weight: var(--fw-semibold); font-family: var(--font-sans); color: #fff; text-decoration: none; border: none; border-radius: var(--radius-md); cursor: pointer; box-shadow: 0 2px 10px rgba(47,63,66,.20), inset 0 0 0 1px rgba(255,255,255,.16); transition: filter .18s var(--ease-out), transform .18s var(--ease-out); background: ';
+  'display: inline-flex; align-items: center; justify-content: center; text-align: center; flex: 1 1 0; min-width: 0; gap: 8px; padding: 11px 16px; font-size: 14.5px; font-weight: var(--fw-semibold); font-family: var(--font-sans); color: #fff; text-decoration: none; border: none; border-radius: var(--radius-md); cursor: pointer; box-shadow: 0 2px 10px rgba(47,63,66,.20), inset 0 0 0 1px rgba(255,255,255,.16); transition: filter .18s var(--ease-out), transform .18s var(--ease-out); background: ';
 
 const waPu = waConsultaSede('Pucón');
 
@@ -51,6 +52,12 @@ const paneles = ESPEC.map((s) => {
   }
   return { ...s, sedeLine: tagOf(s), sedeColor: colorOf(s), contactLinks: links };
 });
+
+/* Foto de fondo de cada panel: la imagen N corresponde a ESPEC[N-1]. El ancho
+   (1100px) cubre la columna del panel (~562px CSS) en pantallas de alta densidad. */
+const fotosEspec = await Promise.all(
+  ESPEC.map((_, i) => getImage({ src: especFotos[`${i + 1}.jpg`], width: 1100, format: 'webp' }))
+);
 
 const memberships = MB_INICIO.map((x) => ({
   ...x,
@@ -267,32 +274,43 @@ const quickLinks = QUICK_LINKS.map(([label, idx]) => ({
                 <div
                   data-panel={i}
                   hidden={i !== 0}
-                  style="position: relative; display: flex; flex-direction: column; justify-content: space-between; padding: 44px 48px; overflow: hidden; background: var(--surface-section); animation: zkfade .4s var(--ease-out); height: 100%;"
+                  style="position: relative; display: flex; flex-direction: column; overflow: hidden; background: var(--surface-section); animation: zkfade .4s var(--ease-out); height: 100%;"
                 >
-                  <div style="margin: auto 0; padding: 28px 0;">
-                    <p style={`font-size: 15px; color: ${p.sedeColor}; margin: 0;`}>{p.sedeLine}</p>
-                    <h3
-                      style="font-size: var(--fs-h1); font-weight: var(--fw-light); line-height: var(--lh-tight); margin: 8px 0 0; color: var(--text-heading);"
-                    >
-                      {p.title}
-                    </h3>
-                    <p
-                      style="font-size: clamp(17px, 1.35vw, 21px); font-weight: var(--fw-light); color: var(--text-heading); line-height: var(--lh-tight); margin: 18px 0 0; max-width: 520px; text-wrap: pretty;"
-                    >
-                      {p.gancho}
-                    </p>
-                    <p
-                      style="font-size: var(--fs-body-lg); line-height: var(--lh-body); margin: 18px 0 0; max-width: 520px; color: var(--text-body); text-wrap: pretty;"
-                    >
-                      {p.desc}
-                    </p>
-                    {p.extra && (
-                      <p style="font-size: 15.5px; line-height: var(--lh-body); margin: 14px 0 0; max-width: 520px; color: var(--text-muted); text-wrap: pretty;">
-                        {p.extra}
+                  <div class="zk-espec-marco">
+                    <img
+                      src={fotosEspec[i].src}
+                      width={fotosEspec[i].attributes.width}
+                      height={fotosEspec[i].attributes.height}
+                      alt=""
+                      class="zk-espec-foto"
+                      loading="lazy"
+                      decoding="async"
+                    />
+                    <div class="zk-espec-caja">
+                      <p style={`font-size: 15px; color: ${p.sedeColor}; margin: 0;`}>{p.sedeLine}</p>
+                      <h3
+                        style="font-size: var(--fs-h1); font-weight: var(--fw-light); line-height: var(--lh-tight); margin: 8px 0 0; color: var(--text-heading);"
+                      >
+                        {p.title}
+                      </h3>
+                      <p
+                        style="font-size: clamp(17px, 1.35vw, 21px); font-weight: var(--fw-light); color: var(--text-heading); line-height: var(--lh-tight); margin: 18px 0 0; max-width: 520px; text-wrap: pretty;"
+                      >
+                        {p.gancho}
                       </p>
-                    )}
+                      <p
+                        style="font-size: var(--fs-body-lg); line-height: var(--lh-body); margin: 18px 0 0; max-width: 520px; color: var(--text-body); text-wrap: pretty;"
+                      >
+                        {p.desc}
+                      </p>
+                      {p.extra && (
+                        <p style="font-size: 15.5px; line-height: var(--lh-body); margin: 14px 0 0; max-width: 520px; color: var(--text-muted); text-wrap: pretty;">
+                          {p.extra}
+                        </p>
+                      )}
+                    </div>
                   </div>
-                  <div class="zk-espec-acciones" style="border-top: 1px solid var(--border-subtle); padding-top: 20px; display: flex; align-items: center; justify-content: flex-end; gap: 10px; flex-wrap: wrap;">
+                  <div class="zk-espec-acciones" style="padding: 20px 48px 30px; display: flex; align-items: stretch; justify-content: flex-end; gap: 10px; flex-wrap: wrap;">
                     {p.contactLinks.map((w) => (
                       <a href={w.href} target="_blank" rel="noopener" class="zk-brillo" style={w.style}>
                         {w.label}
@@ -682,6 +700,36 @@ const quickLinks = QUICK_LINKS.map(([label, idx]) => ({
   .zk-espec-row:hover {
     color: var(--zk-teal-600);
   }
+  /* Foto de la especialidad: llena el marco a sangre (borde a borde del panel).
+     La caja de texto ocupa todo el ancho de la foto y va pegada a su borde
+     inferior, en vidrio esmerilado (blanco semitransparente + desenfoque de
+     fondo): el copy se lee sobre cualquier foto sin taparla del todo. Los
+     botones de consulta van debajo de la foto, fuera del marco. */
+  .zk-espec-marco {
+    position: relative;
+    flex: 1 1 auto;
+    min-height: 0;
+  }
+  .zk-espec-foto {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+  .zk-espec-caja {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.86);
+    -webkit-backdrop-filter: blur(12px) saturate(1.15);
+    backdrop-filter: blur(12px) saturate(1.15);
+    border-top: 1px solid rgba(255, 255, 255, 0.6);
+    padding: 26px 48px;
+  }
+
   .zk-espec-nombre {
     font-size: 16.5px;
     font-weight: var(--fw-regular);
