@@ -107,6 +107,19 @@
     padding: 28px 22px 32px !important;
   }
 
+  /* La foto del kit sangra hasta el borde de la tarjeta cancelando su padding
+     con márgenes negativos. Como el padding cambia en teléfono, el sangrado
+     tiene que cambiar con él: con los valores de escritorio se pasaría 16px por
+     lado. */
+  .zk-kit-foto {
+    /* `max-width: none` porque la guarda global de la capa responsiva limita
+       toda imagen al 100% de su columna, y aquí el sangrado necesita pasarse a
+       propósito: sin esto la foto quedaba 44px corta contra el borde derecho. */
+    max-width: none !important;
+    width: calc(100% + 44px) !important;
+    margin: 20px -22px -32px !important;
+  }
+
   /* Entre la tarjeta de pasos y los botones de WhatsApp quedaban 144px de
      aire (margin-top 88px + padding-top 56px del borde), la tira de aire
      que pide evitar el brief. */

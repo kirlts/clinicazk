@@ -1,4 +1,4 @@
-# TODO: Clínica ZK v3.2.7
+# TODO: Clínica ZK v3.3.0
 
 > Trazabilidad directa: cada tarea referencia checks de `VERIFICATION.md`.
 
@@ -503,6 +503,24 @@
 
 ---
 
+## [EPIC-013] Material gráfico entregado por el cliente
+
+> Ref: USER-DECISIONS UD-018 y UD-019 · CHANGELOG 3.3.0
+
+### [TASK-044] Reemplazar los retratos e integrar el render del kit
+
+**Checks cubiertos:** `CONT.CR.026.LLM`, `CONT.IN.008.LLM`, `CONT.CR.027.HUM`
+
+- [x] 13 retratos de estudio normalizados: misma proporción, escala de rostro y aire superior `2026-08-01`
+- [x] Fondo blanco recortado a transparencia por inundación desde los bordes, para no agujerear las batas claras `2026-08-01`
+- [x] Panel de marca detrás del recorte; encuadre propio para la ficha de Dirección Clínica `2026-08-01`
+- [x] Retrato de 150px en teléfono, donde el tamaño de escritorio dejaba media tarjeta vacía `2026-08-01`
+- [x] Render del kit a sangre en la tarjeta "¿Cómo comenzar?", bajo la frase que ya lo anunciaba `2026-08-01`
+- [x] Auditoría de datos de terceros sobre el material nuevo `2026-08-01`
+- [ ] **PENDIENTE (Clínica ZK):** aprobación del director sobre el tratamiento y la ubicación (`CONT.CR.027.HUM`)
+
+---
+
 ## Resumen general de cobertura
 
 | Épica | Tareas | Estado | 🤖 .LLM | 🧑 .HUM | 🤖🧑 .MIX | Total checks |
@@ -519,11 +537,12 @@
 | EPIC-010 | TASK-036 a TASK-039 | ⏳ 11 hechas, 3 pendientes | 7 | 1 | 0 | 8 |
 | EPIC-011 | TASK-040 a TASK-042 | ⏳ 12 hechas, 1 pendiente | 9 | 2 | 0 | 11 |
 | EPIC-012 | TASK-043 | ⏳ 6 hechas, 1 pendiente | 1 | 0 | 0 | 1 |
-| **Total (checks únicos)** | 43 tareas | | **51** | **22** | **0** | **73** |
+| EPIC-013 | TASK-044 | ⏳ 6 hechas, 1 pendiente | 2 | 1 | 0 | 3 |
+| **Total (checks únicos)** | 44 tareas | | **53** | **23** | **0** | **76** |
 
 > El total es el conjunto único de checks, no la suma de la columna: 6 checks aparecen en más de una épica porque una misma promesa se sostiene desde varias tareas.
 
-> VERIFICATION declara 73 checks únicos y las 43 tareas referencian esos mismos 73: ningún
+> VERIFICATION declara 76 checks únicos y las 44 tareas referencian esos mismos 76: ningún
 > check queda sin tarea que lo reclame, y ninguna tarea apunta a un check inexistente.
 > Contado por herramienta el 2026-07-31.
 

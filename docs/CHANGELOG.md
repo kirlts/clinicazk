@@ -18,6 +18,26 @@ y este proyecto adhiere a [Versionado Semántico](https://semver.org/spec/v2.0.0
 - Revisión de la versión móvil por el director en un teléfono real.
 - Decisión sobre justificar párrafos: la comparativa está hecha y medida, falta que el director elija.
 
+## [3.3.0] - 2026-08-01
+
+> Dos encargos del director de marketing: el set nuevo de retratos y el render del kit.
+
+### Cambiado
+- **Los 13 retratos del equipo** se reemplazan por el set de estudio sobre fondo blanco. No se pegaron tal cual: cada uno se normalizó a la misma proporción, la misma escala de rostro y el mismo aire sobre la cabeza, porque el sujeto ocupaba entre 73% y 100% del ancho según la foto. El fondo blanco se recortó a transparencia por inundación desde los bordes, no por umbral, para no agujerear las batas claras. Van sobre un panel de marca que los asienta. Ver USER-DECISIONS UD-018.
+- La ficha de Dirección Clínica lleva un encuadre propio: su retrato es de cuerpo entero y a la escala de la grilla se leía más chica que el resto del equipo.
+- En teléfono el retrato de cada ficha sube de 116px a 150px: apilado sobre el texto, el tamaño de escritorio dejaba media tarjeta vacía al lado.
+
+### Añadido
+- **Fotografía del kit de incorporación Familia ZK**, dentro de la tarjeta "¿Cómo comenzar?" y a sangre contra su borde, bajo la frase que ya lo anunciaba. No se agregó copy: el texto existente pedía la imagen. Ver USER-DECISIONS UD-019.
+
+### Verificado
+- Los 13 retratos cargan en escritorio y en teléfono, el filtro por sede sigue operando (12 fichas a 4 en Pucón) y el contador marca 13.
+- Auditoría de datos de terceros sobre el material nuevo (MASTER-SPEC §4.10): los retratos son recortes sin fondo, sin patentes, carteles ni personas ajenas al equipo. En el render del kit los campos de la ficha (paciente titular, RUT, fecha, vigencia, canal de contacto) están **en blanco**; el único dato impreso es el nombre del producto.
+- Cero scroll horizontal en Equipo y Familia ZK a 375 y 1440px. `astro check` sin errores, build en verde.
+
+### Corregido
+- El sangrado de la foto del kit quedaba 44px corto contra el borde derecho en teléfono: la guarda global de la capa responsiva (`img { max-width: 100% }`) recortaba el desborde deliberado. La imagen queda exceptuada.
+
 ## [3.2.7] - 2026-07-31
 
 ### Documentación

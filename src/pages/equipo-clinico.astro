@@ -149,7 +149,7 @@ const totalInicial = visible.length + 1;
         <div
           role="img"
           aria-label={direccion.alt}
-          style={`flex: none; width: 100%; aspect-ratio: 3 / 4; background-color: var(--surface-section); background-image: url("${direccion.foto}"); background-size: cover; background-position: center 38%;`}
+          class="zk-retrato zk-retrato--destacado" style={`flex: none; width: 100%; aspect-ratio: 3 / 4; background-image: url("${direccion.foto}");`}
         >
         </div>
         <div>
@@ -202,7 +202,7 @@ const totalInicial = visible.length + 1;
                 <div
                   role="img"
                   aria-label={d.alt}
-                  style={`flex: none; width: 116px; aspect-ratio: 3 / 4; background-color: var(--surface-section); background-image: url("${d.foto}"); background-size: cover; background-position: center 22%;`}
+                  class="zk-retrato" style={`flex: none; width: 116px; aspect-ratio: 3 / 4; background-image: url("${d.foto}"); background-size: cover; background-position: center bottom;`}
                 />
                 <div style="flex: 1 1 auto; min-width: 0;">
                   <div style="font-size: 19px; font-weight: var(--fw-semibold); color: var(--text-heading); line-height: var(--lh-tight);">
@@ -293,6 +293,26 @@ const totalInicial = visible.length + 1;
 </script>
 
 <style>
+  /* Los retratos del equipo son recortes sobre fondo transparente, normalizados a
+     3:4 con el mismo aire sobre la cabeza. Sin un fondo detrás flotarían sobre el
+     blanco de la página; el tinte de marca los asienta y unifica la grilla, que
+     antes mezclaba murales, paredes y salas de cada foto de contexto. */
+  .zk-retrato {
+    background-color: var(--zk-teal-50);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center bottom;
+  }
+
+  /* La ficha destacada necesita un encuadre propio: su retrato es de cuerpo
+     entero, y a la misma escala que la grilla la persona que encabeza el equipo
+     se leía más chica que el resto. Con este acercamiento el rostro toma el
+     tamaño de los demás y la carpeta de Familia ZK que sostiene queda legible. */
+  .zk-retrato--destacado {
+    background-size: 135%;
+    background-position: center 10%;
+  }
+
   .zk-chip {
     padding: 9px 16px;
     font-size: 14px;

@@ -281,6 +281,39 @@
 
 ---
 
+## [UD-018] Retratos de estudio sobre fondo blanco en vez de fotos de contexto
+
+**Fecha:** 2026-08-01
+**Contexto:** El equipo se mostraba con fotografías tomadas en distintos lugares de las sedes: murales, pasillos, salas, cada una con su iluminación y su fondo. La grilla se leía como un collage. El director entregó un set nuevo de 13 retratos de estudio, recortados sobre fondo blanco, uno por profesional.
+**Decisión:** Los 13 retratos de contexto se reemplazan por el set de estudio. El encuadre no se usa tal cual: cada retrato se normaliza a la misma proporción, la misma escala de rostro y el mismo aire sobre la cabeza, y el fondo blanco se recorta a transparencia para asentarlo sobre un panel de color de marca.
+**Alternativas descartadas:**
+- Pegar los recortes tal cual: el sujeto ocupa entre 73% y 100% del ancho según la foto, así que la grilla habría quedado despareja igual que antes, sólo que con otro fondo.
+- Dejarlos sobre blanco sin panel: sobre el blanco de la página los recortes flotan sin borde y a tamaño de tarjeta se leen como un error de carga.
+**Consecuencias:**
+- (+) La grilla se lee como un equipo y no como una suma de fotos sueltas.
+- (+) Los retratos dejan de mostrar interiores de las sedes, lo que reduce la superficie de datos de terceros que hay que auditar (MASTER-SPEC §4.10).
+- (-) Se pierde el contexto clínico que daban las fotos anteriores.
+- (-) La ficha de Dirección Clínica necesita un encuadre propio: su retrato es de cuerpo entero y a la escala del resto la persona que encabeza el equipo se leía más chica.
+**Condiciones de reversión:** Si la clínica prefiere volver a mostrar a cada profesional en su box. Los originales del set de estudio se conservan fuera del repositorio.
+
+## [UD-019] El criterio estético de la integración queda delegado en el agente
+
+**Fecha:** 2026-08-01
+**Contexto:** El director pidió integrar "de forma orgánica" el render del kit Familia ZK, sin indicar dónde. El desarrollador declaró una lesión que le impedía involucrarse en el proceso y delegó explícitamente: *"confío mucho en tu criterio estético para esto y en tu capacidad de probar cosas y ver capturas"*.
+**Decisión:** El agente elige la ubicación y el tratamiento, y responde por ellos mostrando capturas. El render va dentro de la tarjeta "¿Cómo comenzar?" de Familia ZK, a sangre contra el borde, inmediatamente bajo la frase que ya lo anuncia: *"recibirás tu kit de incorporación Familia ZK"*.
+**Alternativas descartadas:**
+- Una banda propia a lo ancho: habría exigido inventar un titular, y el copy es verbatim del handoff.
+- Recortar el fondo del render: es una fotografía de estudio con degradado y sombras de contacto; recortarla la habría dejado con objetos flotando.
+- Un cuadrado con aire alrededor dentro de la tarjeta: se lee como estampilla pegada. A sangre se lee como parte de la pieza.
+**Consecuencias:**
+- (+) La ubicación no necesitó texto nuevo: el copy existente ya pedía la imagen.
+- (+) Convierte una promesa abstracta en algo que se puede ver antes de contratar.
+- (-) La tarjeta queda bastante más alta que la columna que tiene al lado.
+- (-) La decisión no pasó por el director: si no le acomoda, se mueve.
+**Condiciones de reversión:** Si el director prefiere otra ubicación. Mover la imagen es mover un bloque y ajustar el sangrado.
+
+---
+
 ## Anotación de auditoría documental (2026-07-30)
 
 `UD-010` y `UD-011` fueron escritas con cuatro de los cinco campos del formato ADR: declaran fecha, contexto, decisión, alternativas y razón, pero **no declaran consecuencias ni condiciones de reversión**. No se completan aquí porque hacerlo sería atribuirle al usuario un razonamiento que no consta en el registro de la conversación. Quedan marcadas como incompletas para que él las cierre cuando quiera.

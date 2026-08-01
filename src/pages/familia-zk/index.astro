@@ -1,5 +1,6 @@
 ---
 /* Familia ZK (/familia-zk) — Familia ZK v3.dc.html. */
+import { getImage } from 'astro:assets';
 import Layout from '../../layouts/Layout.astro';
 import SiteHeader from '../../components/site/SiteHeader.astro';
 import SiteFooter from '../../components/site/SiteFooter.astro';
@@ -9,7 +10,7 @@ import FaqBloque from '../../components/content/FaqBloque.astro';
 import { ruta } from '../../data/navegacion';
 import { wa, GRAD_LA, GRAD_PU, type Sede } from '../../data/contacto';
 import { MB_FAMILIA, PASOS_INCORPORACION, MSG_ORIENTACION } from '../../data/membresias';
-import { isotipo } from '../../lib/imagenes';
+import { fotos, isotipo } from '../../lib/imagenes';
 
 const BTN =
   'display: inline-flex; align-items: center; gap: 8px; padding: 12px 22px; font-size: 15px; font-weight: var(--fw-semibold); font-family: var(--font-sans); color: #fff; text-decoration: none; border: none; border-radius: var(--radius-md); cursor: pointer; box-shadow: 0 2px 10px rgba(47,63,66,.20), inset 0 0 0 1px rgba(255,255,255,.16); transition: filter .18s var(--ease-out), transform .18s var(--ease-out); background: ';
@@ -22,6 +23,10 @@ const memberships = MB_FAMILIA.map((x) => ({
 
 const comparador = MB_FAMILIA.map((x) => ({ name: x.name, para: x.para, color: x.color }));
 const pasos = PASOS_INCORPORACION.map((t, i) => ({ n: i + 1, t }));
+
+/* Fotografía del kit físico. Va dentro de la tarjeta "¿Cómo comenzar?", bajo la
+   frase que ya lo anuncia: convierte una promesa en algo que se puede ver. */
+const kit = await getImage({ src: fotos['familia-zk-kit.png'], width: 900, format: 'webp' });
 
 const orientacionWa = (['Los Ángeles', 'Pucón'] as Sede[]).map((s) => ({
   label: 'Quiero saber cuál va conmigo · ' + s,
@@ -148,6 +153,13 @@ const orientacionWa = (['Los Ángeles', 'Pucón'] as Sede[]).map((s) => ({
             Al activar tu membresía, recibirás tu kit de incorporación Familia ZK con la información necesaria para
             comenzar tu ruta de cuidado.
           </p>
+          <img
+            src={kit.src}
+            alt="Kit de incorporación Familia ZK: carpeta, carta de bienvenida, ficha de pasos, resumen de la membresía y tarjeta de miembro."
+            class="zk-kit-foto"
+            loading="lazy"
+            decoding="async"
+          />
         </div>
       </div>
 
@@ -227,6 +239,19 @@ const orientacionWa = (['Los Ángeles', 'Pucón'] as Sede[]).map((s) => ({
   </div>
 </Layout>
 
+<style>
+  /* La fotografía del kit va a sangre dentro de la tarjeta: los márgenes
+     negativos cancelan el padding para que el borde de la tarjeta la enmarque.
+     Pegada como un cuadrado con aire alrededor se leería como una estampilla;
+     ocupando el ancho completo se lee como parte de la pieza. */
+  .zk-kit-foto {
+    display: block;
+    width: calc(100% + 76px);
+    margin: 24px -38px -44px;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+  }
+</style>
 <style>
   .zk-brillo:hover {
     filter: brightness(1.07);

@@ -97,4 +97,13 @@
   #zk-grilla [data-ficha] > div:first-child {
     flex-direction: column !important;
   }
+
+  /* Apilado, el retrato conserva los 116px que en escritorio compartía fila con
+     el texto, y queda como un bloque chico contra el borde izquierdo con media
+     tarjeta vacía al lado. Ahora que es un recorte sobre un panel de color, ese
+     desbalance se nota. Sube a 150px, en la misma familia que los 168px de la
+     ficha destacada. */
+  #zk-grilla [data-ficha] [class*='zk-retrato'] {
+    width: 150px !important;
+  }
 }

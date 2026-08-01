@@ -1,4 +1,4 @@
-# VERIFICATION: Clínica ZK v3.2.7
+# VERIFICATION: Clínica ZK v3.3.0
 
 > Verdad canónica de todas las verificaciones formales de promesas y de los límites de testing.
 > Generado y mantenido exclusivamente por el algoritmo `/derive`.
@@ -126,6 +126,17 @@ OPS/OAS: Operaciones
 la salida impresa del afiche sin comprobarla. Al verificarlo de verdad apareció el defecto
 que corrigió `RSP.FN.012.LLM`. Queda anotado porque el valor de este documento depende de
 que un tilde signifique que la comprobación se corrió, no que se esperaba que pasara.
+
+
+---
+
+## Verificación del material gráfico nuevo (2026-08-01)
+
+> Ref: USER-DECISIONS UD-018 y UD-019.
+
+🤖 `CONT.CR.026.LLM` Los 13 retratos del equipo son el set de estudio, normalizados a la misma proporción, escala de rostro y aire superior. Cargan sin fallo en escritorio y en teléfono; el filtro por sede sigue operando (12 fichas a 4) y el contador marca 13. ✅ (🤖 Verificado por herramienta; 2026-08-01 10:58)
+🤖 `CONT.IN.008.LLM` El material gráfico nuevo no expone datos de terceros: los retratos son recortes sin fondo, sin patentes, carteles ni personas ajenas al equipo, y en el render del kit los campos de la ficha (paciente titular, RUT, fecha de inicio, vigencia, canal de contacto) están en blanco. ✅ (🤖 Verificado por herramienta; 2026-08-01 10:52)
+🧑 `CONT.CR.027.HUM` El director aprueba el tratamiento de los retratos y la ubicación elegida para el render del kit. La ubicación la decidió el agente por delegación explícita, no el cliente. 🔲
 
 ### Límites declarados de esta verificación
 
