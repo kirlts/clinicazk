@@ -314,6 +314,24 @@
 
 ---
 
+## [UD-020] Cuatro ajustes puntuales pedidos por WhatsApp
+
+**Fecha:** 2026-08-25
+**Contexto:** El director de marketing pidió por WhatsApp cuatro cambios: reemplazar la imagen de Endodoncia del panel de especialidades por una fotografía nueva que dejará en el Drive; mover el botón "Prótesis dentales" del grupo Especialidades clínicas al grupo Servicios preventivos y apoyo diagnóstico; usar en Nosotros la foto de la directora sobre fondo blanco, como la de la sección Equipo; y arreglar la foto de Rehabilitación oral, que en la versión móvil se veía cortada (la banda mostraba el torso y dejaba el rostro fuera). En el mismo hilo confirmó que la sección Convenios se hará, como trabajo cotizado aparte.
+**Decisión:** Se implementan los cuatro. Prótesis dentales queda al final de su grupo nuevo, porque no se indicó posición. La foto de Nosotros pasa a ser el mismo recorte sobre transparencia que usa Equipo, mostrado completo sobre el blanco de la página. El corte móvil se corrige con un encuadre propio por fotografía (`encuadreMovil` en `src/data/especialidades.ts`) en vez de mover el sesgo global del 30%. La imagen de Endodoncia queda pendiente hasta que la fotografía llegue al Drive; `tools/instalar-foto-endodoncia.py` la instala cuando esté.
+**Alternativas descartadas:**
+- Usar la copia de WhatsApp de la foto de Endodoncia: llega recomprimida y el propio director avisó que dejará la versión de calidad en el Drive.
+- Corregir el corte móvil subiendo el sesgo global de encuadre: se revisó la banda móvil de las 14 fotos y sólo Rehabilitación oral pierde el rostro; mover el global arriesga a las otras 13.
+- Un selector CSS por posición del panel: el orden de la lista acaba de cambiar con esta misma decisión, así que el encuadre tiene que viajar con la foto y no con su posición.
+**Consecuencias:**
+- (+) Las cuatro fotos del panel vuelven a mostrar a su sujeto completo en teléfono y escritorio.
+- (+) El encuadre móvil por foto queda disponible para cualquier fotografía futura, incluida la nueva de Endodoncia.
+- (-) Las fotos del panel se renombran (la 8 pasa a ser la 14 y las posteriores corren una posición), porque se nombran por su posición en la lista.
+- (-) La ficha de Nosotros conserva su leyenda "en la sede de Pucón" aunque el recorte ya no muestre la sede; sigue siendo cierta, pero ya no se ve.
+**Condiciones de reversión:** Si la clínica prefiere devolver Prótesis dentales a Especialidades clínicas o recuperar la foto con contexto en Nosotros, cada cambio se revierte por separado: son independientes entre sí.
+
+---
+
 ## Anotación de auditoría documental (2026-07-30)
 
 `UD-010` y `UD-011` fueron escritas con cuatro de los cinco campos del formato ADR: declaran fecha, contexto, decisión, alternativas y razón, pero **no declaran consecuencias ni condiciones de reversión**. No se completan aquí porque hacerlo sería atribuirle al usuario un razonamiento que no consta en el registro de la conversación. Quedan marcadas como incompletas para que él las cierre cuando quiera.

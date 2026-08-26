@@ -521,6 +521,20 @@
 
 ---
 
+## [EPIC-014] Ajustes pedidos por el director el 25-08
+
+> Ref: USER-DECISIONS UD-020 · CHANGELOG [Sin publicar]
+
+### [TASK-045] Implementar los cuatro cambios del WhatsApp del 25-08
+
+- [x] Prótesis dentales movida al final de Servicios preventivos y apoyo diagnóstico; fotos del panel renombradas por posición e índices de accesos rápidos del hero actualizados `2026-08-26`
+- [x] Foto de Nosotros (Nuestro crecimiento) reemplazada por el recorte sobre fondo blanco de la sección Equipo `2026-08-26`
+- [x] Corte móvil de Rehabilitación oral corregido con encuadre por foto (`encuadreMovil`); banda móvil de las 14 fotos revisada `2026-08-26`
+- [x] Verificado con capturas en 375 y 1440px: lista, panel de Rehabilitación oral, panel de Prótesis, Nosotros; `astro check` y build en verde `2026-08-26`
+- [ ] 🚨 **BLOQUEADA (Clínica ZK):** foto nueva de Endodoncia, el director la dejará en el Drive. Instalar con `python3 tools/instalar-foto-endodoncia.py` y revisar la banda móvil que imprime
+
+---
+
 ## Resumen general de cobertura
 
 | Épica | Tareas | Estado | 🤖 .LLM | 🧑 .HUM | 🤖🧑 .MIX | Total checks |
@@ -538,6 +552,7 @@
 | EPIC-011 | TASK-040 a TASK-042 | ⏳ 12 hechas, 1 pendiente | 9 | 2 | 0 | 11 |
 | EPIC-012 | TASK-043 | ⏳ 6 hechas, 1 pendiente | 1 | 0 | 0 | 1 |
 | EPIC-013 | TASK-044 | ⏳ 6 hechas, 1 pendiente | 2 | 1 | 0 | 3 |
+| EPIC-014 | TASK-045 | ⏳ 4 hechas, 1 bloqueada | 0 | 0 | 0 | 0 |
 | **Total (checks únicos)** | 44 tareas | | **53** | **23** | **0** | **76** |
 
 > El total es el conjunto único de checks, no la suma de la columna: 6 checks aparecen en más de una épica porque una misma promesa se sostiene desde varias tareas.

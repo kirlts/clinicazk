@@ -9,6 +9,9 @@ export type Especialidad = {
   desc: string;
   extra?: string;
   sede?: 'la' | 'pucon' | 'agenda';
+  /** `object-position` de la foto en la banda móvil, cuando el encuadre
+      genérico (`center 30%`) corta al sujeto. Ver responsive/inicio.css. */
+  encuadreMovil?: string;
 };
 
 export const ESPEC: Especialidad[] = [
@@ -48,11 +51,7 @@ export const ESPEC: Especialidad[] = [
     title: 'Rehabilitación oral',
     gancho: 'Recuperar función, comodidad y confianza al sonreír.',
     desc: 'Planificación integral para restaurar dientes dañados, desgastados o ausentes, combinando diferentes tratamientos según las necesidades funcionales y estéticas de cada caso.',
-  },
-  {
-    title: 'Prótesis dentales',
-    gancho: 'Soluciones adaptadas para reemplazar o restaurar dientes.',
-    desc: 'Diseño y adaptación de prótesis fijas o removibles destinadas a recuperar piezas dentales, mejorar la función masticatoria y favorecer una mayor comodidad en la vida cotidiana.',
+    encuadreMovil: 'center top',
   },
   {
     title: 'Trastornos temporomandibulares',
@@ -89,6 +88,13 @@ export const ESPEC: Especialidad[] = [
     gancho: 'Evaluación oportuna cuando aparece dolor o una situación inesperada.',
     desc: 'Atención para cuadros que requieren revisión prioritaria, como dolor intenso, inflamación, traumatismos, fracturas dentales o pérdida de una restauración. La disponibilidad deberá confirmarse directamente con cada sucursal antes de acudir.',
   },
+  /* El cliente pidió (25-08-2026) mover Prótesis dentales desde Especialidades
+     clínicas a este grupo. Queda al final por no haberse indicado posición. */
+  {
+    title: 'Prótesis dentales',
+    gancho: 'Soluciones adaptadas para reemplazar o restaurar dientes.',
+    desc: 'Diseño y adaptación de prótesis fijas o removibles destinadas a recuperar piezas dentales, mejorar la función masticatoria y favorecer una mayor comodidad en la vida cotidiana.',
+  },
 ];
 
 /** Etiqueta de disponibilidad mostrada sobre el título del panel. */
@@ -108,10 +114,10 @@ export const colorOf = (s: Especialidad) =>
 export const QUICK_LINKS: [string, number | null][] = [
   ['Evaluación odontológica', 0],
   ['Especialidades', 0],
-  ['Radiografías', 12],
-  ['Higiene dental integral', 11],
+  ['Radiografías', 11],
+  ['Higiene dental integral', 10],
   ['Odontopediatría', 1],
-  ['Urgencias', 13],
+  ['Urgencias', 12],
   ['Ortodoncia', 2],
   ['Prevención y seguimiento', null],
 ];

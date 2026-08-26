@@ -8,7 +8,7 @@ import SectionHeader from '../components/core/SectionHeader.astro';
 import { getImage } from 'astro:assets';
 import { ruta } from '../data/navegacion';
 import { waConsultaSede } from '../data/contacto';
-import { fotos, isotipo } from '../lib/imagenes';
+import { retratos, isotipo } from '../lib/imagenes';
 
 const fabLa = waConsultaSede('Los Ángeles');
 const fabPu = waConsultaSede('Pucón');
@@ -32,7 +32,9 @@ const principios = [
   },
 ];
 
-const kit = await getImage({ src: fotos['pu-dra-romina-kit-familia-zk.jpg'], width: 900, format: 'webp' });
+/* El cliente pidió (25-08-2026) que esta foto fuera la versión sobre fondo
+   blanco, la misma del recorte que usa la sección Equipo. */
+const kit = await getImage({ src: retratos['pu-romina-hernandez.png'], width: 900, format: 'webp' });
 ---
 
 <Layout
@@ -169,7 +171,7 @@ const kit = await getImage({ src: fotos['pu-dra-romina-kit-familia-zk.jpg'], wid
           <img
             src={kit.src}
             alt="Dirección Clínica con el kit de incorporación Familia ZK en la sede de Pucón."
-            style="width: 100%; aspect-ratio: 1 / 1; object-fit: cover; object-position: center 46%; display: block;"
+            style="width: 100%; aspect-ratio: 1 / 1; object-fit: contain; display: block;"
           />
           <figcaption
             style="font-size: 14px; line-height: var(--lh-body); color: var(--text-muted); margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--border-subtle); text-wrap: pretty;"

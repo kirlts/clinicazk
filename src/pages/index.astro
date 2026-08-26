@@ -283,6 +283,7 @@ const quickLinks = QUICK_LINKS.map(([label, idx]) => ({
                       height={fotosEspec[i].attributes.height}
                       alt=""
                       class="zk-espec-foto"
+                      style={p.encuadreMovil ? `--zk-espec-encuadre-movil: ${p.encuadreMovil};` : undefined}
                       loading="lazy"
                       decoding="async"
                     />

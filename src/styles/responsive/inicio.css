@@ -84,12 +84,17 @@
      separan: la foto va primero, a sangre y sin texto encima, en una banda
      propia de alto acotado (con sesgo de encuadre hacia arriba para no cortar
      rostros), y la ficha sigue debajo sobre el fondo del panel, ya sin vidrio:
-     no hay foto detrás que difuminar. */
+     no hay foto detrás que difuminar. El sesgo genérico del 30% no sirve para
+     toda foto: en la de Rehabilitación oral el rostro vive en el 15% superior
+     y quedaba fuera de la banda. Esas excepciones declaran su propio
+     `object-position` en `encuadreMovil` (src/data/especialidades.ts), que
+     llega como variable en el `style` del propio img: así el encuadre viaja
+     con la foto y no con su posición en la lista, que puede cambiar. */
   #especialidades .zk-espec-foto {
     position: static !important;
     display: block;
     height: clamp(200px, 60vw, 320px) !important;
-    object-position: center 30%;
+    object-position: var(--zk-espec-encuadre-movil, center 30%);
   }
   #especialidades .zk-espec-caja {
     position: static !important;

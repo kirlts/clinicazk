@@ -7,10 +7,19 @@ y este proyecto adhiere a [Versionado Semántico](https://semver.org/spec/v2.0.0
 
 ## [Sin publicar]
 
+### Cambiado
+- **Prótesis dentales cambia de grupo** en el selector de especialidades: pasa de Especialidades clínicas al final de Servicios preventivos y apoyo diagnóstico, a pedido del director (25-08, UD-020). Las fotos del panel se renombraron en consecuencia, porque se nombran por posición en la lista, y los accesos rápidos del hero actualizaron sus índices.
+- **La foto de "Nuestro crecimiento" en Nosotros** pasa a la versión sobre fondo blanco: el mismo recorte sobre transparencia que usa la sección Equipo, mostrado completo sobre el blanco de la página en lugar del encuadre cuadrado sobre la foto con fondo (UD-020).
+
+### Corregido
+- **En teléfono, la banda de Rehabilitación oral cortaba el rostro de la doctora:** el sesgo global de encuadre (30% desde arriba) no sirve para una foto cuyo rostro vive en el 15% superior. Cada especialidad puede declarar ahora su propio `object-position` móvil (`encuadreMovil` en `src/data/especialidades.ts`), que viaja como variable CSS en el `img` del panel; Rehabilitación oral declara `center top`. Se revisó la banda móvil de las 14 fotos: las otras 13 quedan bien con el global.
+
 ### Añadido
 - **Foto por especialidad en Inicio.** El panel de cada especialidad muestra su fotografía a sangre. En escritorio la ficha de texto (sede, gancho y descripción) va en una caja de vidrio esmerilado (blanco semitransparente con desenfoque de fondo) que ocupa todo el ancho de la foto, pegada a su borde inferior, y los botones de WhatsApp van lado a lado debajo de la foto. En teléfono la foto va primero, en una banda propia sin texto encima, y la ficha y los botones siguen debajo: el vidrio sobre la imagen dejaba ver muy poco. Las 14 fotos llegan del handoff (`Especialidades-20260801.zip`), numeradas en el mismo orden del listado; se recortaron a 4:5, la proporción del panel en escritorio, y se sirven como webp de 1100px vía `astro:assets` (34-161 KB cada una). Las dimensiones de las dos columnas de la sección no cambiaron.
 
 ### Pendiente
+- Foto nueva de Endodoncia: el director la dejará en el Drive (25-08). Instalarla con `python3 tools/instalar-foto-endodoncia.py` y revisar la banda móvil que imprime.
+- Sección Convenios: el cliente confirmó que se hará, como trabajo cotizado aparte (25-08).
 - Horarios oficiales de ambas sedes: hoy dicen "Pendiente de confirmación" (Clínica ZK).
 - Listado de convenios vigentes y sus logos: los 6 slots son placeholders marcados (Clínica ZK).
 - WhatsApp de Dirección Clínica: por confirmar (Clínica ZK).
