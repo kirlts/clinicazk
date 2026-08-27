@@ -531,7 +531,9 @@
 - [x] Foto de Nosotros (Nuestro crecimiento) reemplazada por el recorte sobre fondo blanco de la sección Equipo `2026-08-26`
 - [x] Corte móvil de Rehabilitación oral corregido con encuadre por foto (`encuadreMovil`); banda móvil de las 14 fotos revisada `2026-08-26`
 - [x] Verificado con capturas en 375 y 1440px: lista, panel de Rehabilitación oral, panel de Prótesis, Nosotros; `astro check` y build en verde `2026-08-26`
-- [ ] 🚨 **BLOQUEADA (Clínica ZK):** foto nueva de Endodoncia, el director la dejará en el Drive. Instalar con `python3 tools/instalar-foto-endodoncia.py` y revisar la banda móvil que imprime
+- [x] Foto nueva de Endodoncia instalada: recortada de 9:16 a 4:5 dejando fuera el isotipo incrustado, con encuadre propio para la banda de teléfono (UD-021) `2026-08-26`
+- [x] Verificada en el navegador a 1920, 1440, 1280, 768, 375 y 320px, los seis anchos donde la caja de la foto cambia de proporción `2026-08-26`
+- [x] Auditoría de datos de terceros sobre la foto nueva: sin patentes, carteles ni marcas ajenas; suma dos caras al pendiente de consentimiento de UD-017 `2026-08-26`
 
 ---
 
@@ -552,7 +554,7 @@
 | EPIC-011 | TASK-040 a TASK-042 | ⏳ 12 hechas, 1 pendiente | 9 | 2 | 0 | 11 |
 | EPIC-012 | TASK-043 | ⏳ 6 hechas, 1 pendiente | 1 | 0 | 0 | 1 |
 | EPIC-013 | TASK-044 | ⏳ 6 hechas, 1 pendiente | 2 | 1 | 0 | 3 |
-| EPIC-014 | TASK-045 | ⏳ 4 hechas, 1 bloqueada | 0 | 0 | 0 | 0 |
+| EPIC-014 | TASK-045 | ✅ completa | 0 | 0 | 0 | 0 |
 | **Total (checks únicos)** | 44 tareas | | **53** | **23** | **0** | **76** |
 
 > El total es el conjunto único de checks, no la suma de la columna: 6 checks aparecen en más de una épica porque una misma promesa se sostiene desde varias tareas.

@@ -8,6 +8,7 @@ y este proyecto adhiere a [Versionado Semántico](https://semver.org/spec/v2.0.0
 ## [Sin publicar]
 
 ### Cambiado
+- **Foto nueva de Endodoncia**, entregada por el director (UD-021). El original viene en 9:16 (formato de historia de redes) y con el isotipo de ZK incrustado sobre un badge blanco arriba a la derecha. Se recortó a 4:5, la proporción del resto del panel, con una ventana que deja el badge completamente fuera: la caja de la foto recorta distinto en cada ancho, así que el badge aparecía entero, cortado por la mitad o ausente según la pantalla. La banda de teléfono declara `encuadreMovil: 'center 85%'` para mostrar a la paciente y las manos, en vez de media cara del odontólogo contra el borde. El recorte aplicado y su razón quedan en `tools/instalar-foto-endodoncia.py`.
 - **Prótesis dentales cambia de grupo** en el selector de especialidades: pasa de Especialidades clínicas al final de Servicios preventivos y apoyo diagnóstico, a pedido del director (25-08, UD-020). Las fotos del panel se renombraron en consecuencia, porque se nombran por posición en la lista, y los accesos rápidos del hero actualizaron sus índices.
 - **La foto de "Nuestro crecimiento" en Nosotros** pasa a la versión sobre fondo blanco: el mismo recorte sobre transparencia que usa la sección Equipo, mostrado completo sobre el blanco de la página en lugar del encuadre cuadrado sobre la foto con fondo (UD-020).
 
@@ -18,12 +19,11 @@ y este proyecto adhiere a [Versionado Semántico](https://semver.org/spec/v2.0.0
 - **Foto por especialidad en Inicio.** El panel de cada especialidad muestra su fotografía a sangre. En escritorio la ficha de texto (sede, gancho y descripción) va en una caja de vidrio esmerilado (blanco semitransparente con desenfoque de fondo) que ocupa todo el ancho de la foto, pegada a su borde inferior, y los botones de WhatsApp van lado a lado debajo de la foto. En teléfono la foto va primero, en una banda propia sin texto encima, y la ficha y los botones siguen debajo: el vidrio sobre la imagen dejaba ver muy poco. Las 14 fotos llegan del handoff (`Especialidades-20260801.zip`), numeradas en el mismo orden del listado; se recortaron a 4:5, la proporción del panel en escritorio, y se sirven como webp de 1100px vía `astro:assets` (34-161 KB cada una). Las dimensiones de las dos columnas de la sección no cambiaron.
 
 ### Pendiente
-- Foto nueva de Endodoncia: el director la dejará en el Drive (25-08). Instalarla con `python3 tools/instalar-foto-endodoncia.py` y revisar la banda móvil que imprime.
 - Sección Convenios: el cliente confirmó que se hará, como trabajo cotizado aparte (25-08).
 - Horarios oficiales de ambas sedes: hoy dicen "Pendiente de confirmación" (Clínica ZK).
 - Listado de convenios vigentes y sus logos: los 6 slots son placeholders marcados (Clínica ZK).
 - WhatsApp de Dirección Clínica: por confirmar (Clínica ZK).
-- Consentimiento de publicación de las personas retratadas en las fotos de especialidades 1, 9 y 11 (caras reconocibles que no son del equipo): confirmar con la clínica (UD-017).
+- Consentimiento de publicación de las personas retratadas en las fotos de especialidades 1, 4, 8 y 10 (caras reconocibles que no son del equipo): confirmar con la clínica (UD-017). La numeración cambió al mover Prótesis dentales de grupo: las que antes eran 9 y 11 hoy son 8 y 10, y la 4 es la foto nueva de Endodoncia, que suma dos caras.
 - Contenido de la sección Privacidad: el modal muestra un aviso de sección en preparación.
 - Dominio clinicazk.cl (pendiente de trámite).
 - Widgets de Google Maps: diferidos por complejidad con dos sedes (reevaluar).

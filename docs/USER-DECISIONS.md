@@ -332,6 +332,24 @@
 
 ---
 
+## [UD-021] La foto nueva de Endodoncia se recorta y pierde el isotipo incrustado
+
+**Fecha:** 2026-08-26
+**Contexto:** La fotografía de Endodoncia que pidió el director (UD-020) llegó en 2160x3840, o sea 9:16, formato de historia de redes sociales, mientras que las otras 13 del panel son 4:5. Además trae el isotipo de Clínica ZK incrustado sobre un badge circular blanco arriba a la derecha, algo que ninguna de las otras 13 tiene. La foto se sirve con `object-fit: cover` en una caja cuya proporción va de 0.46 en tablet vertical a 1.45 en la banda de teléfono, así que el navegador recorta distinto en cada ancho: al probarla sin tratar, el badge aparecía entero, cortado por la mitad o ausente según la pantalla, y en las cajas cuadradas el odontólogo quedaba fuera de cuadro.
+**Decisión:** Se recorta a 4:5 con la ventana `y=560..3260` del original. Empieza en 560 porque es la primera fila que deja el badge completo fuera, y termina en 3260 para conservar entera la cara de la paciente junto con el aislamiento azul, que es lo que hace que la escena se lea como endodoncia. La banda de teléfono usa `encuadreMovil: 'center 85%'`. El original se conserva fuera del repositorio y el recorte queda documentado y es reaplicable con `tools/instalar-foto-endodoncia.py`.
+**Alternativas descartadas:**
+- Publicarla tal cual en 9:16: en las cajas cuadradas de escritorio el encuadre centrado dejaba al odontólogo completamente fuera.
+- Recortar conservando el badge: probado en dos ventanas distintas, el badge queda partido por la mitad a ancho de tablet y en 1280, y un logo cortado se lee como un error de carga.
+- Conservar la cabeza completa del odontólogo: con 4:5 no caben las dos caras enteras (van de y=227 a y=3091, o sea 2864 px de un alto disponible de 2700). Entre recortar la parte alta del pelo o recortar la boca de la paciente, se recortó el pelo.
+**Consecuencias:**
+- (+) La foto se comporta igual que las otras 13 en los cinco anchos donde la caja cambia de proporción.
+- (+) El panel deja de mostrar un logo que aparecía y desaparecía según la pantalla.
+- (-) La foto publicada ya no lleva la marca que el cliente le había puesto. Si la quiere visible, hay que decidir a cambio qué parte de la escena se sacrifica.
+- (-) Suma dos caras reconocibles que no son del equipo, así que entra en el pendiente de consentimiento de UD-017 junto con las fotos 1, 8 y 10.
+**Condiciones de reversión:** Si el director prefiere conservar el isotipo o cualquier otro encuadre, se recalcula la ventana y se reaplica con la herramienta. El original está intacto fuera del repositorio.
+
+---
+
 ## Anotación de auditoría documental (2026-07-30)
 
 `UD-010` y `UD-011` fueron escritas con cuatro de los cinco campos del formato ADR: declaran fecha, contexto, decisión, alternativas y razón, pero **no declaran consecuencias ni condiciones de reversión**. No se completan aquí porque hacerlo sería atribuirle al usuario un razonamiento que no consta en el registro de la conversación. Quedan marcadas como incompletas para que él las cierre cuando quiera.

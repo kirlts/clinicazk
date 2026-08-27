@@ -36,6 +36,7 @@ export const ESPEC: Especialidad[] = [
     title: 'Endodoncia',
     gancho: 'Cuando el objetivo es tratar y conservar el diente.',
     desc: 'Tratamiento indicado cuando la parte interna del diente se encuentra afectada por caries profundas, lesiones o infecciones. Su finalidad es tratar el origen del problema y, cuando es clínicamente posible, conservar la pieza dental.',
+    encuadreMovil: 'center 85%',
   },
   {
     title: 'Periodoncia',
